@@ -14,8 +14,9 @@ class ViewController: UIViewController {
 	// Pole vsech UITextField ve formalu.
 	var allTextFields = [String: UITextField]()
 
-	// Vysledne pole, ktere se predava k zobrazeni na tableView
-	var allInformations = [String: String]()
+	// Array obsahuje dalsi pole s ruznymi druhy informaci
+	var allInformations = [String: [String: String]]()
+	var timers = TimersManager()
 
 	weak var sendButton: UIButton!
 
@@ -55,7 +56,14 @@ class ViewController: UIViewController {
 
 		let info = DeviceInfo().getAllInformation()
 		// Vse co se sem prida se pak zobrazi v tableView
-		allInformations.merge(info)
+		allInformations["Obecne informace"] = info
+	}
+
+	override func viewDidAppear(animated: Bool) {
+		timers.resetAll()
+		let mainTimer = Timer(name: "MainForm")
+		mainTimer.start()
+		timers.add(mainTimer)
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -82,17 +90,11 @@ class ViewController: UIViewController {
 	}
 
 	func sendForm(sender: UIButton) {
+		timers.get("MainForm")!.stop()
+		allInformations["Cas vyplnovani"] = timers.getAllInformations()
+
 		let resultController = ResultTableViewController()
 		resultController.info = allInformations
 		self.navigationController?.pushViewController(resultController, animated: true)
-	}
-}
-
-//Spojeni dvou Dictionary
-extension Dictionary {
-	mutating func merge(other: Dictionary) {
-		for (key, value) in other {
-			self.updateValue(value, forKey: key)
-		}
 	}
 }

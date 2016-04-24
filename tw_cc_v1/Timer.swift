@@ -25,11 +25,11 @@ class Timer {
 		timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(counting), userInfo: nil, repeats: true)
 	}
 
-	func end() {
+	func stop() {
 		timer.invalidate()
 	}
 
-	func rest() {
+	func reset() {
 		count = 0
 	}
 

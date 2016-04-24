@@ -18,6 +18,7 @@
 		2F87D68B1CC9684E00987EFD /* ResultTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87D68A1CC9684E00987EFD /* ResultTableViewController.swift */; };
 		2F87D68D1CC971DC00987EFD /* ResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87D68C1CC971DC00987EFD /* ResultTableViewCell.swift */; };
 		2F87D68F1CCD031F00987EFD /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87D68E1CCD031F00987EFD /* Timer.swift */; };
+		2F87D6911CCD0B5100987EFD /* TimersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87D6901CCD0B5100987EFD /* TimersManager.swift */; };
 		BCC88D058B5FC4ABE25F04D5 /* Pods_tw_cc_v1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8618D83DBF047E1FC8EE6FE /* Pods_tw_cc_v1.framework */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		2F87D68A1CC9684E00987EFD /* ResultTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTableViewController.swift; sourceTree = "<group>"; };
 		2F87D68C1CC971DC00987EFD /* ResultTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTableViewCell.swift; sourceTree = "<group>"; };
 		2F87D68E1CCD031F00987EFD /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
+		2F87D6901CCD0B5100987EFD /* TimersManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimersManager.swift; sourceTree = "<group>"; };
 		8731F882613319FB1277B5AF /* Pods-tw_cc_v1.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tw_cc_v1.release.xcconfig"; path = "Pods/Target Support Files/Pods-tw_cc_v1/Pods-tw_cc_v1.release.xcconfig"; sourceTree = "<group>"; };
 		C8618D83DBF047E1FC8EE6FE /* Pods_tw_cc_v1.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tw_cc_v1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC143BF2D726DACE304C9E79 /* Pods-tw_cc_v1.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tw_cc_v1.debug.xcconfig"; path = "Pods/Target Support Files/Pods-tw_cc_v1/Pods-tw_cc_v1.debug.xcconfig"; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				2F87D68A1CC9684E00987EFD /* ResultTableViewController.swift */,
 				2F87D68C1CC971DC00987EFD /* ResultTableViewCell.swift */,
 				2F87D68E1CCD031F00987EFD /* Timer.swift */,
+				2F87D6901CCD0B5100987EFD /* TimersManager.swift */,
 			);
 			path = tw_cc_v1;
 			sourceTree = "<group>";
@@ -232,6 +235,7 @@
 				2F165BFA1CC6B9D9007F03D5 /* AppDelegate.swift in Sources */,
 				2F87D68D1CC971DC00987EFD /* ResultTableViewCell.swift in Sources */,
 				2F87D68B1CC9684E00987EFD /* ResultTableViewController.swift in Sources */,
+				2F87D6911CCD0B5100987EFD /* TimersManager.swift in Sources */,
 				2F165C021CC6B9DA007F03D5 /* tw_cc_v1.xcdatamodeld in Sources */,
 				2F165C111CC6C2D0007F03D5 /* ExtUIDevice.swift in Sources */,
 				2F165C0F1CC6C200007F03D5 /* DeviceInfo.swift in Sources */,

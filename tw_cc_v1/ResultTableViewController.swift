@@ -14,7 +14,7 @@ class ResultTableViewController: UIViewController {
 	private let cellId = "cellId"
 	weak var tableView: UITableView!
 
-	var info: [String: String]!
+	var info: [String: [String: String]]!
 
 	override func loadView() {
 		super.loadView()
@@ -42,16 +42,26 @@ class ResultTableViewController: UIViewController {
 extension ResultTableViewController: UITableViewDataSource {
 
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		let key = Array(info!.keys)[section]
+		return info[key]!.count
+	}
+
+	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 		return info.count
+	}
+
+	func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+		return Array(info!.keys)[section]
 	}
 
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCellWithIdentifier(cellId, forIndexPath: indexPath) as! ResultTableViewCell
 
-		let key = Array(info!.keys)[indexPath.row]
+		let skey = Array(info!.keys)[indexPath.section]
+		let key = Array(info[skey]!.keys)[indexPath.row]
 
 		cell.name.text = key + ":"
-		cell.value.text = info![key]
+		cell.value.text = info![skey]![key]
 
 		return cell
 	}
