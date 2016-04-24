@@ -20,11 +20,13 @@ class TimersManager {
 		timers[timer.name] = timer
 	}
 
-	func get(name: String) -> Timer? {
+	func getOrCreate(name: String) -> Timer {
 		if let timer = timers[name] {
 			return timer
 		} else {
-			return nil
+			let newTimer = create(name)
+			add(newTimer)
+			return newTimer
 		}
 	}
 
@@ -37,8 +39,12 @@ class TimersManager {
 	func getAllInformations() -> [String: String] {
 		var result = [String: String]()
 		for (name, timer) in timers {
-			result[name] = String(timer.count) + "s"
+			result[name] = String(timer.count / 10) + "s"
 		}
 		return result
+	}
+
+	func create(name: String) -> Timer {
+		return Timer(name: name)
 	}
 }

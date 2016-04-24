@@ -11,7 +11,7 @@ import UIKit
 
 class Timer {
 
-	var count = 0
+	var count = 0.0
 	var name: String
 
 	var timer = NSTimer()
@@ -22,7 +22,7 @@ class Timer {
 	}
 
 	func start() {
-		timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(counting), userInfo: nil, repeats: true)
+		timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(counting), userInfo: nil, repeats: true)
 	}
 
 	func stop() {

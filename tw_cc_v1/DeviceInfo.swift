@@ -46,6 +46,19 @@ class DeviceInfo {
 		let value = device.batteryLevel
 		let state = device.batteryState
 		device.batteryMonitoringEnabled = false
-		return (String(value * 100), String(state))
+		return (String(value * 100), batteryStateMapping(state))
 	}
+    
+    private func batteryStateMapping(state:UIDeviceBatteryState)->String{
+        switch state {
+        case .Charging:
+            return "Charging"
+        case .Full:
+            return "Full"
+        case .Unplugged:
+            return "Unplugged"
+        default:
+            return "Unknow"
+        }
+    }
 }
