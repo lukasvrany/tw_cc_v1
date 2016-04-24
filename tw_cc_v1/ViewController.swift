@@ -9,17 +9,36 @@
 import UIKit
 import SnapKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
 
 	// Pole vsech UITextField ve formalu.
 	var allTextFields = [String: UITextField]()
 
 	// Array obsahuje dalsi pole s ruznymi druhy informaci
 	var allInformations = [String: [String: String]]()
+    var motionInformations = [String: String]()
+    
 	var timers = TimersManager()
 
 	weak var sendButton: UIButton!
 
+    var gyroscope = Gyroscope()
+    
+    override func viewWillDisappear(animated: Bool) {
+        gyroscope.pauseGyroCollection()
+        gyroscope.pauseMotionCollection()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        if gyroscope.gyroGathering{
+            gyroscope.startGyroCollection()
+        }
+        
+        if gyroscope.motionGathering{
+            gyroscope.startMotionCollection()
+        }
+    }
+    
 	override func loadView() {
 		super.loadView()
 
@@ -50,9 +69,12 @@ class ViewController: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		allInformations = [:]
+        gyroscope.startMotionCollection()
 
 		self.sendButton.addTarget(self, action: #selector(sendForm(_:)), forControlEvents: .TouchUpInside)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.tap(_:)))
+        view.addGestureRecognizer(tapGesture)
 
 		let info = DeviceInfo().getAllInformation()
 		// Vse co se sem prida se pak zobrazi v tableView
@@ -79,6 +101,7 @@ class ViewController: UIViewController {
 		}
 
 		let txt = UITextField()
+        txt.delegate = self
 		txt.borderStyle = .RoundedRect
 		allTextFields[name] = txt
 
@@ -93,8 +116,39 @@ class ViewController: UIViewController {
 		timers.get("MainForm")!.stop()
 		allInformations["Cas vyplnovani"] = timers.getAllInformations()
 
+        gyroscope.stopMotionCollection()
+        if let motionResults = gyroscope.getAverageMotionData(){
+            motionInformations["user position"] = (motionResults.roll > 1.5) ? "mostly lying" : "mostly standing"
+        }
+        
+        allInformations["device motion"] = motionInformations
 		let resultController = ResultTableViewController()
 		resultController.info = allInformations
 		self.navigationController?.pushViewController(resultController, animated: true)
 	}
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        gyroscope.startGyroCollection()
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        let fieldLabel = textField.superview?.subviews.first as! UILabel
+        
+        gyroscope.stopGyroCollection()
+        if let results = gyroscope.getAverageGyroData() {
+            motionInformations["\(fieldLabel.text!) - handshake x/y/z"] = "\(cutDouble(results.x))/\(cutDouble(results.y))/\(cutDouble(results.z))"
+        }
+        
+    }
+    
+    //for diasble editing of textField when clicked somewhere else
+    func tap(gesture: UITapGestureRecognizer) {
+        allTextFields.forEach({key,textField in
+            textField.resignFirstResponder()
+        })
+    }
+    
+    func cutDouble(value: Double) -> String{
+        return String(format: "%.3f", value)
+    }
 }

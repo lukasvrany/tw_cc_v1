@@ -25,10 +25,7 @@ class ResultTableViewCell: UITableViewCell {
 		stackView.spacing = 10
 		contentView.addSubview(stackView)
 		stackView.snp_makeConstraints { make in
-			make.top.equalTo(5)
-			make.bottom.equalTo(5)
-			make.leading.equalTo(5)
-			make.trailing.equalTo(-5)
+			make.edges.equalTo(contentView)
 		}
 
 		self.name = name

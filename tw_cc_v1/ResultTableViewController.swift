@@ -25,6 +25,8 @@ class ResultTableViewController: UIViewController {
 		view.addSubview(tableView)
 		tableView.dataSource = self
 		tableView.delegate = self
+        tableView.layoutMargins = UIEdgeInsetsZero
+        tableView.separatorInset = UIEdgeInsetsZero
 		tableView.registerClass(ResultTableViewCell.self, forCellReuseIdentifier: cellId)
 		tableView.rowHeight = UITableViewAutomaticDimension
 		tableView.estimatedRowHeight = 30
@@ -60,6 +62,8 @@ extension ResultTableViewController: UITableViewDataSource {
 		let skey = Array(info!.keys)[indexPath.section]
 		let key = Array(info[skey]!.keys)[indexPath.row]
 
+        cell.separatorInset = UIEdgeInsetsZero
+        cell.layoutMargins = UIEdgeInsetsZero
 		cell.name.text = key + ":"
 		cell.value.text = info![skey]![key]
 
