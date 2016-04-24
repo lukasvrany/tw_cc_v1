@@ -36,7 +36,6 @@ class ResultTableViewController: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		print(info)
 	}
 }
 
