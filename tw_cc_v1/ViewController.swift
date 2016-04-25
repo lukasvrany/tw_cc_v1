@@ -26,6 +26,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 	var gyroscope = Gyroscope()
 
+	var healtkit = HealKitData()
+
 	override func viewWillDisappear(animated: Bool) {
 		gyroscope.pauseGyroCollection()
 		gyroscope.pauseMotionCollection()
@@ -66,6 +68,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
 			make.leading.equalTo(10)
 			make.trailing.equalTo(-10)
 			make.top.equalTo(self.snp_topLayoutGuideBottom).offset(10)
+		}
+        
+        let isHealkitAvailable = healtkit.healkitIsAvailable()
+        if (isHealkitAvailable){
+			healtkit.authorizePermission()
 		}
 	}
 
@@ -123,6 +130,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		}
 
 		allInformations["Device motion"] = motionInformations
+
+		// Healtkit
+		allInformations["Heltkit"] = healtkit.getInformation()
+
 		let resultController = ResultTableViewController()
 		resultController.info = allInformations
 		self.navigationController?.pushViewController(resultController, animated: true)
