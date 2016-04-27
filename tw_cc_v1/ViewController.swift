@@ -19,6 +19,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	// Array obsahuje dalsi pole s ruznymi druhy informaci
 	var allInformations = [String: [String: String]]()
 	var motionInformations = [String: String]()
+    var copyAndPaseInformations = [String: String]()
 
 	var timers = TimersManager()
 
@@ -112,6 +113,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		txt.delegate = self
 		txt.borderStyle = .RoundedRect
 		allTextFields[name] = txt
+        copyAndPaseInformations[name] = "No"
 
 		let stackView = UIStackView(arrangedSubviews: [lbl, txt])
 		stackView.axis = .Horizontal
@@ -129,10 +131,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
 			motionInformations["user position"] = (motionResults.roll > 1.5) ? "mostly lying" : "mostly standing"
 		}
 
-		allInformations["Device motion"] = motionInformations
+		allInformations["Device motion (handshake x/y/z)"] = motionInformations
 
 		// Healtkit
 		allInformations["Heltkit"] = healtkit.getInformation()
+        
+        //copyAndPase
+        allInformations["CopyAndPase"] = copyAndPaseInformations
 
 		let resultController = ResultTableViewController()
 		resultController.info = allInformations
@@ -151,7 +156,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 		gyroscope.stopGyroCollection()
 		if let results = gyroscope.getAverageGyroData() {
-			motionInformations["\(fieldLabel.text!) - handshake x/y/z"] = "\(cutDouble(results.x))/\(cutDouble(results.y))/\(cutDouble(results.z))"
+			motionInformations["\(fieldLabel.text!)"] = "\(cutDouble(results.x))/\(cutDouble(results.y))/\(cutDouble(results.z))"
 		}
 
 		timers.getOrCreate(fieldLabel.text!).stop()
@@ -167,4 +172,17 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	func cutDouble(value: Double) -> String {
 		return String(format: "%.3f", value)
 	}
+    
+        
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        // Here we check if the replacement text is equal to the string we are currently holding in the paste board
+        if (UIPasteboard.generalPasteboard().string == string){
+            let fieldLabel = textField.superview?.subviews.first as! UILabel
+            copyAndPaseInformations[fieldLabel.text!] = "Yes"
+        }
+        
+        return true;
+    }
+    
+
 }

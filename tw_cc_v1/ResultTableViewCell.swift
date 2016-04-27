@@ -19,6 +19,9 @@ class ResultTableViewCell: UITableViewCell {
 
 		let name = UILabel()
 		let value = UILabel()
+        
+        value.textAlignment = .Right
+        value.setContentCompressionResistancePriority(1500, forAxis: .Horizontal)
 
 		let stackView = UIStackView(arrangedSubviews: [name, value])
 		stackView.axis = .Horizontal

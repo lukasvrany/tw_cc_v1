@@ -95,8 +95,37 @@ public extension UIDevice {
 
 	var connectivity: String {
 		let radioTelephoneInfo = CTTelephonyNetworkInfo()
-		let technologyType = radioTelephoneInfo.currentRadioAccessTechnology
-		return String(technologyType)
+
+		guard let technologyType = radioTelephoneInfo.currentRadioAccessTechnology else {
+			return "Unknow"
+		}
+
+		switch (technologyType) {
+		case "CTRadioAccessTechnologyGPRS":
+			return "GPRS"
+		case "CTRadioAccessTechnologyEdge":
+			return "Edge"
+		case "CTRadioAccessTechnologyWCDMA":
+			return "WCDMA"
+		case "CTRadioAccessTechnologyHSDPA":
+			return "HSDPA"
+		case "CTRadioAccessTechnologyHSUPA":
+			return "HSUPA"
+		case "CTRadioAccessTechnologyCDMA1x":
+			return "CDMA1x"
+		case "CTRadioAccessTechnologyCDMAEVDORev0":
+			return "CDMAEVDORev0"
+		case "CTRadioAccessTechnologyCDMAEVDORevA":
+			return "CDMAEVDORevA"
+		case "CTRadioAccessTechnologyCDMAEVDORevB":
+			return "CDMAEVDORevB"
+		case "CTRadioAccessTechnologyeHRPD":
+			return "eHRPD"
+		case "CTRadioAccessTechnologyLTE":
+			return "LTE"
+		default:
+			return "Unknow"
+		}
 	}
 
 	var cellularProvider: String? {
