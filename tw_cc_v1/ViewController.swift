@@ -85,10 +85,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.tap(_:)))
 		view.addGestureRecognizer(tapGesture)
-
-		let info = DeviceInfo().getAllInformation()
-		// Vse co se sem prida se pak zobrazi v tableView
-		allInformations["General"] = info
 	}
 
 	override func viewDidAppear(animated: Bool) {
@@ -124,18 +120,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 	func sendForm(sender: UIButton) {
 		timers.getOrCreate(FORM_TIMER_NAME).stop()
-		allInformations["Timers"] = timers.getAllInformations()
 
 		gyroscope.stopMotionCollection()
 		if let motionResults = gyroscope.getAverageMotionData() {
 			motionInformations["user position"] = (motionResults.roll > 1.5) ? "mostly lying" : "mostly standing"
 		}
-
-		allInformations["Device motion (handshake x/y/z)"] = motionInformations
-
-		// Healtkit
-		allInformations["Heltkit"] = healtkit.getInformation()
         
+        // Timers
+        allInformations["Timers"] = timers.getAllInformations()
+        // Gyroscope
+		allInformations["Gyroscope"] = motionInformations
+		// Healtkit
+		allInformations["Healtkit"] = healtkit.getInformation()
         //copyAndPase
         allInformations["CopyAndPase"] = copyAndPaseInformations
 

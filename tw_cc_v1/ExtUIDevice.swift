@@ -128,15 +128,15 @@ public extension UIDevice {
 		}
 	}
 
-	var cellularProvider: String? {
+	var cellularProvider: String {
 		let networkInfo = CTTelephonyNetworkInfo()
 
 		guard let carrier = networkInfo.subscriberCellularProvider else {
-			return nil
+			return "Unknow"
 		}
 
 		guard let carrierName = carrier.carrierName else {
-			return nil
+			return "Unknow"
 		}
 
 		return carrierName

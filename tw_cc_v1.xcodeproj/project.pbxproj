@@ -19,7 +19,8 @@
 		2F87D68D1CC971DC00987EFD /* ResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87D68C1CC971DC00987EFD /* ResultTableViewCell.swift */; };
 		2F87D68F1CCD031F00987EFD /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87D68E1CCD031F00987EFD /* Timer.swift */; };
 		2F87D6911CCD0B5100987EFD /* TimersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87D6901CCD0B5100987EFD /* TimersManager.swift */; };
-		A28253D21CCD827000D7A679 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A28253D11CCD827000D7A679 /* HealthKit.framework */; };
+		2F87D69A1CD7F03100987EFD /* RulesGeneral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87D6991CD7F03100987EFD /* RulesGeneral.swift */; };
+		2F87D69E1CD7F6A000987EFD /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F87D69D1CD7F6A000987EFD /* HealthKit.framework */; };
 		A28253D41CCD83BA00D7A679 /* HealKitData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28253D31CCD83BA00D7A679 /* HealKitData.swift */; };
 		A5D0BDA91CCD442C005E9ED7 /* Gyroscope.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D0BDA81CCD442C005E9ED7 /* Gyroscope.swift */; };
 		BCC88D058B5FC4ABE25F04D5 /* Pods_tw_cc_v1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8618D83DBF047E1FC8EE6FE /* Pods_tw_cc_v1.framework */; };
@@ -40,9 +41,10 @@
 		2F87D68C1CC971DC00987EFD /* ResultTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTableViewCell.swift; sourceTree = "<group>"; };
 		2F87D68E1CCD031F00987EFD /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		2F87D6901CCD0B5100987EFD /* TimersManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimersManager.swift; sourceTree = "<group>"; };
+		2F87D6991CD7F03100987EFD /* RulesGeneral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RulesGeneral.swift; sourceTree = "<group>"; };
+		2F87D69D1CD7F6A000987EFD /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		8731F882613319FB1277B5AF /* Pods-tw_cc_v1.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tw_cc_v1.release.xcconfig"; path = "Pods/Target Support Files/Pods-tw_cc_v1/Pods-tw_cc_v1.release.xcconfig"; sourceTree = "<group>"; };
 		A28253D01CCD827000D7A679 /* tw_cc_v1.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = tw_cc_v1.entitlements; sourceTree = "<group>"; };
-		A28253D11CCD827000D7A679 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		A28253D31CCD83BA00D7A679 /* HealKitData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealKitData.swift; sourceTree = "<group>"; };
 		A5D0BDA81CCD442C005E9ED7 /* Gyroscope.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gyroscope.swift; sourceTree = "<group>"; };
 		C8618D83DBF047E1FC8EE6FE /* Pods_tw_cc_v1.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tw_cc_v1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,7 +57,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCC88D058B5FC4ABE25F04D5 /* Pods_tw_cc_v1.framework in Frameworks */,
-				A28253D21CCD827000D7A679 /* HealthKit.framework in Frameworks */,
+				2F87D69E1CD7F6A000987EFD /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,7 +67,7 @@
 		1EE26D346E6F6F24D99D16CE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A28253D11CCD827000D7A679 /* HealthKit.framework */,
+				2F87D69D1CD7F6A000987EFD /* HealthKit.framework */,
 				C8618D83DBF047E1FC8EE6FE /* Pods_tw_cc_v1.framework */,
 			);
 			name = Frameworks;
@@ -92,24 +94,49 @@
 		2F165BF81CC6B9D9007F03D5 /* tw_cc_v1 */ = {
 			isa = PBXGroup;
 			children = (
+				2F87D6971CD7EE1700987EFD /* View */,
+				2F87D6961CD7EE1000987EFD /* Model */,
 				A28253D01CCD827000D7A679 /* tw_cc_v1.entitlements */,
-				A5D0BDA81CCD442C005E9ED7 /* Gyroscope.swift */,
 				2F165BF91CC6B9D9007F03D5 /* AppDelegate.swift */,
 				2F165BFB1CC6B9D9007F03D5 /* ViewController.swift */,
+				2F87D68A1CC9684E00987EFD /* ResultTableViewController.swift */,
 				2F165BFD1CC6B9DA007F03D5 /* Main.storyboard */,
 				2F165C031CC6B9DA007F03D5 /* Assets.xcassets */,
 				2F165C051CC6B9DA007F03D5 /* LaunchScreen.storyboard */,
 				2F165C081CC6B9DA007F03D5 /* Info.plist */,
 				2F165C001CC6B9DA007F03D5 /* tw_cc_v1.xcdatamodeld */,
+			);
+			path = tw_cc_v1;
+			sourceTree = "<group>";
+		};
+		2F87D6961CD7EE1000987EFD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2F87D6981CD7EE3D00987EFD /* Extensions */,
+				A5D0BDA81CCD442C005E9ED7 /* Gyroscope.swift */,
 				2F165C0E1CC6C200007F03D5 /* DeviceInfo.swift */,
-				2F165C101CC6C2D0007F03D5 /* ExtUIDevice.swift */,
-				2F87D68A1CC9684E00987EFD /* ResultTableViewController.swift */,
-				2F87D68C1CC971DC00987EFD /* ResultTableViewCell.swift */,
 				2F87D68E1CCD031F00987EFD /* Timer.swift */,
 				2F87D6901CCD0B5100987EFD /* TimersManager.swift */,
 				A28253D31CCD83BA00D7A679 /* HealKitData.swift */,
+				2F87D6991CD7F03100987EFD /* RulesGeneral.swift */,
 			);
-			path = tw_cc_v1;
+			name = Model;
+			sourceTree = "<group>";
+		};
+		2F87D6971CD7EE1700987EFD /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2F87D68C1CC971DC00987EFD /* ResultTableViewCell.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		2F87D6981CD7EE3D00987EFD /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				2F165C101CC6C2D0007F03D5 /* ExtUIDevice.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 		5B66FF809FB5C9D80CADDA28 /* Pods */ = {
@@ -156,7 +183,7 @@
 				TargetAttributes = {
 					2F165BF51CC6B9D9007F03D5 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = K9JP9MP9SL;
+						DevelopmentTeam = 6ARCEWBS3C;
 						SystemCapabilities = {
 							com.apple.HealthKit = {
 								enabled = 1;
@@ -251,6 +278,7 @@
 			files = (
 				2F165BFC1CC6B9DA007F03D5 /* ViewController.swift in Sources */,
 				2F165BFA1CC6B9D9007F03D5 /* AppDelegate.swift in Sources */,
+				2F87D69A1CD7F03100987EFD /* RulesGeneral.swift in Sources */,
 				2F87D68D1CC971DC00987EFD /* ResultTableViewCell.swift in Sources */,
 				2F87D68B1CC9684E00987EFD /* ResultTableViewController.swift in Sources */,
 				2F87D6911CCD0B5100987EFD /* TimersManager.swift in Sources */,
@@ -374,10 +402,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = tw_cc_v1/tw_cc_v1.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = tw_cc_v1/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "LV.tw-cc-v1";
+				PRODUCT_BUNDLE_IDENTIFIER = "ARCEWBS3C.tw-cc-v1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -387,10 +418,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = tw_cc_v1/tw_cc_v1.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = tw_cc_v1/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "LV.tw-cc-v1";
+				PRODUCT_BUNDLE_IDENTIFIER = "ARCEWBS3C.tw-cc-v1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

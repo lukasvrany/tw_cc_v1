@@ -12,33 +12,53 @@ import UIKit
 class DeviceInfo {
 
 	var device: UIDevice
-	var info: [String: String]
 
 	init() {
 		device = UIDevice.currentDevice()
-		info = [:]
 	}
 
-	func getAllInformation() -> [String: String] {
+	func getModel() -> String {
+		return device.modelName
+	}
 
-		info["model"] = device.modelName
-		info["deviceName"] = device.name
-		info["ios"] = device.systemVersion
+	func getDeviceName() -> String {
+		return device.name
+	}
 
+	func getiOsVersion() -> String {
+		return device.systemVersion
+	}
+
+	func getBatteryValue() -> String {
 		let batteryInfo = getBatteryInfo()
-		info["batteryValue"] = batteryInfo.value
-		info["batteryState"] = batteryInfo.state
+		return batteryInfo.value
+	}
 
+	func getBatteryState() -> String {
+		let batteryInfo = getBatteryInfo()
+		return batteryInfo.state
+	}
+
+	func getSSID() -> String {
 		let wifiInfo = device.wifi
-		info["SSID"] = wifiInfo.SSID
-		info["BSSID"] = wifiInfo.BSSID
+		return wifiInfo.SSID
+	}
 
-		info["connectType"] = device.connectivity
-		info["cellularProvider"] = device.cellularProvider
+	func getBSSID() -> String {
+		let wifiInfo = device.wifi
+		return wifiInfo.BSSID
+	}
 
-		info["appleWatch"] = device.connectedAppleWatch
+	func getConnectType() -> String {
+		return device.connectivity
+	}
 
-		return info
+	func getCellularProvider() -> String {
+		return device.cellularProvider
+	}
+
+	func getAppleWatch() -> String {
+		return device.connectedAppleWatch
 	}
 
 	private func getBatteryInfo() -> (value: String, state: String) {
@@ -48,17 +68,17 @@ class DeviceInfo {
 		device.batteryMonitoringEnabled = false
 		return (String(value * 100), batteryStateMapping(state))
 	}
-    
-    private func batteryStateMapping(state:UIDeviceBatteryState)->String{
-        switch state {
-        case .Charging:
-            return "Charging"
-        case .Full:
-            return "Full"
-        case .Unplugged:
-            return "Unplugged"
-        default:
-            return "Unknow"
-        }
-    }
+
+	private func batteryStateMapping(state: UIDeviceBatteryState) -> String {
+		switch state {
+		case .Charging:
+			return "Charging"
+		case .Full:
+			return "Full"
+		case .Unplugged:
+			return "Unplugged"
+		default:
+			return "Unknow"
+		}
+	}
 }
