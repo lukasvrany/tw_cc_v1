@@ -10,44 +10,80 @@ import Foundation
 import UIKit
 
 class RulesGeneral {
-    
-    enum GeneralInfo {
-        case Model
-        case DeviceName
-        case VersioniOs
-        case BatterryValue
-        case BaterryState
-        case SSID
-        case BSSID
-        case ConnectType
-        case CellularProvider
-        case AppleWatchConnect
-    }
 
-	static let sharedInstance = RulesGeneral()
+	var allRules = [(String, Int)]()
 
-    var data = [GeneralInfo: String]()
+	init() {
+		let deviceInfo = DeviceInfo()
+		allRules.append(getRuleModel(deviceInfo.getModel()))
+		allRules.append(getRuleDeviceName(deviceInfo.getDeviceName()))
+		allRules.append(getRuleiOsVersion(deviceInfo.getiOsVersion()))
+		allRules.append(getRuleBatteryValue(deviceInfo.getBatteryValue()))
+		allRules.append(getRuleBatteryState(deviceInfo.getBatteryState()))
+		allRules.append(getRuleSSID(deviceInfo.getSSID()))
+		allRules.append(getRuleBSSID(deviceInfo.getBSSID()))
+		allRules.append(getRuleConnectType(deviceInfo.getConnectType()))
+		allRules.append(getRuleCellularProvider(deviceInfo.getCellularProvider()))
+		allRules.append(getRuleAppleWatch(deviceInfo.getAppleWatch()))
+	}
 
-	private init() {
-        let deviceInfo = DeviceInfo()
-        data[.Model] = deviceInfo.getModel()
-        data[.DeviceName] = deviceInfo.getDeviceName()
-        data[.VersioniOs] = deviceInfo.getiOsVersion()
-        data[.BatterryValue] = deviceInfo.getBatteryValue()
-        data[.BaterryState] = deviceInfo.getBatteryState()
-        data[.SSID] = deviceInfo.getSSID()
-        data[.BSSID] = deviceInfo.getBSSID()
-        data[.ConnectType] = deviceInfo.getConnectType()
-        data[.CellularProvider] = deviceInfo.getCellularProvider()
-        data[.AppleWatchConnect] = deviceInfo.getAppleWatch()
-    }
-    
-    func getRuleModel() -> (value: String, text: String, coef: Double){
-        if data[.Model] == "iPhone 6s Plus"{
-            return (data[.Model]!, "Celkem drahý mobil. Proč si chceš půjčovat?",-3)
-        }
-        
-        return ("Nevím", "Nic", 0)
-    }
-    
+	func getRuleModel(model: String) -> (text: String, coef: Int) {
+
+		switch (model) {
+		case "iPhone 6s Plus", "iPhone 6s":
+			return (model + " je celkem drahý mobil. Proč si potřebuješ půjčovat?", -3)
+		case "Simulator":
+			return (model + " je ok", 256)
+		default:
+			return (model, 0)
+		}
+	}
+
+	func getRuleDeviceName(input: String) -> (text: String, coef: Int) {
+		return (input, 0)
+	}
+
+	func getRuleiOsVersion(input: String) -> (text: String, coef: Int) {
+		return (input, 0)
+	}
+
+	func getRuleBatteryValue(input: String) -> (text: String, coef: Int) {
+		return (input, 0)
+	}
+
+	func getRuleBatteryState(input: String) -> (text: String, coef: Int) {
+		return (input, 0)
+	}
+
+	func getRuleSSID(input: String) -> (text: String, coef: Int) {
+		return (input, 0)
+	}
+
+	func getRuleBSSID(input: String) -> (text: String, coef: Int) {
+		return (input, 0)
+	}
+
+	func getRuleConnectType(input: String) -> (text: String, coef: Int) {
+		return (input, 0)
+	}
+
+	func getRuleCellularProvider(input: String) -> (text: String, coef: Int) {
+		return (input, 0)
+	}
+
+	func getRuleAppleWatch(input: String) -> (text: String, coef: Int) {
+		return (input, 0)
+	}
+
+	func getAllRules(ignoreZero: Bool = true) -> [(String, Int)] {
+
+		if ignoreZero {
+			let filteredRules = allRules.filter({
+				$0.1 != 0
+			})
+			return filteredRules
+		} else {
+			return allRules
+		}
+	}
 }

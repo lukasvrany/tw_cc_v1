@@ -19,7 +19,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	// Array obsahuje dalsi pole s ruznymi druhy informaci
 	var allInformations = [String: [String: String]]()
 	var motionInformations = [String: String]()
-    var copyAndPaseInformations = [String: String]()
+	var copyAndPaseInformations = [String: String]()
 
 	var timers = TimersManager()
 
@@ -70,9 +70,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
 			make.trailing.equalTo(-10)
 			make.top.equalTo(self.snp_topLayoutGuideBottom).offset(10)
 		}
-        
-        let isHealkitAvailable = healtkit.healkitIsAvailable()
-        if (isHealkitAvailable){
+
+		let isHealkitAvailable = healtkit.healkitIsAvailable()
+		if (isHealkitAvailable) {
 			healtkit.authorizePermission()
 		}
 	}
@@ -109,7 +109,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		txt.delegate = self
 		txt.borderStyle = .RoundedRect
 		allTextFields[name] = txt
-        copyAndPaseInformations[name] = "No"
+		copyAndPaseInformations[name] = "No"
 
 		let stackView = UIStackView(arrangedSubviews: [lbl, txt])
 		stackView.axis = .Horizontal
@@ -125,18 +125,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		if let motionResults = gyroscope.getAverageMotionData() {
 			motionInformations["user position"] = (motionResults.roll > 1.5) ? "mostly lying" : "mostly standing"
 		}
-        
-        // Timers
-        allInformations["Timers"] = timers.getAllInformations()
-        // Gyroscope
-		allInformations["Gyroscope"] = motionInformations
+
+		// Timers
+		RulesTimers.sharedInstance.data = timers.getAllInformations()
+		// Gyroscope
+//		allInformations["Gyroscope"] = motionInformations
 		// Healtkit
-		allInformations["Healtkit"] = healtkit.getInformation()
-        //copyAndPase
-        allInformations["CopyAndPase"] = copyAndPaseInformations
+//		allInformations["Healtkit"] = healtkit.getInformation()
+		// copyAndPase
+//        allInformations["CopyAndPase"] = copyAndPaseInformations
 
 		let resultController = ResultTableViewController()
-		resultController.info = allInformations
+//		resultController.info = allInformations
 		self.navigationController?.pushViewController(resultController, animated: true)
 	}
 
@@ -168,17 +168,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	func cutDouble(value: Double) -> String {
 		return String(format: "%.3f", value)
 	}
-    
-        
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        // Here we check if the replacement text is equal to the string we are currently holding in the paste board
-        if (UIPasteboard.generalPasteboard().string == string){
-            let fieldLabel = textField.superview?.subviews.first as! UILabel
-            copyAndPaseInformations[fieldLabel.text!] = "Yes"
-        }
-        
-        return true;
-    }
-    
 
+	func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+		// Here we check if the replacement text is equal to the string we are currently holding in the paste board
+		if (UIPasteboard.generalPasteboard().string == string) {
+			let fieldLabel = textField.superview?.subviews.first as! UILabel
+			copyAndPaseInformations[fieldLabel.text!] = "Yes"
+		}
+
+		return true;
+	}
 }

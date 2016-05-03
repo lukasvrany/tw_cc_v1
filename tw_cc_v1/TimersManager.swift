@@ -36,10 +36,10 @@ class TimersManager {
 		}
 	}
 
-	func getAllInformations() -> [String: String] {
-		var result = [String: String]()
+	func getAllInformations() -> [String: Double] {
+		var result = [String: Double]()
 		for (name, timer) in timers {
-			result[name] = String(timer.count / 10) + "s"
+			result[name] = timer.count / 10
 		}
 		return result
 	}

@@ -11,8 +11,8 @@ import UIKit
 
 class ResultTableViewCell: UITableViewCell {
 
-	weak var name: UILabel!
-	weak var value: UILabel!
+	weak var lblName: UILabel!
+	weak var lblValue: UILabel!
 
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -31,8 +31,8 @@ class ResultTableViewCell: UITableViewCell {
 			make.edges.equalTo(contentView)
 		}
 
-		self.name = name
-		self.value = value
+		self.lblName = name
+		self.lblValue = value
 	}
 
 	required init?(coder aDecoder: NSCoder) {

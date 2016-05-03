@@ -14,7 +14,7 @@ class ResultTableViewController: UIViewController {
 	private let cellId = "cellId"
 	weak var tableView: UITableView!
 
-	var info: [String: [String: String]]!
+	let rulesManager = RulesManager()
 
 	override func loadView() {
 		super.loadView()
@@ -25,8 +25,8 @@ class ResultTableViewController: UIViewController {
 		view.addSubview(tableView)
 		tableView.dataSource = self
 		tableView.delegate = self
-        tableView.layoutMargins = UIEdgeInsetsZero
-        tableView.separatorInset = UIEdgeInsetsZero
+		tableView.layoutMargins = UIEdgeInsetsZero
+		tableView.separatorInset = UIEdgeInsetsZero
 		tableView.registerClass(ResultTableViewCell.self, forCellReuseIdentifier: cellId)
 		tableView.rowHeight = UITableViewAutomaticDimension
 		tableView.estimatedRowHeight = 30
@@ -44,31 +44,21 @@ class ResultTableViewController: UIViewController {
 extension ResultTableViewController: UITableViewDataSource {
 
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		let key = Array(info!.keys)[section]
-		return info[key]!.count
+		return rulesManager.allRulesCount
 	}
 
-	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-		return info.count
-	}
 
-	func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-		return Array(info!.keys)[section]
-	}
-
-	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCellWithIdentifier(cellId, forIndexPath: indexPath) as! ResultTableViewCell
-
-		let skey = Array(info!.keys)[indexPath.section]
-		let key = Array(info[skey]!.keys)[indexPath.row]
-
-        cell.separatorInset = UIEdgeInsetsZero
-        cell.layoutMargins = UIEdgeInsetsZero
-		cell.name.text = key + ":"
-		cell.value.text = info![skey]![key]
-
-		return cell
-	}
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellId, forIndexPath: indexPath) as! ResultTableViewCell
+        
+        
+        let rule = rulesManager.allRules[indexPath.row]
+        
+        cell.lblName.text = rule.0
+        cell.lblValue.text = String(rule.1)
+        
+        return cell
+    }
 }
 
 extension ResultTableViewController: UITableViewDelegate {
