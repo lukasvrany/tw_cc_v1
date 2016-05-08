@@ -1,10 +1,13 @@
 PODS:
+  - PermissionScope (1.0.2)
   - SnapKit (0.20.0)
 
 DEPENDENCIES:
+  - PermissionScope
   - SnapKit (~> 0.20)
 
 SPEC CHECKSUMS:
+  PermissionScope: 860828c5516d349b6f49e5491799cfef33c5ccc7
   SnapKit: 5fce3c1bbbf1fbd31de9aa92f33eb9fa03f15650
 
 COCOAPODS: 0.39.0

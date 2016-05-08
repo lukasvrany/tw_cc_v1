@@ -5,5 +5,6 @@ use_frameworks!
 
 target 'tw_cc_v1' do
     pod 'SnapKit', '~> 0.20'
+    pod 'PermissionScope'
 end
 

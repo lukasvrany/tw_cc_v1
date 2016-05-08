@@ -8,9 +8,12 @@
 
 import UIKit
 import SnapKit
+import PermissionScope
 
 class ViewController: UIViewController, UITextFieldDelegate {
 
+    let pscope = PermissionScope()
+    
 	let FORM_TIMER_NAME = "MainForm"
 
 	// Pole vsech UITextField ve formalu.
@@ -75,10 +78,27 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		if (isHealkitAvailable) {
 			healtkit.authorizePermission()
 		}
+        
+        pscope.headerLabel.text = "Ješte jedna věc"
+        pscope.bodyLabel.text = "Potřebujeme pár věcí než začneme"
 	}
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+        
+        // Set up permissions
+        pscope.addPermission(ContactsPermission(),
+                             message: "Koukem se kolik máš kamarádů")
+        pscope.addPermission(LocationWhileInUsePermission(),
+                             message: "Uvidíme kde jsi")
+        
+        // Show dialog with callbacks
+        pscope.show({ finished, results in
+            print("got results \(results)")
+            }, cancelled: { (results) -> Void in
+                print("thing was cancelled")
+        })   
+        
 		gyroscope.startMotionCollection()
 
 		self.sendButton.addTarget(self, action: #selector(sendForm(_:)), forControlEvents: .TouchUpInside)

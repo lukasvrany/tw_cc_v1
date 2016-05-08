@@ -84,8 +84,10 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods-tw_cc_v1/PermissionScope.framework"
   install_framework "Pods-tw_cc_v1/SnapKit.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods-tw_cc_v1/PermissionScope.framework"
   install_framework "Pods-tw_cc_v1/SnapKit.framework"
 fi
