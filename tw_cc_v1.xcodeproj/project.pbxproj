@@ -24,7 +24,9 @@
 		2F87D6A01CD9270400987EFD /* RulesTimers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87D69F1CD9270400987EFD /* RulesTimers.swift */; };
 		2F87D6A21CD9374400987EFD /* RulesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87D6A11CD9374400987EFD /* RulesManager.swift */; };
 		A28253D41CCD83BA00D7A679 /* HealKitData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28253D31CCD83BA00D7A679 /* HealKitData.swift */; };
+		A504D1971CE51F34003DED9E /* ResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A504D1961CE51F34003DED9E /* ResultController.swift */; };
 		A5D0BDA91CCD442C005E9ED7 /* Gyroscope.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D0BDA81CCD442C005E9ED7 /* Gyroscope.swift */; };
+		A5E3DF2A1CE3740000B2FE7C /* Collector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E3DF291CE3740000B2FE7C /* Collector.swift */; };
 		BCC88D058B5FC4ABE25F04D5 /* Pods_tw_cc_v1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8618D83DBF047E1FC8EE6FE /* Pods_tw_cc_v1.framework */; };
 /* End PBXBuildFile section */
 
@@ -50,7 +52,9 @@
 		8731F882613319FB1277B5AF /* Pods-tw_cc_v1.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tw_cc_v1.release.xcconfig"; path = "Pods/Target Support Files/Pods-tw_cc_v1/Pods-tw_cc_v1.release.xcconfig"; sourceTree = "<group>"; };
 		A28253D01CCD827000D7A679 /* tw_cc_v1.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = tw_cc_v1.entitlements; sourceTree = "<group>"; };
 		A28253D31CCD83BA00D7A679 /* HealKitData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealKitData.swift; sourceTree = "<group>"; };
+		A504D1961CE51F34003DED9E /* ResultController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultController.swift; sourceTree = "<group>"; };
 		A5D0BDA81CCD442C005E9ED7 /* Gyroscope.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gyroscope.swift; sourceTree = "<group>"; };
+		A5E3DF291CE3740000B2FE7C /* Collector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Collector.swift; sourceTree = "<group>"; };
 		C8618D83DBF047E1FC8EE6FE /* Pods_tw_cc_v1.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tw_cc_v1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC143BF2D726DACE304C9E79 /* Pods-tw_cc_v1.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tw_cc_v1.debug.xcconfig"; path = "Pods/Target Support Files/Pods-tw_cc_v1/Pods-tw_cc_v1.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -102,6 +106,7 @@
 				2F87D6961CD7EE1000987EFD /* Model */,
 				A28253D01CCD827000D7A679 /* tw_cc_v1.entitlements */,
 				2F165BF91CC6B9D9007F03D5 /* AppDelegate.swift */,
+				A504D1961CE51F34003DED9E /* ResultController.swift */,
 				2F165BFB1CC6B9D9007F03D5 /* ViewController.swift */,
 				2F87D68A1CC9684E00987EFD /* ResultTableViewController.swift */,
 				2F165BFD1CC6B9DA007F03D5 /* Main.storyboard */,
@@ -125,6 +130,7 @@
 				2F87D6991CD7F03100987EFD /* RulesGeneral.swift */,
 				2F87D69F1CD9270400987EFD /* RulesTimers.swift */,
 				2F87D6A11CD9374400987EFD /* RulesManager.swift */,
+				A5E3DF291CE3740000B2FE7C /* Collector.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -189,7 +195,7 @@
 				TargetAttributes = {
 					2F165BF51CC6B9D9007F03D5 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = 6ARCEWBS3C;
+						DevelopmentTeam = ZLV4DY66C6;
 						SystemCapabilities = {
 							com.apple.HealthKit = {
 								enabled = 1;
@@ -286,12 +292,14 @@
 				2F87D6A21CD9374400987EFD /* RulesManager.swift in Sources */,
 				2F87D6A01CD9270400987EFD /* RulesTimers.swift in Sources */,
 				2F165BFA1CC6B9D9007F03D5 /* AppDelegate.swift in Sources */,
+				A504D1971CE51F34003DED9E /* ResultController.swift in Sources */,
 				2F87D69A1CD7F03100987EFD /* RulesGeneral.swift in Sources */,
 				2F87D68D1CC971DC00987EFD /* ResultTableViewCell.swift in Sources */,
 				2F87D68B1CC9684E00987EFD /* ResultTableViewController.swift in Sources */,
 				2F87D6911CCD0B5100987EFD /* TimersManager.swift in Sources */,
 				2F165C021CC6B9DA007F03D5 /* tw_cc_v1.xcdatamodeld in Sources */,
 				2F165C111CC6C2D0007F03D5 /* ExtUIDevice.swift in Sources */,
+				A5E3DF2A1CE3740000B2FE7C /* Collector.swift in Sources */,
 				A28253D41CCD83BA00D7A679 /* HealKitData.swift in Sources */,
 				A5D0BDA91CCD442C005E9ED7 /* Gyroscope.swift in Sources */,
 				2F165C0F1CC6C200007F03D5 /* DeviceInfo.swift in Sources */,
@@ -414,7 +422,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = tw_cc_v1/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "ARCEWBS3C.tw-cc-v1";
+				PRODUCT_BUNDLE_IDENTIFIER = "cc.tw-cc-v1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -430,7 +438,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = tw_cc_v1/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "ARCEWBS3C.tw-cc-v1";
+				PRODUCT_BUNDLE_IDENTIFIER = "cc.tw-cc-v1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

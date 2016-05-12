@@ -12,7 +12,9 @@ import UIKit
 class TimersManager {
 
 	var timers = [String: Timer]()
-
+    
+    var namelessTimers = [Timer]()
+    
 	init() {
 	}
 
@@ -26,6 +28,7 @@ class TimersManager {
 		} else {
 			let newTimer = create(name)
 			add(newTimer)
+            namelessTimers.append(newTimer)
 			return newTimer
 		}
 	}

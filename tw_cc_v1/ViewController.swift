@@ -65,6 +65,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 			createStackHorizontalLine("PSČ"),
 			btnSend])
 
+        
 		mainStackView.axis = .Vertical
 		mainStackView.spacing = 10
 		self.view.addSubview(mainStackView)
@@ -155,28 +156,26 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		// copyAndPase
 //        allInformations["CopyAndPase"] = copyAndPaseInformations
 
-		let resultController = ResultTableViewController()
+//		let resultController = ResultTableViewController()
 //		resultController.info = allInformations
-		self.navigationController?.pushViewController(resultController, animated: true)
+		self.navigationController?.pushViewController(ResultController(), animated: true)
 	}
-
-	func textFieldDidBeginEditing(textField: UITextField) {
-		gyroscope.startGyroCollection()
-
-		let fieldLabel = textField.superview?.subviews.first as! UILabel
-		timers.getOrCreate(fieldLabel.text!).start()
-	}
-
-	func textFieldDidEndEditing(textField: UITextField) {
-		let fieldLabel = textField.superview?.subviews.first as! UILabel
-
-		gyroscope.stopGyroCollection()
-		if let results = gyroscope.getAverageGyroData() {
-			motionInformations["\(fieldLabel.text!)"] = "\(cutDouble(results.x))/\(cutDouble(results.y))/\(cutDouble(results.z))"
-		}
-
-		timers.getOrCreate(fieldLabel.text!).stop()
-	}
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        let fieldLabel = textField.superview?.subviews.first as! UILabel
+        
+        let collector = Collector.Instance()
+        collector.gyroscope.startGyroCollection()
+        collector.gyroData.append(collector.gyroscope.getAverageGyroData()!)
+        collector.timer.getOrCreate(fieldLabel.text!).stop()
+    }
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        let fieldLabel = textField.superview?.subviews.first as! UILabel
+        
+        Collector.Instance().gyroscope.startGyroCollection()
+        Collector.Instance().timer.getOrCreate(fieldLabel.text!).start()
+    }
 
 	// for diasble editing of textField when clicked somewhere else
 	func tap(gesture: UITapGestureRecognizer) {

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "tw_cc_v1/File.swift"
+            timestampString = "484773665.274865"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "Collector"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "tw_cc_v1.Collector.init () -&gt; tw_cc_v1.Collector"
+                  moduleName = "tw_cc_v1"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/EN/Desktop/CC/twisto/tw_cc_v1/File.swift"
+                  timestampString = "484773054.208571"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21"
+                  offsetFromSymbolStart = "84">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "tw_cc_v1.Collector.gyroData.getter : Swift.Array&lt;__C.CMRotationRate&gt;"
+                  moduleName = "tw_cc_v1"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/EN/Desktop/CC/twisto/tw_cc_v1/File.swift"
+                  timestampString = "484773054.217536"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21"
+                  offsetFromSymbolStart = "28">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "tw_cc_v1.Collector.gyroData.setter : Swift.Array&lt;__C.CMRotationRate&gt;"
+                  moduleName = "tw_cc_v1"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/EN/Desktop/CC/twisto/tw_cc_v1/File.swift"
+                  timestampString = "484773054.217704"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21"
+                  offsetFromSymbolStart = "60">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "tw_cc_v1/File.swift"
+            timestampString = "484773665.274865"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "getNervous()"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "tw_cc_v1.Collector.getNervous () -&gt; Swift.Bool"
+                  moduleName = "tw_cc_v1"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/EN/Desktop/CC/twisto/tw_cc_v1/File.swift"
+                  timestampString = "484773054.218691"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32"
+                  offsetFromSymbolStart = "864">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "tw_cc_v1.Collector.(getNervous () -&gt; Swift.Bool).(closure #3)"
+                  moduleName = "tw_cc_v1"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/EN/Desktop/CC/twisto/tw_cc_v1/File.swift"
+                  timestampString = "484773054.218938"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "tw_cc_v1/CollectingField.swift"
+            timestampString = "484774597.097832"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "11"
+            endingLineNumber = "11"
+            landmarkName = "CollectingField"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "tw_cc_v1.CollectingField.__deallocating_deinit"
+                  moduleName = "tw_cc_v1"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/EN/Desktop/CC/twisto/tw_cc_v1/CollectingField.swift"
+                  timestampString = "484774597.515671"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "tw_cc_v1.CollectingField.init (frame : __C.CGRect) -&gt; tw_cc_v1.CollectingField"
+                  moduleName = "tw_cc_v1"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/EN/Desktop/CC/twisto/tw_cc_v1/CollectingField.swift"
+                  timestampString = "484774597.515925"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "11"
+                  endingLineNumber = "11"
+                  offsetFromSymbolStart = "184">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "tw_cc_v1.CollectingField.init (coder : __ObjC.NSCoder) -&gt; Swift.Optional&lt;tw_cc_v1.CollectingField&gt;"
+                  moduleName = "tw_cc_v1"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/EN/Desktop/CC/twisto/tw_cc_v1/CollectingField.swift"
+                  timestampString = "484774597.516083"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "11"
+                  endingLineNumber = "11"
+                  offsetFromSymbolStart = "192">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "tw_cc_v1/Collector.swift"
+            timestampString = "484778641.175855"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "isSlow()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

@@ -18,7 +18,7 @@ class ResultTableViewController: UIViewController {
 
 	override func loadView() {
 		super.loadView()
-
+        print(Collector.Instance().isNervous())
 		self.view.backgroundColor = UIColor.whiteColor()
 
 		let tableView = UITableView(frame: .zero, style: .Plain)

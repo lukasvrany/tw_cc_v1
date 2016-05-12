@@ -51,7 +51,7 @@ class Gyroscope {
             manager.startGyroUpdatesToQueue(queue, withHandler: {
                 gyroData, error in
                 
-                if let gyroData = gyroData{
+                if let gyroData = gyroData {
                     self.lastGyroDataSet?.append(gyroData.rotationRate)
                 }
             })
@@ -113,6 +113,5 @@ class Gyroscope {
             return nil
         }
     }
-    
     
 }
