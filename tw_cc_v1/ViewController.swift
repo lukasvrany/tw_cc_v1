@@ -89,7 +89,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         // Set up permissions
         pscope.addPermission(ContactsPermission(),
-                             message: "Koukem se kolik máš kamarádů")
+                             message: "Kouknem se kolik máš kamarádů")
         pscope.addPermission(LocationWhileInUsePermission(),
                              message: "Uvidíme kde jsi")
         
@@ -147,17 +147,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
 			motionInformations["user position"] = (motionResults.roll > 1.5) ? "mostly lying" : "mostly standing"
 		}
 
-		// Timers
-		RulesTimers.sharedInstance.data = timers.getAllInformations()
-		// Gyroscope
-//		allInformations["Gyroscope"] = motionInformations
-		// Healtkit
-//		allInformations["Healtkit"] = healtkit.getInformation()
-		// copyAndPase
-//        allInformations["CopyAndPase"] = copyAndPaseInformations
-
-//		let resultController = ResultTableViewController()
-//		resultController.info = allInformations
 		self.navigationController?.pushViewController(ResultController(), animated: true)
 	}
     

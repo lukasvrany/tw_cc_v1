@@ -15,14 +15,10 @@
 		2F165C071CC6B9DA007F03D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F165C051CC6B9DA007F03D5 /* LaunchScreen.storyboard */; };
 		2F165C0F1CC6C200007F03D5 /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F165C0E1CC6C200007F03D5 /* DeviceInfo.swift */; };
 		2F165C111CC6C2D0007F03D5 /* ExtUIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F165C101CC6C2D0007F03D5 /* ExtUIDevice.swift */; };
-		2F87D68B1CC9684E00987EFD /* ResultTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87D68A1CC9684E00987EFD /* ResultTableViewController.swift */; };
 		2F87D68D1CC971DC00987EFD /* ResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87D68C1CC971DC00987EFD /* ResultTableViewCell.swift */; };
 		2F87D68F1CCD031F00987EFD /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87D68E1CCD031F00987EFD /* Timer.swift */; };
 		2F87D6911CCD0B5100987EFD /* TimersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87D6901CCD0B5100987EFD /* TimersManager.swift */; };
-		2F87D69A1CD7F03100987EFD /* RulesGeneral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87D6991CD7F03100987EFD /* RulesGeneral.swift */; };
 		2F87D69E1CD7F6A000987EFD /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F87D69D1CD7F6A000987EFD /* HealthKit.framework */; };
-		2F87D6A01CD9270400987EFD /* RulesTimers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87D69F1CD9270400987EFD /* RulesTimers.swift */; };
-		2F87D6A21CD9374400987EFD /* RulesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87D6A11CD9374400987EFD /* RulesManager.swift */; };
 		A28253D41CCD83BA00D7A679 /* HealKitData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28253D31CCD83BA00D7A679 /* HealKitData.swift */; };
 		A504D1971CE51F34003DED9E /* ResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A504D1961CE51F34003DED9E /* ResultController.swift */; };
 		A5D0BDA91CCD442C005E9ED7 /* Gyroscope.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D0BDA81CCD442C005E9ED7 /* Gyroscope.swift */; };
@@ -41,14 +37,10 @@
 		2F165C081CC6B9DA007F03D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2F165C0E1CC6C200007F03D5 /* DeviceInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
 		2F165C101CC6C2D0007F03D5 /* ExtUIDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtUIDevice.swift; sourceTree = "<group>"; };
-		2F87D68A1CC9684E00987EFD /* ResultTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTableViewController.swift; sourceTree = "<group>"; };
 		2F87D68C1CC971DC00987EFD /* ResultTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTableViewCell.swift; sourceTree = "<group>"; };
 		2F87D68E1CCD031F00987EFD /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		2F87D6901CCD0B5100987EFD /* TimersManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimersManager.swift; sourceTree = "<group>"; };
-		2F87D6991CD7F03100987EFD /* RulesGeneral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RulesGeneral.swift; sourceTree = "<group>"; };
 		2F87D69D1CD7F6A000987EFD /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
-		2F87D69F1CD9270400987EFD /* RulesTimers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RulesTimers.swift; sourceTree = "<group>"; };
-		2F87D6A11CD9374400987EFD /* RulesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RulesManager.swift; sourceTree = "<group>"; };
 		8731F882613319FB1277B5AF /* Pods-tw_cc_v1.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tw_cc_v1.release.xcconfig"; path = "Pods/Target Support Files/Pods-tw_cc_v1/Pods-tw_cc_v1.release.xcconfig"; sourceTree = "<group>"; };
 		A28253D01CCD827000D7A679 /* tw_cc_v1.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = tw_cc_v1.entitlements; sourceTree = "<group>"; };
 		A28253D31CCD83BA00D7A679 /* HealKitData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealKitData.swift; sourceTree = "<group>"; };
@@ -108,7 +100,6 @@
 				2F165BF91CC6B9D9007F03D5 /* AppDelegate.swift */,
 				A504D1961CE51F34003DED9E /* ResultController.swift */,
 				2F165BFB1CC6B9D9007F03D5 /* ViewController.swift */,
-				2F87D68A1CC9684E00987EFD /* ResultTableViewController.swift */,
 				2F165BFD1CC6B9DA007F03D5 /* Main.storyboard */,
 				2F165C031CC6B9DA007F03D5 /* Assets.xcassets */,
 				2F165C051CC6B9DA007F03D5 /* LaunchScreen.storyboard */,
@@ -127,9 +118,6 @@
 				2F87D68E1CCD031F00987EFD /* Timer.swift */,
 				2F87D6901CCD0B5100987EFD /* TimersManager.swift */,
 				A28253D31CCD83BA00D7A679 /* HealKitData.swift */,
-				2F87D6991CD7F03100987EFD /* RulesGeneral.swift */,
-				2F87D69F1CD9270400987EFD /* RulesTimers.swift */,
-				2F87D6A11CD9374400987EFD /* RulesManager.swift */,
 				A5E3DF291CE3740000B2FE7C /* Collector.swift */,
 			);
 			name = Model;
@@ -195,7 +183,7 @@
 				TargetAttributes = {
 					2F165BF51CC6B9D9007F03D5 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = ZLV4DY66C6;
+						DevelopmentTeam = 6ARCEWBS3C;
 						SystemCapabilities = {
 							com.apple.HealthKit = {
 								enabled = 1;
@@ -289,13 +277,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F165BFC1CC6B9DA007F03D5 /* ViewController.swift in Sources */,
-				2F87D6A21CD9374400987EFD /* RulesManager.swift in Sources */,
-				2F87D6A01CD9270400987EFD /* RulesTimers.swift in Sources */,
 				2F165BFA1CC6B9D9007F03D5 /* AppDelegate.swift in Sources */,
 				A504D1971CE51F34003DED9E /* ResultController.swift in Sources */,
-				2F87D69A1CD7F03100987EFD /* RulesGeneral.swift in Sources */,
 				2F87D68D1CC971DC00987EFD /* ResultTableViewCell.swift in Sources */,
-				2F87D68B1CC9684E00987EFD /* ResultTableViewController.swift in Sources */,
 				2F87D6911CCD0B5100987EFD /* TimersManager.swift in Sources */,
 				2F165C021CC6B9DA007F03D5 /* tw_cc_v1.xcdatamodeld in Sources */,
 				2F165C111CC6C2D0007F03D5 /* ExtUIDevice.swift in Sources */,
@@ -422,7 +406,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = tw_cc_v1/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "cc.tw-cc-v1";
+				PRODUCT_BUNDLE_IDENTIFIER = "tw-cc-v1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -438,7 +422,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = tw_cc_v1/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "cc.tw-cc-v1";
+				PRODUCT_BUNDLE_IDENTIFIER = "tw-cc-v1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
