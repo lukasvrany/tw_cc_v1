@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>LTMorphingLabel.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>PermissionScope.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -22,12 +27,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>3FA7E94944E4A325226B32CB5DEEDFB8</key>
+		<key>0DCBD6C869DCC15AF62D43471CB4592C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9D03A3E2B62456039C571E64C43D4F2D</key>
+		<key>59BDD7385FDCE15D2A8EE722048D5F06</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B3E314A6DB7DCA4045D41EF3D009A5F3</key>
 		<dict>
 			<key>primary</key>
 			<true/>

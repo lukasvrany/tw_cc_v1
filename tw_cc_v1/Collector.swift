@@ -65,13 +65,29 @@ class Collector{
     
     func evaluation() -> String {
         print()
-        let noun = isFast() ? "speedster" : (isSlow() ? "grandma" : "man")
-        let adjective = isRich() ? "wealthy" : "pink-collar"
-        let anotehrExtra = hasLowBattery() ? "who's got almost no battery" : ""
-        let extra = hasAlzheimer() ? "with alzheimer" : ""
+        let noun = getNoun()
+        let adjective = getAdjective()
+        let anotherExtra = getAnotherExtra()
+        let extra = getExtra()
         
         let set = NSCharacterSet(charactersInString: " .")
         
-        return "\(adjective) \(noun) \(extra) \(anotehrExtra)".stringByTrimmingCharactersInSet(set)
+        return "\(adjective) \(noun) \(extra) \(anotherExtra)".stringByTrimmingCharactersInSet(set)
+    }
+    
+    func getNoun()->String{
+        return isFast() ? "speedster" : (isSlow() ? "grandma" : "man")
+    }
+    
+    func getAdjective() -> String {
+        return isRich() ? "wealthy" : "pink-collar"
+    }
+    
+    func getAnotherExtra() -> String {
+        return hasLowBattery() ? "who's got almost no battery" : ""
+    }
+    
+    func getExtra() -> String {
+        return hasAlzheimer() ? "with alzheimer" : ""
     }
 }

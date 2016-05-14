@@ -8,40 +8,62 @@
 
 import UIKit
 import SnapKit
+import LTMorphingLabel
 
-class ResultController: UIViewController {
+class ResultController: UIViewController, LTMorphingLabelDelegate {
 
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = UIColor.whiteColor()
+	private var label: LTMorphingLabel!
 
-        let resultTextLabel = UILabel()
-        resultTextLabel.text = Collector.Instance().evaluation()
-        view.addSubview(resultTextLabel)
-        resultTextLabel.snp_makeConstraints { (make) in
-            make.center.equalTo(view)
-        }
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		view.backgroundColor = UIColor.whiteColor()
         
-        
-        // Do any additional setup after loading the view.
-    }
+        let lblTitle = UILabel()
+        lblTitle.text = "You're"
+        lblTitle.textAlignment = .Center
+        lblTitle.font = UIFont(name: lblTitle.font.fontName, size: 30)
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+		let lblNoun = LTMorphingLabel()
+		lblNoun.text = Collector.Instance().getNoun()
+        lblNoun.textAlignment = .Center
 
-    /*
-    // MARK: - Navigation
+		let lblAdjective = LTMorphingLabel()
+		lblAdjective.text = Collector.Instance().getAdjective()
+        lblAdjective.textAlignment = .Center
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+		let lblAnotherExtra = LTMorphingLabel()
+        lblAnotherExtra.text = Collector.Instance().getAnotherExtra()
+        lblAnotherExtra.textAlignment = .Center
+
+		let lblExtra = LTMorphingLabel()
+        lblExtra.text = Collector.Instance().getExtra()
+        lblExtra.textAlignment = .Center
+
+		let mainStackView = UIStackView(arrangedSubviews: [lblTitle, lblNoun, lblAdjective, lblAnotherExtra, lblExtra])
+
+		mainStackView.axis = .Vertical
+		mainStackView.spacing = 10
+		view.addSubview(mainStackView)
+		mainStackView.snp_makeConstraints { (make) in
+			make.center.equalTo(view)
+		}
+
+		// Do any additional setup after loading the view.
+	}
+
+	override func didReceiveMemoryWarning() {
+		super.didReceiveMemoryWarning()
+		// Dispose of any resources that can be recreated.
+	}
+
+	/*
+	 // MARK: - Navigation
+
+	 // In a storyboard-based application, you will often want to do a little preparation before navigation
+	 override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+	 // Get the new view controller using segue.destinationViewController.
+	 // Pass the selected object to the new view controller.
+	 }
+	 */
 
 }

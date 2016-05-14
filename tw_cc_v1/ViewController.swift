@@ -12,8 +12,8 @@ import PermissionScope
 
 class ViewController: UIViewController, UITextFieldDelegate {
 
-    let pscope = PermissionScope()
-    
+	let pscope = PermissionScope()
+
 	let FORM_TIMER_NAME = "MainForm"
 
 	// Pole vsech UITextField ve formalu.
@@ -65,7 +65,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
 			createStackHorizontalLine("PSČ"),
 			btnSend])
 
-        
 		mainStackView.axis = .Vertical
 		mainStackView.spacing = 10
 		self.view.addSubview(mainStackView)
@@ -79,27 +78,27 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		if (isHealkitAvailable) {
 			healtkit.authorizePermission()
 		}
-        
-        pscope.headerLabel.text = "Ješte jedna věc"
-        pscope.bodyLabel.text = "Potřebujeme pár věcí než začneme"
+
+		pscope.headerLabel.text = "Ješte jedna věc"
+		pscope.bodyLabel.text = "Potřebujeme pár věcí než začneme"
 	}
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-        
-        // Set up permissions
-        pscope.addPermission(ContactsPermission(),
-                             message: "Kouknem se kolik máš kamarádů")
-        pscope.addPermission(LocationWhileInUsePermission(),
-                             message: "Uvidíme kde jsi")
-        
-        // Show dialog with callbacks
-        pscope.show({ finished, results in
-            print("got results \(results)")
-            }, cancelled: { (results) -> Void in
-                print("thing was cancelled")
-        })   
-        
+
+		// Set up permissions
+		pscope.addPermission(ContactsPermission(),
+			message: "Kouknem se kolik máš kamarádů")
+		pscope.addPermission(LocationWhileInUsePermission(),
+			message: "Uvidíme kde jsi")
+
+		// Show dialog with callbacks
+		pscope.show({ finished, results in
+			print("got results \(results)")
+			}, cancelled: { (results) -> Void in
+			print("thing was cancelled")
+		})
+
 		gyroscope.startMotionCollection()
 
 		self.sendButton.addTarget(self, action: #selector(sendForm(_:)), forControlEvents: .TouchUpInside)
@@ -149,22 +148,25 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 		self.navigationController?.pushViewController(ResultController(), animated: true)
 	}
-    
-    func textFieldDidEndEditing(textField: UITextField) {
-        let fieldLabel = textField.superview?.subviews.first as! UILabel
-        
-        let collector = Collector.Instance()
-        collector.gyroscope.startGyroCollection()
-        collector.gyroData.append(collector.gyroscope.getAverageGyroData()!)
-        collector.timer.getOrCreate(fieldLabel.text!).stop()
-    }
-    
-    func textFieldDidBeginEditing(textField: UITextField) {
-        let fieldLabel = textField.superview?.subviews.first as! UILabel
-        
-        Collector.Instance().gyroscope.startGyroCollection()
-        Collector.Instance().timer.getOrCreate(fieldLabel.text!).start()
-    }
+
+	func textFieldDidEndEditing(textField: UITextField) {
+		let fieldLabel = textField.superview?.subviews.first as! UILabel
+
+		let collector = Collector.Instance()
+		collector.timer.getOrCreate(fieldLabel.text!).stop()
+
+		collector.gyroscope.startGyroCollection()
+		if let gyroscopeData = collector.gyroscope.getAverageGyroData() {
+			collector.gyroData.append(gyroscopeData)
+		}
+	}
+
+	func textFieldDidBeginEditing(textField: UITextField) {
+		let fieldLabel = textField.superview?.subviews.first as! UILabel
+
+		Collector.Instance().gyroscope.startGyroCollection()
+		Collector.Instance().timer.getOrCreate(fieldLabel.text!).start()
+	}
 
 	// for diasble editing of textField when clicked somewhere else
 	func tap(gesture: UITapGestureRecognizer) {

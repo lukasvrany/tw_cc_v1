@@ -1,13 +1,16 @@
 PODS:
+  - LTMorphingLabel (0.2.0)
   - PermissionScope (1.0.2)
-  - SnapKit (0.20.0)
+  - SnapKit (0.21.0)
 
 DEPENDENCIES:
+  - LTMorphingLabel
   - PermissionScope
   - SnapKit (~> 0.20)
 
 SPEC CHECKSUMS:
+  LTMorphingLabel: 490aa8e079f9247c7f3130f7d4b1be1d66677377
   PermissionScope: 860828c5516d349b6f49e5491799cfef33c5ccc7
-  SnapKit: 5fce3c1bbbf1fbd31de9aa92f33eb9fa03f15650
+  SnapKit: 2756fe24b706367af224c9c508d2f9166d03354c
 
 COCOAPODS: 0.39.0
