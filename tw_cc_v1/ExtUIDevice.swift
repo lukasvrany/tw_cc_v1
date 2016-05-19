@@ -142,11 +142,11 @@ public extension UIDevice {
 		return carrierName
 	}
 
-	var connectedAppleWatch: String {
+	var isConnectedAppleWatch: Bool {
 		if (WCSession.defaultSession().paired) {
-			return "Connected"
+			return true
 		} else {
-			return "No"
+			return false
 		}
 	}
 }

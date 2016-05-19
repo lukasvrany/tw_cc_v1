@@ -57,8 +57,8 @@ class DeviceInfo {
 		return device.cellularProvider
 	}
 
-	func getAppleWatch() -> String {
-		return device.connectedAppleWatch
+	func getAppleWatch() -> Bool {
+		return device.isConnectedAppleWatch
 	}
 
 	private func getBatteryInfo() -> (value: String, state: String) {
