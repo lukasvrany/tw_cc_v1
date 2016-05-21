@@ -8,17 +8,18 @@
 
 import Foundation
 import UIKit
+import LTMorphingLabel
 
-class ResultTableViewCell: UITableViewCell {
+class ResultTableViewCell: UITableViewCell, LTMorphingLabelDelegate {
 
-	weak var lblName: UILabel!
-	weak var lblValue: UILabel!
+	weak var lblName: LTMorphingLabel!
+	weak var lblValue: LTMorphingLabel!
 
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-		let name = UILabel()
-		let value = UILabel()
+		let name = LTMorphingLabel()
+		let value = LTMorphingLabel()
         
         value.textAlignment = .Right
         value.setContentCompressionResistancePriority(1500, forAxis: .Horizontal)
