@@ -22,7 +22,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	// Array obsahuje dalsi pole s ruznymi druhy informaci
 	var allInformations = [String: [String: String]]()
 	var motionInformations = [String: String]()
-	var copyAndPaseInformations = [String: String]()
+	var copyAndPaseInformations = [String: Bool]()
 
 	var timers = TimersManager()
 
@@ -129,7 +129,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		txt.delegate = self
 		txt.borderStyle = .RoundedRect
 		allTextFields[name] = txt
-		copyAndPaseInformations[name] = "No"
+		copyAndPaseInformations[name] = false
 
 		let stackView = UIStackView(arrangedSubviews: [lbl, txt])
 		stackView.axis = .Horizontal
@@ -183,7 +183,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		// Here we check if the replacement text is equal to the string we are currently holding in the paste board
 		if (UIPasteboard.generalPasteboard().string == string) {
 			let fieldLabel = textField.superview?.subviews.first as! UILabel
-			copyAndPaseInformations[fieldLabel.text!] = "Yes"
+			copyAndPaseInformations[fieldLabel.text!] = true
 		}
 
 		return true;

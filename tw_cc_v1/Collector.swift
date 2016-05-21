@@ -50,83 +50,73 @@ class Collector {
 		return x > 0.25 || y > 0.25 || z > 0.25
 	}
 
-	func isRich() -> Bool {
-		switch (device.getModel()) {
-		case "iPhone 6s Plus", "iPhone 6s":
-			return true
-		default:
-			return false
-		}
-	}
-
-	func hasLowBattery() -> Bool {
-		return Double(device.getBatteryValue()) < 15
-	}
-
 	func isSlow() -> Bool {
 		let total = timer.namelessTimers.reduce(0, combine: { $0 + $1.count }) / Double(timer.namelessTimers.count)
 		return total > 60
 	}
 
-	func isFast() -> Bool {
+    func isFast(limit:Double = 20) -> Bool {
 		let total = timer.namelessTimers.reduce(0, combine: { $0 + $1.count }) / Double(timer.namelessTimers.count)
-		return total > 20
+		return total > limit
 	}
 
 	func hasAlzheimer() -> Bool {
 		return isSlow() && isNervous()
 	}
 
-	func evaluation() -> String {
-		print()
-		let noun = getNoun()
-		let adjective = getAdjective()
-		let anotherExtra = getAnotherExtra()
-		let extra = getExtra()
-
-		let set = NSCharacterSet(charactersInString: " .")
-
-		return "\(adjective) \(noun) \(extra) \(anotherExtra)".stringByTrimmingCharactersInSet(set)
-	}
-
-	func getNoun() -> String {
-		return isFast() ? "speedster" : (isSlow() ? "grandma" : "man")
-	}
-
-	func getAdjective() -> String {
-		return isRich() ? "wealthy" : "pink-collar"
-	}
-
-	func getAnotherExtra() -> String {
-		return hasLowBattery() ? "who's got almost no battery" : ""
-	}
-
-	func getExtra() -> String {
-		return hasAlzheimer() ? "with alzheimer" : ""
-	}
-
-	// Nove rozhrani
+    
+    func behaviourBySpeed() {
+        if isFast() {
+            positive.append(behaviour(desc: "Jseš rychlej", coef: 1))
+            addPositive("Jseš rychlej", coef: 1)
+        }
+        
+        if isSlow() {
+            addNegative("Jseš pomalej", coef: 2)
+            addNegative("Nevíš kde bydlíš", coef: 3)
+        }
+        
+        if isFast(5) {
+            addNegative("Jdeš ryhlej a podezřelej", coef: 5)
+        }
+        
+        if isFast(1) {
+            addNegative("Podvádíš", coef: 15)
+        }
+    }
+    
+    func behaviourByGyroscope(){
+        if isNervous() {
+            addNegative("Jsi nervózní", coef: 7)
+        }
+    }
+    
+    func behaviourBySpeedAndGyroscope() {
+        if hasAlzheimer() {
+            addNegative("Máš alzheimera", coef: 5)
+        }
+    }
 
 	func behaviourByPhoneModel() {
 
 		switch device.getModel() {
 		case "iPod Touch 5", "iPod Touch 6":
-			positive.append(behaviour(desc: "Jsi muzikofil", coef: 2))
+            addPositive("Jsi muzikofil", coef: 2)
 		case "iPhone 4", "iPhone 4s", "iPhone 5", "iPad 2":
-			negative.append(behaviour(desc: "Jsi chudý", coef: -5))
+            addNegative("Jsi chudý", coef: 5)
 		case "iPhone 5c":
-			positive.append(behaviour(desc: "Jsi veselý", coef: 2))
+            addPositive("Jsi veselý", coef: 2)
 		case "iPhone 5s": break
 		case "iPhone 6": break
 		case "iPhone 6 Plus":
-			positive.append(behaviour(desc: "Máš velké ruce", coef: 1))
+            addPositive("Máš velké ruce", coef: 1)
 		case "iPhone 6s":
-			positive.append(behaviour(desc: "Jsi bohatý", coef: 8))
+            addPositive("Jsi bohatý", coef: 8)
 		case "iPhone 6s Plus":
-			positive.append(behaviour(desc: "Jsi bohatý", coef: 10))
-			positive.append(behaviour(desc: "Máš velké ruce", coef: 1))
+            addPositive("Jsi bohatý", coef: 10)
+            addPositive("Máš velké ruce", coef: 1)
 		case "iPhone SE":
-			positive.append(behaviour(desc: "Máš malé ruce", coef: 1))
+            addPositive("Máš malé ruce", coef: 1)
 		case "iPad 3": break
 		case "iPad 4": break
 		case "iPad Air": break
@@ -136,7 +126,7 @@ class Collector {
 		case "iPad Mini 3": break
 		case "iPad Mini 4": break
 		case "iPad Pro":
-			positive.append(behaviour(desc: "Jsi hodně bohatý", coef: 15))
+            addPositive("Jsi hodně bohatý", coef: 15)
 		case "Apple TV": break;
 		case "Simulator": break
 		default: break
@@ -146,32 +136,43 @@ class Collector {
 	func behaviourByiOsVersion() {
 
 		if device.getiOsVersion().rangeOfString("9.") == nil {
-			negative.append(behaviour(desc: "Jdi nezodpovědný", coef: 5))
-			negative.append(behaviour(desc: "Jdi líný", coef: 5))
+            addNegative("Jsi nezodpovědný", coef: 5)
+            addNegative("Jsi líný", coef: 5)
 		}
 	}
 
 	func behaviourByBattery() {
 		if Double(device.getBatteryValue()) < 15 {
 			negative.append(behaviour(desc: "Náš vybitej mobil", coef: 3))
+            addNegative("Náš vybitej mobil", coef: 3)
 		}
 	}
 
 	func behaviourByCellular() {
 		if device.getCellularProvider().rangeOfString("O2") != nil {
-			negative.append(behaviour(desc: "O2 nic moc ", coef: 1))
+			addNegative("O2 nic moc", coef: 1)
 		} else if device.getCellularProvider().rangeOfString("Vodafone") != nil {
-			negative.append(behaviour(desc: "Vodafone nic moc ", coef: 1))
+			addNegative("Vodafone nic moc", coef: 1)
 		} else if device.getCellularProvider().rangeOfString("T-Mobile") != nil {
-			negative.append(behaviour(desc: "T-Mobile nic moc ", coef: 1))
+            addNegative("T-Mobile nic moc", coef: 1)
 		}
 	}
 
 	func behaviourByAppleWatch() {
 		if device.getAppleWatch() {
-			positive.append(behaviour(desc: "Máš style", coef: 4))
-			negative.append(behaviour(desc: "Rád utrácíš za zbytečnosti", coef: 6))
-		}
+            addPositive("Máš style", coef: 4)
+            addNegative("Rád utrácíš za zbytečnosti", coef: 6)
+        } else {
+            addPositive("Neutrácíš za zbytečnosti", coef: 2)
+        }
 	}
+    
+    private func addPositive(desc:String, coef:Int) {
+        positive.append(behaviour(desc: desc, coef: coef))
+    }
+    
+    private func addNegative(desc:String, coef:Int) {
+        negative.append(behaviour(desc: desc, coef: coef))
+    }
 
 }
