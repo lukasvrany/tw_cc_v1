@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'D5D935479710C175E643355F'
-               BlueprintName = 'SnapKit'
+               BlueprintIdentifier = 'EBF8A3462D2BC48B73E29DB1'
+               BlueprintName = 'SwiftJavascriptBridge-SwiftJavascriptBridge'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'SnapKit.framework'>
+               BuildableName = 'SwiftJavascriptBridge.bundle'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
