@@ -2,30 +2,15 @@ PODS:
   - LTMorphingLabel (0.2.0)
   - PermissionScope (1.0.2)
   - SnapKit (0.21.0)
-  - SwiftJavascriptBridge (1.1.0)
-  - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
   - LTMorphingLabel
   - PermissionScope
   - SnapKit (~> 0.20)
-  - SwiftJavascriptBridge
-  - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`)
-
-EXTERNAL SOURCES:
-  SwiftyJSON:
-    :git: https://github.com/SwiftyJSON/SwiftyJSON.git
-
-CHECKOUT OPTIONS:
-  SwiftyJSON:
-    :commit: 2a5b70f06001316d4fb54501edc70b4084705da0
-    :git: https://github.com/SwiftyJSON/SwiftyJSON.git
 
 SPEC CHECKSUMS:
   LTMorphingLabel: 490aa8e079f9247c7f3130f7d4b1be1d66677377
   PermissionScope: 860828c5516d349b6f49e5491799cfef33c5ccc7
   SnapKit: 2756fe24b706367af224c9c508d2f9166d03354c
-  SwiftJavascriptBridge: 79a3229ee4ae6c833c881c87d54bf361b3c91b53
-  SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
 COCOAPODS: 0.39.0

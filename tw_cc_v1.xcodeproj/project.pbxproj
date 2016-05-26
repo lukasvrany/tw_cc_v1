@@ -15,7 +15,6 @@
 		2F165C071CC6B9DA007F03D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F165C051CC6B9DA007F03D5 /* LaunchScreen.storyboard */; };
 		2F165C0F1CC6C200007F03D5 /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F165C0E1CC6C200007F03D5 /* DeviceInfo.swift */; };
 		2F165C111CC6C2D0007F03D5 /* ExtUIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F165C101CC6C2D0007F03D5 /* ExtUIDevice.swift */; };
-		2F32DA281CF4EA7C0020860A /* Nikita.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F32DA271CF4EA7C0020860A /* Nikita.swift */; };
 		2F87D68D1CC971DC00987EFD /* ResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87D68C1CC971DC00987EFD /* ResultTableViewCell.swift */; };
 		2F87D68F1CCD031F00987EFD /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87D68E1CCD031F00987EFD /* Timer.swift */; };
 		2F87D6911CCD0B5100987EFD /* TimersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87D6901CCD0B5100987EFD /* TimersManager.swift */; };
@@ -47,7 +46,6 @@
 		2F165C081CC6B9DA007F03D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2F165C0E1CC6C200007F03D5 /* DeviceInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
 		2F165C101CC6C2D0007F03D5 /* ExtUIDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtUIDevice.swift; sourceTree = "<group>"; };
-		2F32DA271CF4EA7C0020860A /* Nikita.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nikita.swift; sourceTree = "<group>"; };
 		2F87D68C1CC971DC00987EFD /* ResultTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTableViewCell.swift; sourceTree = "<group>"; };
 		2F87D68E1CCD031F00987EFD /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		2F87D6901CCD0B5100987EFD /* TimersManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimersManager.swift; sourceTree = "<group>"; };
@@ -142,7 +140,6 @@
 				2F87D6901CCD0B5100987EFD /* TimersManager.swift */,
 				A28253D31CCD83BA00D7A679 /* HealKitData.swift */,
 				A5E3DF291CE3740000B2FE7C /* Collector.swift */,
-				2F32DA271CF4EA7C0020860A /* Nikita.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -324,7 +321,6 @@
 				A504D1971CE51F34003DED9E /* ResultController.swift in Sources */,
 				2F87D68D1CC971DC00987EFD /* ResultTableViewCell.swift in Sources */,
 				2F87D6911CCD0B5100987EFD /* TimersManager.swift in Sources */,
-				2F32DA281CF4EA7C0020860A /* Nikita.swift in Sources */,
 				2F165C021CC6B9DA007F03D5 /* tw_cc_v1.xcdatamodeld in Sources */,
 				2F165C111CC6C2D0007F03D5 /* ExtUIDevice.swift in Sources */,
 				A53ABBE51CF7765C00DB1E4F /* ProgressController.swift in Sources */,

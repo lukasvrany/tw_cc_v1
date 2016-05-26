@@ -13,12 +13,12 @@ import UIKit
 struct behaviour {
 	var destricption: String
 	var coeficient: Int
-    
-    var image :UIImage {
-        get{
-            return (coeficient > 0 ? UIImage(named: "positive") : UIImage(named: "negative"))!
-        }
-    }
+
+	var image: UIImage {
+		get {
+			return (coeficient > 0 ? UIImage(named: "positive") : UIImage(named: "negative"))!
+		}
+	}
 
 	init(desc: String, coef: Int) {
 		self.destricption = desc
@@ -59,7 +59,7 @@ class Collector {
 		return total > 60
 	}
 
-	func isFast(limit: Double = 20) -> Bool {
+	func isFast(limit: Double) -> Bool {
 		let total = timer.namelessTimers.reduce(0, combine: { $0 + $1.count }) / Double(timer.namelessTimers.count)
 		return total < limit
 	}
@@ -84,7 +84,12 @@ class Collector {
 	}
 
 	func behaviourBySpeed() {
-		if isFast() {
+
+		if isFast(1) {
+			addBehaviour("Podvádíš", coef: -15)
+		} else if isFast(5) {
+			addBehaviour("Jsi podezřele rychlej", coef: -5)
+		} else if isFast(20) {
 			addBehaviour("Jseš rychlej", coef: 1)
 		}
 
@@ -93,13 +98,6 @@ class Collector {
 			addBehaviour("Nevíš kde bydlíš", coef: -3)
 		}
 
-		if isFast(5) {
-			addBehaviour("Jdeš ryhlej a podezřelej", coef: -5)
-		}
-
-		if isFast(1) {
-			addBehaviour("Podvádíš", coef: -15)
-		}
 	}
 
 	func behaviourByGyroscope() {
