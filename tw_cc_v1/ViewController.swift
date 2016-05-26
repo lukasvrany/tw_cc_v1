@@ -52,9 +52,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         self.navigationController?.navigationBarHidden = false
 		self.view.backgroundColor = UIColor.whiteColor()
-		self.title = "Formulář"
+		self.title = "Ověř si kámoše"
 
-        let textLabel = UILabel()
+        /*let textLabel = UILabel()
         textLabel.text = "Nechej kámoše vyplnit pár informací"
         textLabel.textColor = UIColor.blackColor()
         textLabel.numberOfLines = 1
@@ -65,7 +65,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             make.leading.equalTo(10)
             make.trailing.equalTo(-10)
             make.top.equalTo(self.snp_topLayoutGuideBottom).offset(30)
-        }
+        }*/
         
 		let btnSend = UIButton()
 		btnSend.setTitle("Send", forState: .Normal)
@@ -75,21 +75,25 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
 		self.sendButton = btnSend
 
-		let mainStackView = UIStackView(arrangedSubviews: [createStackHorizontalLine("Jmeno"),
-			createStackHorizontalLine("Prijmeni"),
+		let mainStackView = UIStackView(arrangedSubviews: [
+            createStackHorizontalLine("Jmeno"),
 			createStackHorizontalLine("Adresa"),
 			createStackHorizontalLine("Mesto"),
+            createStackHorizontalLine("PSČ"),
+            createStackHorizontalLine("Tel"),
+            createStackHorizontalLine("Mail"),
+            createStackHorizontalLine("Pujcka"),
 			btnSend])
 
 		mainStackView.axis = .Vertical
-		mainStackView.spacing = 30
+		mainStackView.spacing = 20
 		self.view.addSubview(mainStackView)
 		mainStackView.snp_makeConstraints { make in
             //make.edges.equalTo(self.view)
             
 			make.leading.equalTo(10)
 			make.trailing.equalTo(-10)
-			make.top.equalTo(textLabel.snp_bottom).offset(30)
+			make.top.equalTo(snp_topLayoutGuideBottom).offset(20)
             make.bottom.lessThanOrEqualTo(self.view.snp_bottom).offset(-10)
 		}
 
@@ -151,7 +155,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		stackView.spacing = 10
 
         txt.snp_makeConstraints { (make) in
-            make.height.equalTo(50)
+            make.height.equalTo(40)
         }
         
 		return stackView
@@ -165,7 +169,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
 			motionInformations["user position"] = (motionResults.roll > 1.5) ? "mostly lying" : "mostly standing"
 		}
         
-		self.navigationController?.pushViewController(ProgressController(), animated: true)
+        let progressController = ProgressController()
+        progressController.name = allTextFields["Jmeno"]!.text
+        progressController.address = allTextFields["Adresa"]!.text
+        progressController.city = allTextFields["Mesto"]!.text
+        progressController.zip = allTextFields["PSČ"]!.text
+        progressController.phone = allTextFields["Tel"]!.text
+        progressController.price = allTextFields["Pujcka"]!.text
+        progressController.mail = allTextFields["Mail"]!.text
+		self.navigationController?.pushViewController(progressController, animated: true)
 	}
 
 	func textFieldDidEndEditing(textField: UITextField) {
