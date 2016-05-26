@@ -184,11 +184,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tw_cc_v1/Collector.swift"
-            timestampString = "484778641.175855"
+            timestampString = "485879456.884314"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
             landmarkName = "isSlow()"
             landmarkType = "5">
          </BreakpointContent>

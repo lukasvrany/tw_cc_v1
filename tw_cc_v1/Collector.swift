@@ -13,6 +13,12 @@ import UIKit
 struct behaviour {
 	var destricption: String
 	var coeficient: Int
+    
+    var image :UIImage {
+        get{
+            return (coeficient > 0 ? UIImage(named: "positive") : UIImage(named: "negative"))!
+        }
+    }
 
 	init(desc: String, coef: Int) {
 		self.destricption = desc
