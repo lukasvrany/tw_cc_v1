@@ -9,6 +9,7 @@
 import UIKit
 import SnapKit
 import WebKit
+import SwiftyJSON
 
 class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessageHandler {
 
@@ -46,10 +47,10 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 			make.leading.equalTo(10)
 			make.trailing.equalTo(-10)
 		}
-
+        /*
 		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ProgressController.results))
 		view.addGestureRecognizer(tapGesture)
-
+         */
 		sendRequestToNikita()
 
 	}
@@ -103,21 +104,23 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 		let jsonString = String(message.body)
 		print(jsonString)
 		let data: NSData = jsonString.dataUsingEncoding(NSUTF8StringEncoding)!
-		do {
-			let json = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
-
-			if let id = json["id"] as? String {
+			let json = JSON(data: data)
+            
+			if let id = json["id"].string {
 				print("check response")
 				print(id)
-				// zpracovani
-			} else if let id = json["transaction_id"] as? String {
+                
+			} else if let id = json["transaction_id"].string {
 				print("submit response")
 				self.webView!.evaluateJavaScript("checkResult();", completionHandler: nil)
-			}
-
-		} catch {
-			print("error serializing JSON: \(error)")
-		}
+                
+                //asi jeste nejake overeni odpovedi
+                results()
+            } else {
+                Collector.Instance().response_customer = json["customer"]
+                Collector.Instance().response_customer = json["order"]
+                navigationController?.popViewControllerAnimated(true)
+            }
 
 		print("konec")
 

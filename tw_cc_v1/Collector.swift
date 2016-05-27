@@ -9,6 +9,7 @@
 import Foundation
 import CoreMotion
 import UIKit
+import SwiftyJSON
 
 struct behaviour {
 	var destricption: String
@@ -38,6 +39,10 @@ class Collector {
 	var gyroData = [CMRotationRate]()
 
 	var behaviours = [behaviour]()
+    
+    
+    var response_customer : JSON?
+    var response_order: JSON?
 
 	private init() { }
 

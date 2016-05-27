@@ -19,6 +19,8 @@ class ResultController: UIViewController, UITableViewDelegate, LTMorphingLabelDe
     
     override func loadView() {
         super.loadView()
+        self.title = "Výsledek"
+        self.navigationItem.setHidesBackButton(true, animated:false);
         self.view.backgroundColor = UIColor.whiteColor()
         
         let titleLabel = UILabel()
