@@ -50,28 +50,36 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	override func loadView() {
 		super.loadView()
 
+		self.navigationController?.navigationBarHidden = false
 		self.view.backgroundColor = UIColor.whiteColor()
-		self.title = "Registrace"
+		self.title = "Prověř si mě"
 
 		let btnSend = UIButton()
-		btnSend.setTitle("Send", forState: .Normal)
-		btnSend.backgroundColor = UIColor.redColor()
+		btnSend.setTitle("Proklepnout", forState: .Normal)
+		btnSend.backgroundColor = UIColor(netHex: 0x60cb54)
+		btnSend.snp_makeConstraints { (make) in
+			make.height.equalTo(50)
+		}
 		self.sendButton = btnSend
 
-		let mainStackView = UIStackView(arrangedSubviews: [createStackHorizontalLine("Jmeno"),
-			createStackHorizontalLine("Prijmeni"),
+		let mainStackView = UIStackView(arrangedSubviews: [
+			createStackHorizontalLine("Jmeno"),
 			createStackHorizontalLine("Adresa"),
 			createStackHorizontalLine("Mesto"),
 			createStackHorizontalLine("PSČ"),
+			createStackHorizontalLine("Tel"),
+			createStackHorizontalLine("Mail"),
+			createStackHorizontalLine("Pujcka"),
 			btnSend])
 
 		mainStackView.axis = .Vertical
-		mainStackView.spacing = 10
+		mainStackView.spacing = 20
 		self.view.addSubview(mainStackView)
 		mainStackView.snp_makeConstraints { make in
 			make.leading.equalTo(10)
 			make.trailing.equalTo(-10)
-			make.top.equalTo(self.snp_topLayoutGuideBottom).offset(10)
+			make.top.equalTo(snp_topLayoutGuideBottom).offset(20)
+			make.bottom.lessThanOrEqualTo(self.view.snp_bottom).offset(-10)
 		}
 
 		let isHealkitAvailable = healtkit.healkitIsAvailable()
@@ -119,21 +127,21 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	}
 
 	private func createStackHorizontalLine(name: String) -> UIStackView {
-		let lbl = UILabel()
-		lbl.text = name
-		lbl.snp_makeConstraints { make in
-			make.width.equalTo(80)
-		}
 
-		let txt = UITextField()
+		let txt = TwistoInput()
 		txt.delegate = self
-		txt.borderStyle = .RoundedRect
+		txt.designer()
+		txt.placeholder = name
 		allTextFields[name] = txt
 		copyAndPaseInformations[name] = false
 
-		let stackView = UIStackView(arrangedSubviews: [lbl, txt])
+		let stackView = UIStackView(arrangedSubviews: [txt])
 		stackView.axis = .Horizontal
 		stackView.spacing = 10
+
+		txt.snp_makeConstraints { (make) in
+			make.height.equalTo(40)
+		}
 
 		return stackView
 	}
@@ -146,14 +154,21 @@ class ViewController: UIViewController, UITextFieldDelegate {
 			motionInformations["user position"] = (motionResults.roll > 1.5) ? "mostly lying" : "mostly standing"
 		}
 
-		self.navigationController?.pushViewController(ResultController(), animated: true)
+		let progressController = ProgressController()
+		progressController.name = allTextFields["Jmeno"]!.text
+		progressController.address = allTextFields["Adresa"]!.text
+		progressController.city = allTextFields["Mesto"]!.text
+		progressController.zip = allTextFields["PSČ"]!.text
+		progressController.phone = allTextFields["Tel"]!.text
+		progressController.price = allTextFields["Pujcka"]!.text
+		progressController.mail = allTextFields["Mail"]!.text
+		self.navigationController?.pushViewController(progressController, animated: true)
 	}
 
 	func textFieldDidEndEditing(textField: UITextField) {
-		let fieldLabel = textField.superview?.subviews.first as! UILabel
 
 		let collector = Collector.Instance()
-		collector.timer.getOrCreate(fieldLabel.text!).stop()
+		collector.timer.getOrCreate(textField.placeholder!).stop()
 
 		collector.gyroscope.startGyroCollection()
 		if let gyroscopeData = collector.gyroscope.getAverageGyroData() {
@@ -162,10 +177,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	}
 
 	func textFieldDidBeginEditing(textField: UITextField) {
-		let fieldLabel = textField.superview?.subviews.first as! UILabel
-
+		print(textField.placeholder!)
 		Collector.Instance().gyroscope.startGyroCollection()
-		Collector.Instance().timer.getOrCreate(fieldLabel.text!).start()
+		Collector.Instance().timer.getOrCreate(textField.placeholder!)
 	}
 
 	// for diasble editing of textField when clicked somewhere else
@@ -182,8 +196,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
 		// Here we check if the replacement text is equal to the string we are currently holding in the paste board
 		if (UIPasteboard.generalPasteboard().string == string) {
-			let fieldLabel = textField.superview?.subviews.first as! UILabel
-			copyAndPaseInformations[fieldLabel.text!] = true
+			let fieldLabel = textField.superview?.subviews.first as! TwistoInput
+			copyAndPaseInformations[fieldLabel.placeholder!] = true
 		}
 
 		return true;
