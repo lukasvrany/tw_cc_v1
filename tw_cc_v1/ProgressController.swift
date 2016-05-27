@@ -32,6 +32,13 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 		super.viewDidLoad()
 		self.title = "Vyhodnocování"
 		self.view.backgroundColor = UIColor.whiteColor()
+        self.navigationItem.setHidesBackButton(true, animated:false)
+        
+        let profile: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "rightIcon")!, style: UIBarButtonItemStyle.Plain, target: self, action: nil)
+        self.navigationItem.setRightBarButtonItem(profile, animated: true)
+        
+        let more: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "leftIcon")!, style: UIBarButtonItemStyle.Plain, target: self, action: nil)
+        self.navigationItem.setLeftBarButtonItem(more, animated: true)
 
 		timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: "rotateWheel", userInfo: nil, repeats: true)
 

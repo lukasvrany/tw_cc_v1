@@ -20,8 +20,14 @@ class ResultController: UIViewController, UITableViewDelegate, LTMorphingLabelDe
     override func loadView() {
         super.loadView()
         self.title = "Výsledek"
-        self.navigationItem.setHidesBackButton(true, animated:false);
+        self.navigationItem.setHidesBackButton(true, animated:false)
         self.view.backgroundColor = UIColor.whiteColor()
+        
+        let profile: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "rightIcon")!, style: UIBarButtonItemStyle.Plain, target: self, action: nil)
+        self.navigationItem.setRightBarButtonItem(profile, animated: true)
+        
+        let more: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "leftIcon")!, style: UIBarButtonItemStyle.Plain, target: self, action: nil)
+        self.navigationItem.setLeftBarButtonItem(more, animated: true)
         
         let titleLabel = UILabel()
         titleLabel.text = "Vyhodnocení"
