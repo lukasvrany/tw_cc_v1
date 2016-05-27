@@ -34,16 +34,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 	override func viewWillDisappear(animated: Bool) {
 		gyroscope.pauseGyroCollection()
-		gyroscope.pauseMotionCollection()
 	}
 
 	override func viewWillAppear(animated: Bool) {
 		if gyroscope.gyroGathering {
 			gyroscope.startGyroCollection()
-		}
-
-		if gyroscope.motionGathering {
-			gyroscope.startMotionCollection()
 		}
 	}
 
@@ -163,11 +158,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 	func sendForm(sender: UIButton) {
 		timers.getOrCreate(FORM_TIMER_NAME).stop()
-
-		gyroscope.stopMotionCollection()
-		if let motionResults = gyroscope.getAverageMotionData() {
-			motionInformations["user position"] = (motionResults.roll > 1.5) ? "mostly lying" : "mostly standing"
-		}
+        
 		if areInputsFilled() {
 			let progressController = ProgressController()
 			progressController.name = allTextFields["Jmeno"]!.text
