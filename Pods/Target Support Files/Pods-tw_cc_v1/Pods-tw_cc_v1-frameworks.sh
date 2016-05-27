@@ -87,9 +87,11 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-tw_cc_v1/LTMorphingLabel.framework"
   install_framework "Pods-tw_cc_v1/PermissionScope.framework"
   install_framework "Pods-tw_cc_v1/SnapKit.framework"
+  install_framework "Pods-tw_cc_v1/SwiftyJSON.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-tw_cc_v1/LTMorphingLabel.framework"
   install_framework "Pods-tw_cc_v1/PermissionScope.framework"
   install_framework "Pods-tw_cc_v1/SnapKit.framework"
+  install_framework "Pods-tw_cc_v1/SwiftyJSON.framework"
 fi

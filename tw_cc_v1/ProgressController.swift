@@ -47,10 +47,10 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 			make.leading.equalTo(10)
 			make.trailing.equalTo(-10)
 		}
-        /*
-		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ProgressController.results))
-		view.addGestureRecognizer(tapGesture)
-         */
+		/*
+		 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ProgressController.results))
+		 view.addGestureRecognizer(tapGesture)
+		 */
 		sendRequestToNikita()
 
 	}
@@ -96,6 +96,7 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 	func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
 
 		// when the webview has finished loading, send it a message via javascript
+		// First call Nikita
 		print("call")
 		self.webView!.evaluateJavaScript("submit('\(mail)', '\(name)', '\(price)', '\(address)', '\(city)', '\(zip)', '\(phone)');", completionHandler: nil)
 	}
@@ -104,23 +105,23 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 		let jsonString = String(message.body)
 		print(jsonString)
 		let data: NSData = jsonString.dataUsingEncoding(NSUTF8StringEncoding)!
-			let json = JSON(data: data)
-            
-			if let id = json["id"].string {
-				print("check response")
-				print(id)
-                
-			} else if let id = json["transaction_id"].string {
-				print("submit response")
-				self.webView!.evaluateJavaScript("checkResult();", completionHandler: nil)
-                
-                //asi jeste nejake overeni odpovedi
-                results()
-            } else {
-                Collector.Instance().response_customer = json["customer"]
-                Collector.Instance().response_customer = json["order"]
-                navigationController?.popViewControllerAnimated(true)
-            }
+		let json = JSON(data: data)
+
+		if json["id"].string != nil {
+			// Response from nikita
+			print("check response")
+			Collector.Instance().response_customer = json["customer"]
+			Collector.Instance().response_order = json["order"]
+			results()
+		} else if json["transaction_id"].string != nil {
+			// First response from nikita. If contains transaction_id then call is success, else fails
+			// Call checkRespons and get response from Nikita
+			print("submit response")
+			self.webView!.evaluateJavaScript("checkResult();", completionHandler: nil)
+		} else {
+			// Something goes wrong -> back to form or continue???
+			navigationController?.popViewControllerAnimated(true)
+		}
 
 		print("konec")
 
