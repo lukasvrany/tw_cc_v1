@@ -104,14 +104,14 @@ class Collector {
 
 	func behaviourScore() {
 		switch (response_info!["score"].int!) {
-		case 0..<350:
-			addBehaviour("", coef: 5)
-		case 350..<500:
-			addBehaviour("Podle Nikite je OK", coef: 5)
+		case 0..<200:
+			addBehaviour("Podle Nikite nic moc", coef: -5)
+		case 200..<500:
+			addBehaviour("Podle Nikite je OK", coef: 10)
 		case 500..<1000:
-			addBehaviour("Nikita: Klidně mu můžes půjčit", coef: 5)
+			addBehaviour("Podle Nikity super", coef: 15)
 		default:
-			addBehaviour("Nikita: Klidně mu můžes půjčit", coef: 5)
+			addBehaviour("Nikita neví", coef: -2)
 		}
 	}
 
@@ -123,19 +123,19 @@ class Collector {
 
 		switch (response_info!["rating"].string!) {
 		case "A":
-			addBehaviour("Podle Nikity má rating A", coef: 5)
+			addBehaviour("Podle Nikity má rating A", coef: 20)
 		case "B":
-			addBehaviour("Podle Nikity má rating B", coef: 5)
+			addBehaviour("Podle Nikity má rating B", coef: 10)
 		case "C":
-			addBehaviour("Podle Nikity má rating C", coef: 5)
+			addBehaviour("Podle Nikity má rating C", coef: 1)
 		case "D":
-			addBehaviour("Podle Nikity má rating D", coef: 5)
+			addBehaviour("Podle Nikity má rating D", coef: -5)
 		case "E":
-			addBehaviour("Podle Nikity má rating E", coef: 5)
+			addBehaviour("Podle Nikity má rating E", coef: -10)
 		case "N":
-			addBehaviour("Podle Nikity má rating N", coef: 5)
+			addBehaviour("Podle Nikity má rating N", coef: -10)
 		case "0":
-			addBehaviour("Podle Nikity má rating 0", coef: 5)
+			addBehaviour("Podle Nikity má rating 0", coef: -10)
 		default:
 			addBehaviour("Neznamý rating", coef: -5)
 		}
@@ -151,7 +151,7 @@ class Collector {
 		if flags["justicy"].bool == true {
 			addBehaviour("Má záznam v registru dlužníků", coef: -20)
 		} else {
-			addBehaviour("Nemá záznamu v registru dlužníků", coef: 5)
+			addBehaviour("Nemá záznamu v registru dlužníků", coef: 8)
 		}
 
 		if flags["invalid_address"].bool == true {
@@ -183,8 +183,8 @@ class Collector {
 		}
 
 		if isSlow() {
-			addBehaviour("Píše pěkně pomalu", coef: -2)
-			addBehaviour("Asi neví svojí adresu", coef: -3)
+			addBehaviour("Píše pěkně pomalu", coef: -1)
+			addBehaviour("Asi neví svojí adresu", coef: -1)
 		}
 
 	}
@@ -209,7 +209,7 @@ class Collector {
 		case "iPhone 4", "iPhone 4s", "iPhone 5", "iPad 2":
 			addBehaviour("Je chudý", coef: -5)
 		case "iPhone 5c":
-			addBehaviour("Je veselý", coef: 2)
+			addBehaviour("Je veselý", coef: 5)
 		case "iPhone 5s": break
 		case "iPhone 6": break
 		case "iPhone 6 Plus":
@@ -275,7 +275,7 @@ class Collector {
 			addBehaviour("Má style", coef: 4)
 			addBehaviour("Rád utrácí za zbytečnosti", coef: -6)
 		} else {
-			addBehaviour("Neutrácí za zbytečnosti", coef: 2)
+			addBehaviour("Neutrácí za zbytečnosti", coef: 5)
 		}
 	}
 
