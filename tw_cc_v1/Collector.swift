@@ -26,9 +26,10 @@ class Collector {
 
 	let gyroscope = Gyroscope()
 	let device = DeviceInfo()
-	let healthkit = HealKitData()
+	let healtkit = HealKitData()
 	let timer = TimersManager()
-
+   
+    
 	var gyroData = [CMRotationRate]()
 
 	var behaviours = [behaviour]()
@@ -67,6 +68,14 @@ class Collector {
 	}
 
 	func calculateBehaviour() {
+        
+        
+        let isHealkitAvailable = healtkit.healkitIsAvailable()
+        if (isHealkitAvailable){
+            healtkit.authorizePermission()
+            print(healtkit.getInformation())
+        }
+        
 		clearBehaviour()
 		behaviourBySpeed()
 		behaviourByBattery()

@@ -90,31 +90,6 @@ class HealKitData {
 		return "Unknow";
     }
 
-	func skinTypeLiteral(skinType: HKFitzpatrickSkinType?) -> String
-	{
-		if skinType != nil {
-
-			switch (skinType!) {
-			case .I:
-				return "I"
-			case .II:
-				return "II"
-			case .III:
-				return "III"
-			case .IV:
-				return "IV"
-			case .V:
-				return "V"
-			case .VI:
-				return "VI"
-			default:
-				break;
-			}
-		}
-
-		return "Unknow";
-	}
-	
     
    private func readDataFromHealkit()
 	{
@@ -126,10 +101,154 @@ class HealKitData {
 
 		let bloodType = try? healthKitStore.bloodType()
 		info["bloodType"] = bloodTypeLiteral(bloodType?.bloodType)
+        
+        
+        readWeight()
+        readHeight()
+//        readBMI()
+    }
+    
+//    private func readBMI()
+//    {
+//        var bmi:HKQuantitySample?
+//        
+//        let sampleType = HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMassIndex)
+//        
+//        self.readMostRecentSample(sampleType!, completion: { (mostRecentbmi, error) -> Void in
+//            
+//            if( error != nil )
+//            {
+//                print("Error reading weight from HealthKit Store: \(error.localizedDescription)")
+//                return;
+//            }
+//            
+//            var bmiLocalizedString = "Unknow"
+//            
+//            bmi = mostRecentbmi as? HKQuantitySample
+//            bmi?.quantity
+//            if let bmiValue = bmi?.quantity.doubleValueForUnit(HKUnit.weight()) {
+////                let formatter = NSFormatter
+////                formatter.forPersonHeightUse = true
+////                bmiLocalizedString = formatter.stringFrom
+//            }
+//            
+//            print(bmiLocalizedString)
+//        });
+//    }
+    
+    
+    private func readSexActivity()
+    {
+        var sex:HKQuantitySample?
+        
+        let sampleType = HKSampleType.quantityTypeForIdentifier(HKCategoryTypeIdentifierSexualActivity)
+        
+        self.readMostRecentSample(sampleType!, completion: { (mostRecentSex, error) -> Void in
+            
+            if( error != nil )
+            {
+                print("Error reading weight from HealthKit Store: \(error.localizedDescription)")
+                return;
+            }
+            
+            var weightLocalizedString = "Unknow"
+            
+            sex = mostRecentSex as? HKQuantitySample;
+//            sex?.quantity.
+//            if let kilograms = sex?.quantity.doubleValueForUnit(HKUnit.gramUnitWithMetricPrefix(.Kilo)) {
+//                let weightFormatter = NSMassFormatter()
+//                weightFormatter.forPersonMassUse = true;
+//                weightLocalizedString = weightFormatter.stringFromValue(kilograms, unit: NSMassFormatterUnit.Kilogram)
+//            }
+            
+            print(weightLocalizedString)
+        });
+    }
+    
+    private func readHeight()
+    {
+        var height:HKQuantitySample?
+        
+        let sampleType = HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeight)
+        
+        self.readMostRecentSample(sampleType!, completion: { (mostRecentHeight, error) -> Void in
+            
+            if( error != nil )
+            {
+                print("Error reading weight from HealthKit Store: \(error.localizedDescription)")
+                return;
+            }
+            
+            var heightLocalizedString = "Unknow"
+            
+            height = mostRecentHeight as? HKQuantitySample
+            if let meters = height?.quantity.doubleValueForUnit(HKUnit.meterUnit()) {
+                let heightFormatter = NSLengthFormatter()
+                heightFormatter.forPersonHeightUse = true
+                heightLocalizedString = heightFormatter.stringFromValue(meters, unit: NSLengthFormatterUnit.Centimeter)
+            }
+            
+            print(heightLocalizedString)
+        });
+    }
+    
+    private func readWeight()
+    {
+        var weight:HKQuantitySample?
+    
+        let sampleType = HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)
+        
+        self.readMostRecentSample(sampleType!, completion: { (mostRecentWeight, error) -> Void in
+            
+            if( error != nil )
+            {
+                print("Error reading weight from HealthKit Store: \(error.localizedDescription)")
+                return;
+            }
+            
+            var weightLocalizedString = "Unknow"
+            
+            weight = mostRecentWeight as? HKQuantitySample;
+            if let kilograms = weight?.quantity.doubleValueForUnit(HKUnit.gramUnitWithMetricPrefix(.Kilo)) {
+                let weightFormatter = NSMassFormatter()
+                weightFormatter.forPersonMassUse = true;
+                weightLocalizedString = weightFormatter.stringFromValue(kilograms, unit: NSMassFormatterUnit.Kilogram)
+            }
+            
+            print(weightLocalizedString)
+        });
+    }
+    
+    func readMostRecentSample(sampleType:HKSampleType , completion: ((HKSample!, NSError!) -> Void)!)
+    {
+        let past = NSDate.distantPast() 
+        let now   = NSDate()
+        
+        let mostRecentPredicate = HKQuery.predicateForSamplesWithStartDate(past, endDate:now, options: .None)
+        
+        let sortDescriptor = NSSortDescriptor(key:HKSampleSortIdentifierStartDate, ascending: false)
 
-		let skinType = try? healthKitStore.fitzpatrickSkinType()
-		info["skinType"] = skinTypeLiteral(skinType?.skinType)
-	}
+        let limit = 1
+        
+        let sampleQuery = HKSampleQuery(sampleType: sampleType, predicate: mostRecentPredicate, limit: limit, sortDescriptors: [sortDescriptor])
+        { (sampleQuery, results, error ) -> Void in
+            
+            if error != nil {
+                completion(nil,error)
+                return;
+            }
+            
+            // Get the first sample
+            let mostRecentSample = results!.first as? HKQuantitySample
+            
+            // Execute the completion closure
+            if completion != nil {
+                completion(mostRecentSample,nil)
+            }
+        }
+        
+        self.healthKitStore.executeQuery(sampleQuery)
+    }
 
 	func authorizePermission()
 	{
@@ -137,117 +256,44 @@ class HealKitData {
             /*--------------------------------------*/
             /*   HKCharacteristicType Identifiers   */
             /*--------------------------------------*/
-            HKObjectType.characteristicTypeForIdentifier(HKCharacteristicTypeIdentifierBiologicalSex)!,
-			HKObjectType.characteristicTypeForIdentifier(HKCharacteristicTypeIdentifierDateOfBirth)!,
-			HKObjectType.characteristicTypeForIdentifier(HKCharacteristicTypeIdentifierBloodType)!,
-			HKObjectType.characteristicTypeForIdentifier(HKCharacteristicTypeIdentifierFitzpatrickSkinType)!,
+            HKObjectType.characteristicTypeForIdentifier(HKCharacteristicTypeIdentifierBiologicalSex)!, // D
+			HKObjectType.characteristicTypeForIdentifier(HKCharacteristicTypeIdentifierDateOfBirth)!, // D
+			HKObjectType.characteristicTypeForIdentifier(HKCharacteristicTypeIdentifierBloodType)!, // D
 
 			// Body Measurements
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMassIndex)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyFatPercentage)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeight)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierLeanBodyMass)!,
+//            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMassIndex)!,
+            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeight)!, // D
+            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)!, // D
             
             // Fitness
             HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)!,
             HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDistanceWalkingRunning)!,
             HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDistanceCycling)!,
+            
             HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBasalEnergyBurned)!,
             HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierActiveEnergyBurned)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierFlightsClimbed)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierNikeFuel)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierAppleExerciseTime)!,
             
             // Vitals
             HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyTemperature)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBasalBodyTemperature)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBloodPressureSystolic)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBloodPressureDiastolic)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierRespiratoryRate)!,
-            
-            // Results
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierOxygenSaturation)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierPeripheralPerfusionIndex)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBloodGlucose)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierNumberOfTimesFallen)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierElectrodermalActivity)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierInhalerUsage)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBloodAlcoholContent)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierForcedVitalCapacity)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierForcedExpiratoryVolume1)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierPeakExpiratoryFlowRate)!,
-            
-            // Nutrition
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryFatTotal)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryFatPolyunsaturated)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryFatMonounsaturated)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryFatSaturated)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryCholesterol)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietarySodium)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryCarbohydrates)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryFiber)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietarySugar)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryEnergyConsumed)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryProtein)!,
-            
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryVitaminA)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryVitaminB6)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryVitaminB12)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryVitaminC)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryVitaminD)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryVitaminE)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryVitaminK)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryCalcium)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryIron)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryThiamin)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryRiboflavin)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryNiacin)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryFolate)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryBiotin)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryPantothenicAcid)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryPhosphorus)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryIodine)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryMagnesium)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryZinc)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietarySelenium)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryCopper)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryManganese)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryChromium)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryMolybdenum)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryChloride)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryPotassium)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryCaffeine)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryWater)!,
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierUVExposure)!,
             
             /*--------------------------------*/
             /*   HKCategoryType Identifiers   */
             /*--------------------------------*/
             HKObjectType.categoryTypeForIdentifier(HKCategoryTypeIdentifierSleepAnalysis)!,
-            HKObjectType.categoryTypeForIdentifier(HKCategoryTypeIdentifierAppleStandHour)!,
-            HKObjectType.categoryTypeForIdentifier(HKCategoryTypeIdentifierCervicalMucusQuality)!,
-            HKObjectType.categoryTypeForIdentifier(HKCategoryTypeIdentifierOvulationTestResult)!,
             HKObjectType.categoryTypeForIdentifier(HKCategoryTypeIdentifierMenstrualFlow)!,
-            HKObjectType.categoryTypeForIdentifier(HKCategoryTypeIdentifierIntermenstrualBleeding)!,
-            HKObjectType.categoryTypeForIdentifier(HKCategoryTypeIdentifierSexualActivity)!,
-            
-            /*------------------------------*/
-            /*   HKWorkoutType Identifier   */
-            /*------------------------------*/
-            HKObjectType.workoutType()
+            HKObjectType.categoryTypeForIdentifier(HKCategoryTypeIdentifierSexualActivity)! // D
 		)
 
 		healthKitStore.requestAuthorizationToShareTypes(nil, readTypes: healthKitTypesToRead) { (success, error) -> Void in
             // handle succes && error
 		}
         
-        self.readDataFromHealkit()
 	}
 
 	func getInformation() -> [String: String] {
         info["HealtKit available"] = isAuthorized ? "Yes" : "No"
+        
+        self.readDataFromHealkit()
         
 		return info
 	}
