@@ -23,23 +23,35 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 	var phone: String!
 	var price: String!
 
-	var progressView: UIImageView!
+	var progressViewBig: UIImageView!
+    var progressViewSmall: UIImageView!
+    var angle:CGFloat = 0
+    var timer:NSTimer
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.title = "Vyhodnocování"
 		self.view.backgroundColor = UIColor.whiteColor()
 
-		var timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: "rotateWheel", userInfo: nil, repeats: true)
+		timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: "rotateWheel", userInfo: nil, repeats: true)
 
-		progressView = UIImageView(image: UIImage(named: "kola"))
-		progressView.contentMode = UIViewContentMode.ScaleAspectFit
-		self.view.addSubview(progressView)
-		progressView.snp_makeConstraints { (make) in
+		progressViewBig = UIImageView(image: UIImage(named: "big"))
+		progressViewBig.contentMode = UIViewContentMode.ScaleAspectFit
+		self.view.addSubview(progressViewBig)
+		progressViewBig.snp_makeConstraints { (make) in
 			make.center.equalTo(self.view)
-			make.width.equalTo(200)
-			make.height.equalTo(200)
+			make.width.equalTo(150)
+			make.height.equalTo(150)
 		}
+        
+        progressViewSmall = UIImageView(image: UIImage(named: "small"))
+        progressViewSmall.contentMode = UIViewContentMode.ScaleAspectFit
+        self.view.addSubview(progressViewSmall)
+        progressViewSmall.snp_makeConstraints { (make) in
+            make.center.equalTo(self.view).offset(-80)
+            make.width.equalTo(75)
+            make.height.equalTo(75)
+        }
 
 		let progressLabel = UILabel()
 		progressLabel.text = "Probíhá vyhodnocení"
@@ -116,6 +128,7 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 			print("check response")
 			Collector.Instance().response_info = json
 			Collector.Instance().validResponseFromNikita = true
+            timer.invalidate()
 			results()
 		} else if json["transaction_id"].string != nil {
 			// First response from nikita. If contains transaction_id then call is success, else fails
@@ -125,8 +138,8 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 		} else {
 			// Something goes wrong -> back to form or continue???
 			Collector.Instance().validResponseFromNikita = false
+            timer.invalidate()
 			results()
-			navigationController?.popViewControllerAnimated(true)
 		}
 
 		print("konec")
@@ -144,7 +157,9 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 
 	func rotateWheel() {
 		// set your angle here
-		self.progressView.transform = CGAffineTransformMakeRotation((1 * CGFloat(M_PI)) / 180.0)
+        angle++
+		self.progressViewBig.transform = CGAffineTransformMakeRotation((angle * CGFloat(M_PI)) / 180.0)
+        self.progressViewSmall.transform = CGAffineTransformMakeRotation((-angle * CGFloat(M_PI)) / 180.0)
 	}
 
 	/*

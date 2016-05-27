@@ -15,6 +15,8 @@
 		2F165C071CC6B9DA007F03D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F165C051CC6B9DA007F03D5 /* LaunchScreen.storyboard */; };
 		2F165C0F1CC6C200007F03D5 /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F165C0E1CC6C200007F03D5 /* DeviceInfo.swift */; };
 		2F165C111CC6C2D0007F03D5 /* ExtUIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F165C101CC6C2D0007F03D5 /* ExtUIDevice.swift */; };
+		2F32DA2B1CF8A9FE0020860A /* big.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F32DA291CF8A9FD0020860A /* big.png */; };
+		2F32DA2C1CF8A9FE0020860A /* small.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F32DA2A1CF8A9FE0020860A /* small.png */; };
 		2F87D68D1CC971DC00987EFD /* ResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87D68C1CC971DC00987EFD /* ResultTableViewCell.swift */; };
 		2F87D68F1CCD031F00987EFD /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87D68E1CCD031F00987EFD /* Timer.swift */; };
 		2F87D6911CCD0B5100987EFD /* TimersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87D6901CCD0B5100987EFD /* TimersManager.swift */; };
@@ -46,6 +48,8 @@
 		2F165C081CC6B9DA007F03D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2F165C0E1CC6C200007F03D5 /* DeviceInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
 		2F165C101CC6C2D0007F03D5 /* ExtUIDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtUIDevice.swift; sourceTree = "<group>"; };
+		2F32DA291CF8A9FD0020860A /* big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = big.png; path = images/big.png; sourceTree = "<group>"; };
+		2F32DA2A1CF8A9FE0020860A /* small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = small.png; path = images/small.png; sourceTree = "<group>"; };
 		2F87D68C1CC971DC00987EFD /* ResultTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTableViewCell.swift; sourceTree = "<group>"; };
 		2F87D68E1CCD031F00987EFD /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		2F87D6901CCD0B5100987EFD /* TimersManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimersManager.swift; sourceTree = "<group>"; };
@@ -179,6 +183,8 @@
 				A53ABBD61CF5EE0F00DB1E4F /* background.png */,
 				A53ABBD71CF5EE0F00DB1E4F /* negative.png */,
 				A53ABBD81CF5EE0F00DB1E4F /* positive.png */,
+				2F32DA291CF8A9FD0020860A /* big.png */,
+				2F32DA2A1CF8A9FE0020860A /* small.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -253,9 +259,11 @@
 				2F165C071CC6B9DA007F03D5 /* LaunchScreen.storyboard in Resources */,
 				A53ABBDA1CF5EE0F00DB1E4F /* negative.png in Resources */,
 				A53ABBE71CF776CA00DB1E4F /* kola.png in Resources */,
+				2F32DA2C1CF8A9FE0020860A /* small.png in Resources */,
 				A53ABBDB1CF5EE0F00DB1E4F /* positive.png in Resources */,
 				A53ABBD91CF5EE0F00DB1E4F /* background.png in Resources */,
 				A53ABBE11CF775F400DB1E4F /* bar.png in Resources */,
+				2F32DA2B1CF8A9FE0020860A /* big.png in Resources */,
 				2F165C041CC6B9DA007F03D5 /* Assets.xcassets in Resources */,
 				2F165BFF1CC6B9DA007F03D5 /* Main.storyboard in Resources */,
 			);
