@@ -15,6 +15,7 @@ class ResultController: UIViewController, UITableViewDelegate, LTMorphingLabelDe
     private let cellId = "cellId"
     weak var tableView: UITableView!
     weak var resultCursor: UIImageView!
+    weak var resultBar: UIImageView!
     
     let collector = Collector.Instance()
     
@@ -63,6 +64,7 @@ class ResultController: UIViewController, UITableViewDelegate, LTMorphingLabelDe
         resultBar.snp_makeConstraints { (make) in
             make.height.equalTo(20)
         }
+        self.resultBar = resultBar
         
         let resultStack = UIStackView(arrangedSubviews: [resultLabel,resultBar])
         resultStack.axis = .Vertical
@@ -117,7 +119,9 @@ class ResultController: UIViewController, UITableViewDelegate, LTMorphingLabelDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        moveImage(self.resultCursor, stopPosition: collector.calculateBehaviour())
+        let finalScore = collector.calculateBehaviour();
+        let finalCursorPosition = (finalScore > 0) ? (resultBar.bounds.width/80) * 20 : 0;
+        moveImage(self.resultCursor, stopPosition: finalCursorPosition)
     }
     
     override func didReceiveMemoryWarning() {

@@ -32,16 +32,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 	override func viewWillDisappear(animated: Bool) {
 		gyroscope.pauseGyroCollection()
-		gyroscope.pauseMotionCollection()
 	}
 
 	override func viewWillAppear(animated: Bool) {
 		if gyroscope.gyroGathering {
 			gyroscope.startGyroCollection()
-		}
-
-		if gyroscope.motionGathering {
-			gyroscope.startMotionCollection()
 		}
 	}
 
@@ -159,13 +154,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	}
 
 	func sendForm(sender: UIButton) {
+
 		mainTimer!.stop()
 		Collector.Instance().totalTime = mainTimer?.count
-
-		gyroscope.stopMotionCollection()
-		if let motionResults = gyroscope.getAverageMotionData() {
-			motionInformations["user position"] = (motionResults.roll > 1.5) ? "mostly lying" : "mostly standing"
-		}
 
 		UIDevice.currentDevice().beginGeneratingDeviceOrientationNotifications()
 		Collector.Instance().orientation = UIDevice.currentDevice().orientation
