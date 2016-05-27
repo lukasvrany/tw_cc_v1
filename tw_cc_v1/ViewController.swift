@@ -153,17 +153,32 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		if let motionResults = gyroscope.getAverageMotionData() {
 			motionInformations["user position"] = (motionResults.roll > 1.5) ? "mostly lying" : "mostly standing"
 		}
-
-		let progressController = ProgressController()
-		progressController.name = allTextFields["Jmeno"]!.text
-		progressController.address = allTextFields["Adresa"]!.text
-		progressController.city = allTextFields["Mesto"]!.text
-		progressController.zip = allTextFields["PSČ"]!.text
-		progressController.phone = allTextFields["Tel"]!.text
-		progressController.price = allTextFields["Pujcka"]!.text
-		progressController.mail = allTextFields["Mail"]!.text
-		self.navigationController?.pushViewController(progressController, animated: true)
+        if areInputsFilled(){
+            let progressController = ProgressController()
+            progressController.name = allTextFields["Jmeno"]!.text
+            progressController.address = allTextFields["Adresa"]!.text
+            progressController.city = allTextFields["Mesto"]!.text
+            progressController.zip = allTextFields["PSČ"]!.text
+            progressController.phone = allTextFields["Tel"]!.text
+            progressController.price = allTextFields["Pujcka"]!.text
+            progressController.mail = allTextFields["Mail"]!.text
+            self.navigationController?.pushViewController(progressController, animated: true)
+        }
+		
 	}
+    
+    func areInputsFilled() -> Bool{
+        var result = true
+        for (key,textfield) in allTextFields {
+            if textfield.text!.isEmpty{
+                textfield.layer.borderColor = UIColor.redColor().CGColor
+                result = false
+            } else {
+                textfield.layer.borderColor = UIColor.grayColor().CGColor
+            }
+        }
+        return result
+    }
 
 	func textFieldDidEndEditing(textField: UITextField) {
 

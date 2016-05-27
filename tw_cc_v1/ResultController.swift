@@ -39,11 +39,12 @@ class ResultController: UIViewController, UITableViewDelegate, LTMorphingLabelDe
         tableView.dataSource = self
         tableView.delegate = self
         tableView.layoutMargins = UIEdgeInsetsZero
+        tableView.allowsSelection = false
         tableView.separatorInset = UIEdgeInsetsZero
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.registerClass(ResultTableViewCell.self, forCellReuseIdentifier: cellId)
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 30
+        tableView.estimatedRowHeight = 10
         
         let resultLabel = UILabel()
         resultLabel.text = "Final result"

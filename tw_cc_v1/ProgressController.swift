@@ -66,7 +66,7 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 		/*
 		 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ProgressController.results))
 		 view.addGestureRecognizer(tapGesture)
-		 */
+        */
 		sendRequestToNikita()
 
 	}

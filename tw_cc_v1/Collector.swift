@@ -245,9 +245,17 @@ class Collector {
 
 	func behaviourByBattery() {
 		if Double(device.getBatteryValue()) < 15 {
-			addBehaviour("Má vybitej mobil", coef: -3)
+			addBehaviour("Má vybitej mobil, je to prostě hovado, který má opravdu hodně moc vybitý telefon", coef: -3)
 		}
 	}
+    
+    func behaviourByDeviceMotion(){
+        if let motionResults = gyroscope.getAverageMotionData() {
+            if motionResults.roll > 1.5 {
+                addBehaviour("Málem usnul", coef: -5)
+            }
+        }
+    }
 
 	func behaviourByCellular() {
 		let site = device.getCellularProvider()
