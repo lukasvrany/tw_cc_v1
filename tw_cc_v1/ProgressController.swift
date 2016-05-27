@@ -24,21 +24,21 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 	var price: String!
 
 	var progressViewBig: UIImageView!
-    var progressViewSmall: UIImageView!
-    var angle:CGFloat = 0
-    var timer:NSTimer?
+	var progressViewSmall: UIImageView!
+	var angle: CGFloat = 0
+	var timer: NSTimer?
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.title = "Vyhodnocování"
 		self.view.backgroundColor = UIColor.whiteColor()
-        self.navigationItem.setHidesBackButton(true, animated:false)
-        
-        let profile: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "rightIcon")!, style: UIBarButtonItemStyle.Plain, target: self, action: nil)
-        self.navigationItem.setRightBarButtonItem(profile, animated: true)
-        
-        let more: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "leftIcon")!, style: UIBarButtonItemStyle.Plain, target: self, action: nil)
-        self.navigationItem.setLeftBarButtonItem(more, animated: true)
+		self.navigationItem.setHidesBackButton(true, animated: false)
+
+		let profile: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "rightIcon")!, style: UIBarButtonItemStyle.Plain, target: self, action: nil)
+		self.navigationItem.setRightBarButtonItem(profile, animated: true)
+
+		let more: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "leftIcon")!, style: UIBarButtonItemStyle.Plain, target: self, action: nil)
+		self.navigationItem.setLeftBarButtonItem(more, animated: true)
 
 		timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(ProgressController.rotateWheel), userInfo: nil, repeats: true)
 
@@ -50,15 +50,15 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 			make.width.equalTo(150)
 			make.height.equalTo(150)
 		}
-        
-        progressViewSmall = UIImageView(image: UIImage(named: "small"))
-        progressViewSmall.contentMode = UIViewContentMode.ScaleAspectFit
-        self.view.addSubview(progressViewSmall)
-        progressViewSmall.snp_makeConstraints { (make) in
-            make.center.equalTo(self.view).offset(-80)
-            make.width.equalTo(75)
-            make.height.equalTo(75)
-        }
+
+		progressViewSmall = UIImageView(image: UIImage(named: "small"))
+		progressViewSmall.contentMode = UIViewContentMode.ScaleAspectFit
+		self.view.addSubview(progressViewSmall)
+		progressViewSmall.snp_makeConstraints { (make) in
+			make.center.equalTo(self.view).offset(-80)
+			make.width.equalTo(75)
+			make.height.equalTo(75)
+		}
 
 		let progressLabel = UILabel()
 		progressLabel.text = "Probíhá vyhodnocení"
@@ -73,7 +73,7 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 		/*
 		 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ProgressController.results))
 		 view.addGestureRecognizer(tapGesture)
-        */
+		 */
 		sendRequestToNikita()
 
 	}
@@ -135,7 +135,7 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 			print("check response")
 			Collector.Instance().response_info = json
 			Collector.Instance().validResponseFromNikita = true
-            timer!.invalidate()
+			timer!.invalidate()
 			results()
 		} else if json["transaction_id"].string != nil {
 			// First response from nikita. If contains transaction_id then call is success, else fails
@@ -145,7 +145,7 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 		} else {
 			// Something goes wrong -> back to form or continue???
 			Collector.Instance().validResponseFromNikita = false
-            timer!.invalidate()
+			timer!.invalidate()
 			results()
 		}
 
@@ -164,9 +164,9 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 
 	func rotateWheel() {
 		// set your angle here
-        angle++
+		angle++
 		self.progressViewBig.transform = CGAffineTransformMakeRotation((angle * CGFloat(M_PI)) / 180.0)
-        self.progressViewSmall.transform = CGAffineTransformMakeRotation((-angle * CGFloat(M_PI)) / 180.0)
+		self.progressViewSmall.transform = CGAffineTransformMakeRotation((-angle * CGFloat(M_PI)) / 180.0)
 	}
 
 	/*

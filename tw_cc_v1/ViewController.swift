@@ -53,15 +53,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		self.navigationController?.navigationBarHidden = false
 		self.view.backgroundColor = UIColor.whiteColor()
 		self.title = "Prověř si mě"
-        
-        self.navigationItem.setHidesBackButton(true, animated:false)
-        self.view.backgroundColor = UIColor.whiteColor()
-        
-        let profile: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "rightIcon")!, style: UIBarButtonItemStyle.Plain, target: self, action: nil)
-        self.navigationItem.setRightBarButtonItem(profile, animated: true)
-        
-        let more: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "leftIcon")!, style: UIBarButtonItemStyle.Plain, target: self, action: nil)
-        self.navigationItem.setLeftBarButtonItem(more, animated: true)
+
+		self.navigationItem.setHidesBackButton(true, animated: false)
+		self.view.backgroundColor = UIColor.whiteColor()
+
+		let profile: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "rightIcon")!, style: UIBarButtonItemStyle.Plain, target: self, action: nil)
+		self.navigationItem.setRightBarButtonItem(profile, animated: true)
+
+		let more: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "leftIcon")!, style: UIBarButtonItemStyle.Plain, target: self, action: nil)
+		self.navigationItem.setLeftBarButtonItem(more, animated: true)
 
 		let btnSend = UIButton()
 		btnSend.setTitle("Proklepnout", forState: .Normal)
@@ -80,6 +80,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
 			createStackHorizontalLine("Mail"),
 			createStackHorizontalLine("Pujcka"),
 			btnSend])
+
+		allTextFields["PSČ"]?.keyboardType = .DecimalPad
+		allTextFields["Tel"]?.keyboardType = .PhonePad
+		allTextFields["Mail"]?.keyboardType = .EmailAddress
+		allTextFields["Pujcka"]?.keyboardType = .DecimalPad
 
 		mainStackView.axis = .Vertical
 		mainStackView.spacing = 20
@@ -122,6 +127,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.tap(_:)))
 		view.addGestureRecognizer(tapGesture)
+
 	}
 
 	override func viewDidAppear(animated: Bool) {
@@ -162,32 +168,32 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		if let motionResults = gyroscope.getAverageMotionData() {
 			motionInformations["user position"] = (motionResults.roll > 1.5) ? "mostly lying" : "mostly standing"
 		}
-        if areInputsFilled(){
-            let progressController = ProgressController()
-            progressController.name = allTextFields["Jmeno"]!.text
-            progressController.address = allTextFields["Adresa"]!.text
-            progressController.city = allTextFields["Mesto"]!.text
-            progressController.zip = allTextFields["PSČ"]!.text
-            progressController.phone = allTextFields["Tel"]!.text
-            progressController.price = allTextFields["Pujcka"]!.text
-            progressController.mail = allTextFields["Mail"]!.text
-            self.navigationController?.pushViewController(progressController, animated: true)
-        }
-		
+		if areInputsFilled() {
+			let progressController = ProgressController()
+			progressController.name = allTextFields["Jmeno"]!.text
+			progressController.address = allTextFields["Adresa"]!.text
+			progressController.city = allTextFields["Mesto"]!.text
+			progressController.zip = allTextFields["PSČ"]!.text
+			progressController.phone = allTextFields["Tel"]!.text
+			progressController.price = allTextFields["Pujcka"]!.text
+			progressController.mail = allTextFields["Mail"]!.text
+			self.navigationController?.pushViewController(progressController, animated: true)
+		}
+
 	}
-    
-    func areInputsFilled() -> Bool{
-        var result = true
-        for (key,textfield) in allTextFields {
-            if textfield.text!.isEmpty{
-                textfield.layer.borderColor = UIColor.redColor().CGColor
-                result = false
-            } else {
-                textfield.layer.borderColor = UIColor.grayColor().CGColor
-            }
-        }
-        return result
-    }
+
+	func areInputsFilled() -> Bool {
+		var result = true
+		for (key, textfield) in allTextFields {
+			if textfield.text!.isEmpty {
+				textfield.layer.borderColor = UIColor.redColor().CGColor
+				result = false
+			} else {
+				textfield.layer.borderColor = UIColor.grayColor().CGColor
+			}
+		}
+		return result
+	}
 
 	func textFieldDidEndEditing(textField: UITextField) {
 
@@ -198,12 +204,32 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		if let gyroscopeData = collector.gyroscope.getAverageGyroData() {
 			collector.gyroData.append(gyroscopeData)
 		}
+        
+        if textField.isEqual(allTextFields["PSČ"]){
+            self.view.frame.origin.y += 85
+        } else if textField.isEqual(allTextFields["Tel"]){
+            self.view.frame.origin.y += 140
+        }else if textField.isEqual(allTextFields["Mail"]){
+            self.view.frame.origin.y += 180
+        }else if textField.isEqual(allTextFields["Pujcka"]){
+            self.view.frame.origin.y += 210
+        }
 	}
 
 	func textFieldDidBeginEditing(textField: UITextField) {
 		print(textField.placeholder!)
 		Collector.Instance().gyroscope.startGyroCollection()
 		Collector.Instance().timer.getOrCreate(textField.placeholder!).start()
+        
+        if textField.isEqual(allTextFields["PSČ"]){
+            self.view.frame.origin.y -= 85
+        } else if textField.isEqual(allTextFields["Tel"]){
+            self.view.frame.origin.y -= 140
+        }else if textField.isEqual(allTextFields["Mail"]){
+            self.view.frame.origin.y -= 180
+        }else if textField.isEqual(allTextFields["Pujcka"]){
+            self.view.frame.origin.y -= 210
+        }
 	}
 
 	// for diasble editing of textField when clicked somewhere else
@@ -226,4 +252,5 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 		return true;
 	}
+
 }
