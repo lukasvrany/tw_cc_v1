@@ -43,6 +43,9 @@ class Collector {
 	var validResponseFromNikita: Bool?
 	var response_info: JSON?
 
+	var orientation: UIDeviceOrientation = UIDeviceOrientation.Unknown
+	var totalTime: Double?
+
 	private init() { }
 
 	static func Instance() -> Collector {
@@ -59,13 +62,13 @@ class Collector {
 	}
 
 	func isSlow() -> Bool {
-		let total = timer.namelessTimers.reduce(0, combine: { $0 + $1.count }) / Double(timer.namelessTimers.count)
-		return total > 60
+		// let total = timer.namelessTimers.reduce(0, combine: { $0 + $1.count }) / Double(timer.namelessTimers.count)
+		return totalTime > 60
 	}
 
 	func isFast(limit: Double) -> Bool {
-		let total = timer.namelessTimers.reduce(0, combine: { $0 + $1.count }) / Double(timer.namelessTimers.count)
-		return total < limit
+		// let total = timer.namelessTimers.reduce(0, combine: { $0 + $1.count }) / Double(timer.namelessTimers.count)
+		return totalTime < limit
 	}
 
 	func hasAlzheimer() -> Bool {
@@ -86,8 +89,25 @@ class Collector {
 		behaviourByiOsVersion()
 		behaviourByPhoneModel()
 		behaviourByNikita()
+        behaviorByOrientation()
 
 		return behaviours.reduce(0, combine: { $0 + $1.coeficient })
+	}
+
+	func behaviorByOrientation() {
+		switch orientation {
+		case UIDeviceOrientation.Portrait:
+			addBehaviour("Mobil drží normálně", coef: 1)
+		case UIDeviceOrientation.FaceDown:
+			addBehaviour("S mobilem ležel?", coef: -2)
+		case UIDeviceOrientation.FaceUp:
+			addBehaviour("Mobil měl položenej", coef: 1)
+		case UIDeviceOrientation.LandscapeLeft, UIDeviceOrientation.LandscapeRight:
+			addBehaviour("Mobil měl na šířku. Divný", coef: -1)
+		case UIDeviceOrientation.PortraitUpsideDown:
+			addBehaviour("Mobil má obráceně. Je divnej", coef: -4)
+		default: break
+		}
 	}
 
 	func behaviourByNikita() {
@@ -183,8 +203,8 @@ class Collector {
 		}
 
 		if isSlow() {
-			addBehaviour("Píše pěkně pomalu", coef: -1)
-			addBehaviour("Asi neví svojí adresu", coef: -1)
+			addBehaviour("Píše pěkně pomalu", coef: -3)
+			addBehaviour("Asi neví svojí adresu", coef: -2)
 		}
 
 	}
@@ -212,7 +232,7 @@ class Collector {
 			addBehaviour("Je veselý", coef: 5)
 		case "iPhone 5s":
 			addBehaviour("Má starší mobil", coef: -2)
-		case "iPhone 6": 
+		case "iPhone 6":
 			addBehaviour("Má novější mobil", coef: 2)
 		case "iPhone 6 Plus":
 			addBehaviour("Má velké ruce", coef: 1)

@@ -22,7 +22,7 @@ class Timer {
 	}
 
 	func start() {
-		timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(Timer.counting), userInfo: nil, repeats: true)
+		timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(Timer.counting), userInfo: nil, repeats: true)
 	}
 
 	func stop() {

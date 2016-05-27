@@ -28,6 +28,8 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 	var angle: CGFloat = 0
 	var timer: NSTimer?
 
+	var redirTimer: NSTimer?
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.title = "Vyhodnocování"
@@ -75,6 +77,8 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 		 view.addGestureRecognizer(tapGesture)
 		 */
 		sendRequestToNikita()
+
+		redirTimer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: #selector(results), userInfo: nil, repeats: true)
 
 	}
 
@@ -159,6 +163,7 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 	}
 
 	func results() {
+		redirTimer?.invalidate()
 		navigationController?.pushViewController(ResultController(), animated: true)
 	}
 

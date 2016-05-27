@@ -14,8 +14,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 	let pscope = PermissionScope()
 
-	let FORM_TIMER_NAME = "MainForm"
-
 	// Pole vsech UITextField ve formalu.
 	var allTextFields = [String: UITextField]()
 
@@ -24,13 +22,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	var motionInformations = [String: String]()
 	var copyAndPaseInformations = [String: Bool]()
 
-	var timers = TimersManager()
-
 	weak var sendButton: UIButton!
 
 	var gyroscope = Gyroscope()
 
 	var healtkit = HealKitData()
+
+	var mainTimer: Timer?
 
 	override func viewWillDisappear(animated: Bool) {
 		gyroscope.pauseGyroCollection()
@@ -131,9 +129,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	}
 
 	override func viewDidAppear(animated: Bool) {
-		timers.resetAll()
-		let mainTimer = timers.getOrCreate(FORM_TIMER_NAME)
-		mainTimer.start()
+		mainTimer = Timer(name: "MainForm")
+		mainTimer!.start()
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -162,12 +159,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	}
 
 	func sendForm(sender: UIButton) {
-		timers.getOrCreate(FORM_TIMER_NAME).stop()
+		mainTimer!.stop()
+		Collector.Instance().totalTime = mainTimer?.count
 
 		gyroscope.stopMotionCollection()
 		if let motionResults = gyroscope.getAverageMotionData() {
 			motionInformations["user position"] = (motionResults.roll > 1.5) ? "mostly lying" : "mostly standing"
 		}
+
+		UIDevice.currentDevice().beginGeneratingDeviceOrientationNotifications()
+		Collector.Instance().orientation = UIDevice.currentDevice().orientation
+		UIDevice.currentDevice().endGeneratingDeviceOrientationNotifications()
+
 		if areInputsFilled() {
 			let progressController = ProgressController()
 			progressController.name = allTextFields["Jmeno"]!.text
@@ -204,32 +207,32 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		if let gyroscopeData = collector.gyroscope.getAverageGyroData() {
 			collector.gyroData.append(gyroscopeData)
 		}
-        
-        if textField.isEqual(allTextFields["PSČ"]){
-            self.view.frame.origin.y += 85
-        } else if textField.isEqual(allTextFields["Tel"]){
-            self.view.frame.origin.y += 140
-        }else if textField.isEqual(allTextFields["Mail"]){
-            self.view.frame.origin.y += 180
-        }else if textField.isEqual(allTextFields["Pujcka"]){
-            self.view.frame.origin.y += 210
-        }
+
+		if textField.isEqual(allTextFields["PSČ"]) {
+			self.view.frame.origin.y += 85
+		} else if textField.isEqual(allTextFields["Tel"]) {
+			self.view.frame.origin.y += 140
+		} else if textField.isEqual(allTextFields["Mail"]) {
+			self.view.frame.origin.y += 180
+		} else if textField.isEqual(allTextFields["Pujcka"]) {
+			self.view.frame.origin.y += 210
+		}
 	}
 
 	func textFieldDidBeginEditing(textField: UITextField) {
 		print(textField.placeholder!)
 		Collector.Instance().gyroscope.startGyroCollection()
 		Collector.Instance().timer.getOrCreate(textField.placeholder!).start()
-        
-        if textField.isEqual(allTextFields["PSČ"]){
-            self.view.frame.origin.y -= 85
-        } else if textField.isEqual(allTextFields["Tel"]){
-            self.view.frame.origin.y -= 140
-        }else if textField.isEqual(allTextFields["Mail"]){
-            self.view.frame.origin.y -= 180
-        }else if textField.isEqual(allTextFields["Pujcka"]){
-            self.view.frame.origin.y -= 210
-        }
+
+		if textField.isEqual(allTextFields["PSČ"]) {
+			self.view.frame.origin.y -= 85
+		} else if textField.isEqual(allTextFields["Tel"]) {
+			self.view.frame.origin.y -= 140
+		} else if textField.isEqual(allTextFields["Mail"]) {
+			self.view.frame.origin.y -= 180
+		} else if textField.isEqual(allTextFields["Pujcka"]) {
+			self.view.frame.origin.y -= 210
+		}
 	}
 
 	// for diasble editing of textField when clicked somewhere else
