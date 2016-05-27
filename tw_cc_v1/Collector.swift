@@ -76,7 +76,7 @@ class Collector {
 		behaviours.removeAll()
 	}
 
-	func calculateBehaviour() -> CGFloat{
+	func calculateBehaviour() -> CGFloat {
 		clearBehaviour()
 		behaviourBySpeed()
 		behaviourByBattery()
@@ -86,8 +86,8 @@ class Collector {
 		behaviourByiOsVersion()
 		behaviourByPhoneModel()
 		behaviourByNikita()
-        
-        return behaviours.reduce(0, combine: { $0 + $1.coeficient })
+
+		return behaviours.reduce(0, combine: { $0 + $1.coeficient })
 	}
 
 	func behaviourByNikita() {
@@ -210,8 +210,10 @@ class Collector {
 			addBehaviour("Je chudý", coef: -5)
 		case "iPhone 5c":
 			addBehaviour("Je veselý", coef: 5)
-		case "iPhone 5s": break
-		case "iPhone 6": break
+		case "iPhone 5s":
+			addBehaviour("Má starší mobil", coef: -2)
+		case "iPhone 6": 
+			addBehaviour("Má novější mobil", coef: 2)
 		case "iPhone 6 Plus":
 			addBehaviour("Má velké ruce", coef: 1)
 		case "iPhone 6s":
