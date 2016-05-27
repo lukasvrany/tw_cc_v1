@@ -14,19 +14,19 @@ class ResultTableViewCell: UITableViewCell, LTMorphingLabelDelegate {
 
 	weak var lblName: LTMorphingLabel!
 	weak var lblValue: LTMorphingLabel!
-    weak var lblSmile: UIImageView!
+	weak var lblSmile: UIImageView!
 
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 
 		let name = LTMorphingLabel()
-        let smile = UIImageView()
-        smile.contentMode = UIViewContentMode.ScaleAspectFit
-        
-        smile.snp_makeConstraints { (make) in
-            make.width.equalTo(30)
-        }
-        
+		let smile = UIImageView()
+		smile.contentMode = UIViewContentMode.ScaleAspectFit
+
+		smile.snp_makeConstraints { (make) in
+			make.width.equalTo(30)
+		}
+
 		let stackView = UIStackView(arrangedSubviews: [smile, name])
 		stackView.axis = .Horizontal
 		stackView.spacing = 10
@@ -36,11 +36,11 @@ class ResultTableViewCell: UITableViewCell, LTMorphingLabelDelegate {
 		}
 
 		self.lblName = name
-        self.lblSmile = smile
-        
-        contentView.snp_makeConstraints { (make) in
-            make.height.equalTo(50)
-        }
+		self.lblSmile = smile
+
+		contentView.snp_makeConstraints { (make) in
+			make.height.equalTo(50)
+		}
 	}
 
 	required init?(coder aDecoder: NSCoder) {

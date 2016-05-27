@@ -71,7 +71,7 @@ class ResultController: UIViewController, UITableViewDelegate, LTMorphingLabelDe
         
         tableView.snp_makeConstraints { make in
             make.top.equalTo(titleLabel.snp_bottom).offset(30)
-            make.width.equalTo(self.view).offset(-80)
+            make.width.equalTo(self.view).offset(-50)
             make.centerX.equalTo(self.view)
             make.bottom.equalTo(resultStack.snp_top)
         }

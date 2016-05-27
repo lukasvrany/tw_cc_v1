@@ -76,8 +76,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		mainStackView.spacing = 20
 		self.view.addSubview(mainStackView)
 		mainStackView.snp_makeConstraints { make in
-			// make.edges.equalTo(self.view)
-
 			make.leading.equalTo(10)
 			make.trailing.equalTo(-10)
 			make.top.equalTo(snp_topLayoutGuideBottom).offset(20)
