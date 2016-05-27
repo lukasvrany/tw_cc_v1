@@ -23,12 +23,16 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 	var phone: String!
 	var price: String!
 
+	var progressView: UIImageView!
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.title = "Vyhodnocování"
 		self.view.backgroundColor = UIColor.whiteColor()
 
-		let progressView = UIImageView(image: UIImage(named: "kola"))
+		var timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: "rotateWheel", userInfo: nil, repeats: true)
+
+		progressView = UIImageView(image: UIImage(named: "kola"))
 		progressView.contentMode = UIViewContentMode.ScaleAspectFit
 		self.view.addSubview(progressView)
 		progressView.snp_makeConstraints { (make) in
@@ -110,8 +114,8 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 		if json["id"].string != nil {
 			// Response from nikita
 			print("check response")
-			Collector.Instance().response_customer = json["customer"]
-			Collector.Instance().response_order = json["order"]
+			Collector.Instance().response_info = json
+			Collector.Instance().validResponseFromNikita = true
 			results()
 		} else if json["transaction_id"].string != nil {
 			// First response from nikita. If contains transaction_id then call is success, else fails
@@ -120,6 +124,8 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 			self.webView!.evaluateJavaScript("checkResult();", completionHandler: nil)
 		} else {
 			// Something goes wrong -> back to form or continue???
+			Collector.Instance().validResponseFromNikita = false
+			results()
 			navigationController?.popViewControllerAnimated(true)
 		}
 
@@ -134,6 +140,11 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 
 	func results() {
 		navigationController?.pushViewController(ResultController(), animated: true)
+	}
+
+	func rotateWheel() {
+		// set your angle here
+		self.progressView.transform = CGAffineTransformMakeRotation((1 * CGFloat(M_PI)) / 180.0)
 	}
 
 	/*
