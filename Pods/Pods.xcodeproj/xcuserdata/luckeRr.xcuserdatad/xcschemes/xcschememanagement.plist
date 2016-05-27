@@ -24,6 +24,11 @@
 			<key>orderHint</key>
 			<integer>2</integer>
 		</dict>
+		<key>SwiftyJSON.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>5</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
@@ -32,7 +37,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>1BA98BA4676828498775C4D082162B87</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2374929306FEB1A1FA88D91B5BE4AC9A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>59BDD7385FDCE15D2A8EE722048D5F06</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>95F2C646ABF304C50B17F4CDC54CCDED</key>
 		<dict>
 			<key>primary</key>
 			<true/>

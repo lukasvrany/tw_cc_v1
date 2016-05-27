@@ -153,6 +153,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		if let motionResults = gyroscope.getAverageMotionData() {
 			motionInformations["user position"] = (motionResults.roll > 1.5) ? "mostly lying" : "mostly standing"
 		}
+        
 
 		let progressController = ProgressController()
 		progressController.name = allTextFields["Jmeno"]!.text

@@ -15,14 +15,15 @@ class HealKitData {
 	var isAuthorized = false
     var info = [String: String]()
     
-
+    
 	func healkitIsAvailable() -> Bool
 	{
 		healthKitStore = HKHealthStore()
 		if !HKHealthStore.isHealthDataAvailable()
 		{
-			let error = NSError(domain: "com.raywenderlich.tutorials.healthkit", code: 2, userInfo: [NSLocalizedDescriptionKey: "HealthKit is not available in this Device"])
+			let error = NSError(domain: "tw-cc-v1", code: 2, userInfo: [NSLocalizedDescriptionKey: "HealthKit is not available in this Device"])
 
+            // Handle error
 			print(error)
 		}
 		isAuthorized = true
@@ -101,11 +102,6 @@ class HealKitData {
 
 		let bloodType = try? healthKitStore.bloodType()
 		info["bloodType"] = bloodTypeLiteral(bloodType?.bloodType)
-        
-        
-        readWeight()
-        readHeight()
-//        readBMI()
     }
     
 //    private func readBMI()
@@ -125,8 +121,8 @@ class HealKitData {
 //            var bmiLocalizedString = "Unknow"
 //            
 //            bmi = mostRecentbmi as? HKQuantitySample
-//            bmi?.quantity
-//            if let bmiValue = bmi?.quantity.doubleValueForUnit(HKUnit.weight()) {
+//            let test = bmi?.quantity
+//            if let bmiValue = bmi?.quantity.doubleValueForUnit(HKUnit.countUnit()) {
 ////                let formatter = NSFormatter
 ////                formatter.forPersonHeightUse = true
 ////                bmiLocalizedString = formatter.stringFrom
@@ -137,87 +133,101 @@ class HealKitData {
 //    }
     
     
-    private func readSexActivity()
-    {
-        var sex:HKQuantitySample?
-        
-        let sampleType = HKSampleType.quantityTypeForIdentifier(HKCategoryTypeIdentifierSexualActivity)
-        
-        self.readMostRecentSample(sampleType!, completion: { (mostRecentSex, error) -> Void in
-            
-            if( error != nil )
-            {
-                print("Error reading weight from HealthKit Store: \(error.localizedDescription)")
-                return;
-            }
-            
-            var weightLocalizedString = "Unknow"
-            
-            sex = mostRecentSex as? HKQuantitySample;
-//            sex?.quantity.
-//            if let kilograms = sex?.quantity.doubleValueForUnit(HKUnit.gramUnitWithMetricPrefix(.Kilo)) {
+//    private func readSexActivity()
+//    {
+//        var sex:HKQuantitySample?
+//        
+//        let sampleType = HKSampleType.quantityTypeForIdentifier(HKCategoryTypeIdentifierSexualActivity)
+//        
+//        self.readMostRecentSample(sampleType!, completion: { (mostRecentSex, error) -> Void in
+//            
+//            if( error != nil )
+//            {
+//                print("Error reading weight from HealthKit Store: \(error.localizedDescription)")
+//                return;
+//            }
+//            
+//            var weightLocalizedString = "Unknow"
+//            
+//            sex = mostRecentSex as? HKQuantitySample;
+////            sex?.quantity.
+////            if let kilograms = sex?.quantity.doubleValueForUnit(HKUnit.gramUnitWithMetricPrefix(.Kilo)) {
+////                let weightFormatter = NSMassFormatter()
+////                weightFormatter.forPersonMassUse = true;
+////                weightLocalizedString = weightFormatter.stringFromValue(kilograms, unit: NSMassFormatterUnit.Kilogram)
+////            }
+//            
+//            print(weightLocalizedString)
+//        });
+//    }
+    
+//    private func readHeight()
+//    {
+//        var height:HKQuantitySample?
+//        
+//        let sampleType = HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeight)
+//        
+//        self.readMostRecentSample(sampleType!, completion: { (mostRecentHeight, error) -> Void in
+//            
+//            if( error != nil )
+//            {
+//                print("Error reading weight from HealthKit Store: \(error.localizedDescription)")
+//                return;
+//            }
+//            
+//            var heightLocalizedString = "Unknow"
+//            
+//            height = mostRecentHeight as? HKQuantitySample
+//            if let meters = height?.quantity.doubleValueForUnit(HKUnit.meterUnit()) {
+//                let heightFormatter = NSLengthFormatter()
+//                heightFormatter.forPersonHeightUse = true
+//                heightLocalizedString = heightFormatter.stringFromValue(meters, unit: NSLengthFormatterUnit.Centimeter)
+//            }
+//            
+//            print(heightLocalizedString)
+//        });
+//    }
+    
+//    private func readWeight()
+//    {
+//        var weight:HKQuantitySample?
+//    
+//        let sampleType = HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)
+//        
+//        self.readMostRecentSample(sampleType!, completion: { (mostRecentWeight, error) -> Void in
+//            
+//            if( error != nil )
+//            {
+//                print("Error reading weight from HealthKit Store: \(error.localizedDescription)")
+//                return;
+//            }
+//            
+//            var weightLocalizedString = "Unknow"
+//            
+//            weight = mostRecentWeight as? HKQuantitySample;
+//            if let kilograms = weight?.quantity.doubleValueForUnit(HKUnit.gramUnitWithMetricPrefix(.Kilo)) {
 //                let weightFormatter = NSMassFormatter()
 //                weightFormatter.forPersonMassUse = true;
 //                weightLocalizedString = weightFormatter.stringFromValue(kilograms, unit: NSMassFormatterUnit.Kilogram)
 //            }
-            
-            print(weightLocalizedString)
-        });
-    }
-    
-    private func readHeight()
-    {
-        var height:HKQuantitySample?
-        
-        let sampleType = HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeight)
-        
-        self.readMostRecentSample(sampleType!, completion: { (mostRecentHeight, error) -> Void in
-            
-            if( error != nil )
-            {
-                print("Error reading weight from HealthKit Store: \(error.localizedDescription)")
-                return;
-            }
-            
-            var heightLocalizedString = "Unknow"
-            
-            height = mostRecentHeight as? HKQuantitySample
-            if let meters = height?.quantity.doubleValueForUnit(HKUnit.meterUnit()) {
-                let heightFormatter = NSLengthFormatter()
-                heightFormatter.forPersonHeightUse = true
-                heightLocalizedString = heightFormatter.stringFromValue(meters, unit: NSLengthFormatterUnit.Centimeter)
-            }
-            
-            print(heightLocalizedString)
-        });
-    }
-    
-    private func readWeight()
-    {
-        var weight:HKQuantitySample?
-    
-        let sampleType = HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)
-        
-        self.readMostRecentSample(sampleType!, completion: { (mostRecentWeight, error) -> Void in
-            
-            if( error != nil )
-            {
-                print("Error reading weight from HealthKit Store: \(error.localizedDescription)")
-                return;
-            }
-            
-            var weightLocalizedString = "Unknow"
-            
-            weight = mostRecentWeight as? HKQuantitySample;
-            if let kilograms = weight?.quantity.doubleValueForUnit(HKUnit.gramUnitWithMetricPrefix(.Kilo)) {
-                let weightFormatter = NSMassFormatter()
-                weightFormatter.forPersonMassUse = true;
-                weightLocalizedString = weightFormatter.stringFromValue(kilograms, unit: NSMassFormatterUnit.Kilogram)
-            }
-            
-            print(weightLocalizedString)
-        });
-    }
+//            
+////            let test["wight"] = weightLocalizedString
+//            let weightInfo = [String: String]()
+//            
+//            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+//                self.info["wight"] = weightLocalizedString
+//                self.postContentAddedInfo(weightInfo)
+//                
+//                
+//            });
+//            print(weightLocalizedString)
+//        });
+//    }
+//    
+//    func postContentAddedInfo(info: [String: String])
+//    {
+//        self.info["test"] = "ahoj"
+//    }
     
     func readMostRecentSample(sampleType:HKSampleType , completion: ((HKSample!, NSError!) -> Void)!)
     {
@@ -297,5 +307,9 @@ class HealKitData {
         
 		return info
 	}
+    
+    func getPostData() -> [String: String] {
+        return info
+    }
 
 }

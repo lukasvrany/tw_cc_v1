@@ -77,15 +77,7 @@ class Collector {
 		behaviours.removeAll()
 	}
 
-	func calculateBehaviour() {
-        
-        
-        let isHealkitAvailable = healtkit.healkitIsAvailable()
-        if (isHealkitAvailable){
-            healtkit.authorizePermission()
-            print(healtkit.getInformation())
-        }
-        
+	func calculateBehaviour() {        
 		clearBehaviour()
 		behaviourBySpeed()
 		behaviourByBattery()

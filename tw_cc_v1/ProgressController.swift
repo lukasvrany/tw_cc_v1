@@ -10,6 +10,8 @@ import UIKit
 import SnapKit
 import WebKit
 import SwiftyJSON
+import HealthKit
+
 
 class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessageHandler {
 
@@ -22,6 +24,10 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 	var zip: String!
 	var phone: String!
 	var price: String!
+    
+    var healthManager:HealKitData = HealKitData()
+    var healthKitData = [String: String]()
+    var test: String! = "fuck you bitch"
 
 	var progressViewBig: UIImageView!
     var progressViewSmall: UIImageView!
@@ -63,13 +69,99 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 			make.leading.equalTo(10)
 			make.trailing.equalTo(-10)
 		}
+        
+        
+//        let healtkit = HealKitData()
+//        
+        let isHealkitAvailable = healthManager.healkitIsAvailable()
+        if (isHealkitAvailable){
+            print(healthManager.getInformation())
+        }
+        
 		/*
 		 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ProgressController.results))
 		 view.addGestureRecognizer(tapGesture)
 		 */
 		sendRequestToNikita()
-
+        updateHealthInfo()
+        
+//        print(self.healthKitData)
+//        print(self.test)
 	}
+    
+    func updateHealthInfo() {
+        
+//        updateProfileInfo();
+        updateWeight();
+//        updateHeight();
+        
+    }
+    
+    func updateWeight()
+    {
+        var weight:HKQuantitySample?
+        
+        let sampleType = HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)
+        
+        self.healthManager.readMostRecentSample(sampleType!, completion: { (mostRecentWeight, error) -> Void in
+            
+            if( error != nil )
+            {
+                print("Error reading weight from HealthKit Store: \(error.localizedDescription)")
+                return;
+            }
+            
+            var weightLocalizedString = "Unknow";
+            
+            weight = mostRecentWeight as? HKQuantitySample;
+            if let kilograms = weight?.quantity.doubleValueForUnit(HKUnit.gramUnitWithMetricPrefix(.Kilo)) {
+                let weightFormatter = NSMassFormatter()
+                weightFormatter.forPersonMassUse = true;
+                weightLocalizedString = weightFormatter.stringFromKilograms(kilograms)
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.healthKitData["weight"] = weightLocalizedString
+            });
+            self.test = "motherfucker"
+            self.healthKitData["weight"] = weightLocalizedString
+        });
+        
+        print(self.test)
+//        var weight:HKQuantitySample?
+        //
+        //        let sampleType = HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)
+        //
+        //        self.readMostRecentSample(sampleType!, completion: { (mostRecentWeight, error) -> Void in
+        //
+        //            if( error != nil )
+        //            {
+        //                print("Error reading weight from HealthKit Store: \(error.localizedDescription)")
+        //                return;
+        //            }
+        //
+        //            var weightLocalizedString = "Unknow"
+        //
+        //            weight = mostRecentWeight as? HKQuantitySample;
+        //            if let kilograms = weight?.quantity.doubleValueForUnit(HKUnit.gramUnitWithMetricPrefix(.Kilo)) {
+        //                let weightFormatter = NSMassFormatter()
+        //                weightFormatter.forPersonMassUse = true;
+        //                weightLocalizedString = weightFormatter.stringFromValue(kilograms, unit: NSMassFormatterUnit.Kilogram)
+        //            }
+        //
+        ////            let test["wight"] = weightLocalizedString
+        //            let weightInfo = [String: String]()
+        //
+        //            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        //                self.info["wight"] = weightLocalizedString
+        //                self.postContentAddedInfo(weightInfo)
+        //                
+        //                
+        //            });
+        //            print(weightLocalizedString)
+        //        });
+
+    }
 
 	func sendRequestToNikita() {
 		// the following code is used to execute custom javascript
@@ -141,7 +233,9 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
             timer!.invalidate()
 			results()
 		}
-
+        
+        let healtkit = HealKitData()
+print(healtkit.getPostData())
 		print("konec")
 
 	}
