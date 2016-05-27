@@ -26,7 +26,7 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 	var progressViewBig: UIImageView!
     var progressViewSmall: UIImageView!
     var angle:CGFloat = 0
-    var timer:NSTimer
+    var timer:NSTimer?
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -128,7 +128,7 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 			print("check response")
 			Collector.Instance().response_info = json
 			Collector.Instance().validResponseFromNikita = true
-            timer.invalidate()
+            timer!.invalidate()
 			results()
 		} else if json["transaction_id"].string != nil {
 			// First response from nikita. If contains transaction_id then call is success, else fails
@@ -138,7 +138,7 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 		} else {
 			// Something goes wrong -> back to form or continue???
 			Collector.Instance().validResponseFromNikita = false
-            timer.invalidate()
+            timer!.invalidate()
 			results()
 		}
 
