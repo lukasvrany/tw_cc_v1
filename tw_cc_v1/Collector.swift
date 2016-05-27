@@ -13,7 +13,7 @@ import SwiftyJSON
 
 struct behaviour {
 	var destricption: String
-	var coeficient: Int
+	var coeficient: CGFloat
 
 	var image: UIImage {
 		get {
@@ -21,7 +21,7 @@ struct behaviour {
 		}
 	}
 
-	init(desc: String, coef: Int) {
+	init(desc: String, coef: CGFloat) {
 		self.destricption = desc
 		self.coeficient = coef
 	}
@@ -76,7 +76,7 @@ class Collector {
 		behaviours.removeAll()
 	}
 
-	func calculateBehaviour() {
+	func calculateBehaviour() -> CGFloat{
 		clearBehaviour()
 		behaviourBySpeed()
 		behaviourByBattery()
@@ -86,6 +86,8 @@ class Collector {
 		behaviourByiOsVersion()
 		behaviourByPhoneModel()
 		behaviourByNikita()
+        
+        return behaviours.reduce(0, combine: { $0 + $1.coeficient })
 	}
 
 	func behaviourByNikita() {
@@ -277,7 +279,7 @@ class Collector {
 		}
 	}
 
-	private func addBehaviour(desc: String, coef: Int) {
+	private func addBehaviour(desc: String, coef: CGFloat) {
 		behaviours.append(behaviour(desc: desc, coef: coef))
 	}
 

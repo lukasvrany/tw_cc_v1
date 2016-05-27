@@ -14,6 +14,7 @@ class ResultController: UIViewController, UITableViewDelegate, LTMorphingLabelDe
     
     private let cellId = "cellId"
     weak var tableView: UITableView!
+    weak var resultCursor: UIImageView!
     
     let collector = Collector.Instance()
     
@@ -58,7 +59,7 @@ class ResultController: UIViewController, UITableViewDelegate, LTMorphingLabelDe
         resultLabel.font = UIFont(name: "HelveticaNeue", size: 19)
         
         let resultBar = UIImageView(image: UIImage(named: "bar"))
-        resultBar.contentMode = UIViewContentMode.ScaleAspectFit
+        resultBar.contentMode = UIViewContentMode.ScaleAspectFill
         resultBar.snp_makeConstraints { (make) in
             make.height.equalTo(20)
         }
@@ -83,18 +84,46 @@ class ResultController: UIViewController, UITableViewDelegate, LTMorphingLabelDe
             make.bottom.equalTo(resultStack.snp_top)
         }
         self.tableView = tableView
+        
+        let resultCursor = UIImageView(image: UIImage(named: "cursor"))
+        resultCursor.contentMode = UIViewContentMode.ScaleAspectFill
+        self.view.addSubview(resultCursor)
+        resultCursor.snp_makeConstraints { (make) in
+            make.left.equalTo(resultBar.snp_left)
+            make.top.equalTo(resultBar.snp_top)
+            make.bottom.equalTo(resultBar.snp_bottom)
+        }
+        
+        self.resultCursor = resultCursor
+        
+        
+        
+    }
+    
+    func moveImage(view: UIImageView, stopPosition: CGFloat){
+        let toPoint: CGPoint = CGPointMake(stopPosition, 0.0)
+        let fromPoint : CGPoint = CGPointZero
+        
+        let movement = CABasicAnimation(keyPath: "position")
+        movement.additive = true
+        movement.fromValue =  NSValue(CGPoint: fromPoint)
+        movement.toValue =  NSValue(CGPoint: toPoint)
+        movement.duration = 2.0
+        movement.fillMode = kCAFillModeForwards;
+        movement.removedOnCompletion = false;
+        
+        view.layer.addAnimation(movement, forKey: "move")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collector.calculateBehaviour()
+        moveImage(self.resultCursor, stopPosition: collector.calculateBehaviour())
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 }
 
 extension ResultController: UITableViewDataSource {
