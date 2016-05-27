@@ -40,7 +40,7 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
         let more: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "leftIcon")!, style: UIBarButtonItemStyle.Plain, target: self, action: nil)
         self.navigationItem.setLeftBarButtonItem(more, animated: true)
 
-		timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: "rotateWheel", userInfo: nil, repeats: true)
+		timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(ProgressController.rotateWheel), userInfo: nil, repeats: true)
 
 		progressViewBig = UIImageView(image: UIImage(named: "big"))
 		progressViewBig.contentMode = UIViewContentMode.ScaleAspectFit

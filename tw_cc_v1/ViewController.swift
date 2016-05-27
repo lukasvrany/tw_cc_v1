@@ -203,7 +203,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	func textFieldDidBeginEditing(textField: UITextField) {
 		print(textField.placeholder!)
 		Collector.Instance().gyroscope.startGyroCollection()
-		Collector.Instance().timer.getOrCreate(textField.placeholder!)
+		Collector.Instance().timer.getOrCreate(textField.placeholder!).start()
 	}
 
 	// for diasble editing of textField when clicked somewhere else
