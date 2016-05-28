@@ -33,7 +33,7 @@ class Collector {
 
 	let gyroscope = Gyroscope()
 	let device = DeviceInfo()
-	let healtkit = HealKitData()
+    var healtkitData = [String:String]()
 	let timer = TimersManager()
    
     
@@ -87,7 +87,56 @@ class Collector {
 		behaviourByiOsVersion()
 		behaviourByPhoneModel()
 		behaviourByNikita()
+        behaviourByHealthkit()
 	}
+    
+    func behaviourByHealthkit()
+    {
+        if healtkitData["HealtKit available"] != "Yes" {
+            addBehaviour("Nezískali jsme Healthkit data", coef: -5)
+            return
+        }
+        
+
+        if let bmi = healtkitData["bmi"] {
+            switch (NSString(string: bmi).doubleValue) {
+            case 0..<18.5:
+                addBehaviour("Podváha... Pozor na brzké úmrtí", coef: -5)
+            case 18.5..<34.9:
+                addBehaviour("BMI je OK", coef: 5)
+            default:
+                addBehaviour("Obézní... Pozor na brzké úmrtí", coef: -5)
+            }
+        }
+        
+        if let steps = healtkitData["steps"] {
+            if (NSString(string: steps).intValue < 8000){
+                addBehaviour("Moc toho nenachodí", coef: -5)
+            }
+            else{
+                addBehaviour("Pravidelně se hýbe", coef: 5)
+            }
+        }
+        
+        var distance:Double = 0
+        
+        if let cycleDistance = healtkitData["cycleDistance"] {
+            distance += NSString(string: cycleDistance).doubleValue
+        }
+        
+        if let distanceT = healtkitData["distance"] {
+            distance += NSString(string: distanceT).doubleValue
+        }
+        
+        if (distance > 10) {
+            addBehaviour("Sportovec", coef: 5)
+        }
+        else{
+            
+            addBehaviour("Lenoch", coef: -5)
+        }
+        
+    }
 
 	func behaviourByNikita() {
 		if !validResponseFromNikita! || response_info!["status"].string != "accepted" {

@@ -26,8 +26,15 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 	var price: String!
     
     var healthManager:HealKitData = HealKitData()
-    var healthKitData = [String: String]()
-    var test: String! = "fuck you bitch"
+    var weightValue: Double! = 0.0
+    var heightValue: Double! = 0.0
+    var stevarlue: Double! = 0.0
+    var cycleValue: Double! = 0.0
+    var distanceValue: Double! = 0.0
+    var sleepValue: Double! = 0.0
+    var stepValue: Double! = 0.0
+    var healtkitInfo = [String:String]()
+    var healthkitAvailable: Bool = false
 
 	var progressViewBig: UIImageView!
     var progressViewSmall: UIImageView!
@@ -70,12 +77,11 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 			make.trailing.equalTo(-10)
 		}
         
-        
-//        let healtkit = HealKitData()
-//        
         let isHealkitAvailable = healthManager.healkitIsAvailable()
         if (isHealkitAvailable){
-            print(healthManager.getInformation())
+            healtkitInfo = healthManager.getInformation()
+            healthkitAvailable = true
+            updateHealthInfo()
         }
         
 		/*
@@ -83,18 +89,140 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 		 view.addGestureRecognizer(tapGesture)
 		 */
 		sendRequestToNikita()
-        updateHealthInfo()
         
-//        print(self.healthKitData)
-//        print(self.test)
 	}
     
     func updateHealthInfo() {
+        updateWeight()
+        updateHeight()
+        updateSteps()
+        updateCycleDistance()
+        updateDistance()
+//        updateSleep()
+    }
+    
+//    private func updateSleep()
+//    {
+//        var sleeps:HKQuantitySample?
+//        
+//        let sleepType = HKObjectType.categoryTypeForIdentifier(HKCategoryTypeIdentifierSleepAnalysis)
+//        
+//        let dateFormatter = NSDateFormatter()
+//        
+//        let start = dateFormatter.dateFromString("2016-05-26")! as NSDate
+//        let end = dateFormatter.dateFromString("2016-05-27")! as NSDate
+//        
+////        let fuck = NSDate(
+//        
+//        let predicate = HKQuery.predicateForSamplesWithStartDate(start, endDate: end, options: .None)
+//        let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
+//        let query = HKSampleQuery(sampleType: sleepType!, predicate: predicate, limit: 30, sortDescriptors: [sortDescriptor]) { (query, tmpResult, error) -> Void in
+//            if let result = tmpResult {
+//                for item in result {
+//                    if let sample = item as? HKCategorySample {
+//                        let value = (sample.value == HKCategoryValueSleepAnalysis.InBed.rawValue) ? "InBed" : "Asleep"
+//                        print("sleep: \(sample.startDate) \(sample.endDate) - source: \(sample.source.name) - value: \(value)")
+//                        let seconds = sample.endDate.timeIntervalSinceDate(sample.startDate)
+//                        let minutes = seconds/60
+//                        let hours = minutes/60
+//                    }
+//                }
+//            }
+//        }
+//        
+//        self.healthManager.healthKitStore.executeQuery(query)
+//    }
+    
+    private func updateDistance()
+    {
+        var distances:HKQuantitySample?
         
-//        updateProfileInfo();
-        updateWeight();
-//        updateHeight();
+        let sampleType = HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDistanceWalkingRunning)
         
+        self.healthManager.readMostRecentSample(sampleType!, completion: { (recentSex, error) -> Void in
+            
+            if( error != nil )
+            {
+                print("Error reading weight from HealthKit Store: \(error.localizedDescription)")
+                return;
+            }
+            
+            distances = recentSex as? HKQuantitySample
+            if let distance = distances?.quantity.doubleValueForUnit(HKUnit.meterUnitWithMetricPrefix(HKMetricPrefix.Kilo)) {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.distanceValue = distance
+                });
+            }
+        });
+    }
+    
+    private func updateCycleDistance()
+    {
+        var distances:HKQuantitySample?
+        
+        let sampleType = HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDistanceCycling)
+        
+        self.healthManager.readMostRecentSample(sampleType!, completion: { (recentSex, error) -> Void in
+            
+            if( error != nil )
+            {
+                print("Error reading weight from HealthKit Store: \(error.localizedDescription)")
+                return;
+            }
+            
+            distances = recentSex as? HKQuantitySample
+            if let distance = distances?.quantity.doubleValueForUnit(HKUnit.meterUnitWithMetricPrefix(HKMetricPrefix.Kilo)) {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.cycleValue = distance
+                });
+            }
+        });
+    }
+    
+    private func updateSteps()
+    {
+        var steps:HKQuantitySample?
+        
+        let sampleType = HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)
+        
+        self.healthManager.readMostRecentSample(sampleType!, completion: { (recentSex, error) -> Void in
+            
+            if( error != nil )
+            {
+                print("Error reading weight from HealthKit Store: \(error.localizedDescription)")
+                return;
+            }
+
+            steps = recentSex as? HKQuantitySample
+            if let step = steps?.quantity.doubleValueForUnit(HKUnit.countUnit()) {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.stepValue = step
+                });
+            }
+        });
+    }
+    
+    private func updateHeight()
+    {
+        var height:HKQuantitySample?
+
+        let sampleType = HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeight)
+
+        self.healthManager.readMostRecentSample(sampleType!, completion: { (mostRecentHeight, error) -> Void in
+
+            if( error != nil )
+            {
+                print("Error reading weight from HealthKit Store: \(error.localizedDescription)")
+                return;
+            }
+
+            height = mostRecentHeight as? HKQuantitySample
+            if let meters = height?.quantity.doubleValueForUnit(HKUnit.meterUnit()) {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.heightValue = meters
+                });
+            }
+        });
     }
     
     func updateWeight()
@@ -111,56 +239,21 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
                 return;
             }
             
-            var weightLocalizedString = "Unknow";
-            
-            weight = mostRecentWeight as? HKQuantitySample;
+            weight = mostRecentWeight as? HKQuantitySample
             if let kilograms = weight?.quantity.doubleValueForUnit(HKUnit.gramUnitWithMetricPrefix(.Kilo)) {
-                let weightFormatter = NSMassFormatter()
-                weightFormatter.forPersonMassUse = true;
-                weightLocalizedString = weightFormatter.stringFromKilograms(kilograms)
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.weightValue = kilograms
+                });
             }
-            
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.healthKitData["weight"] = weightLocalizedString
-            });
-            self.test = "motherfucker"
-            self.healthKitData["weight"] = weightLocalizedString
         });
-        
-        print(self.test)
-//        var weight:HKQuantitySample?
-        //
-        //        let sampleType = HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)
-        //
-        //        self.readMostRecentSample(sampleType!, completion: { (mostRecentWeight, error) -> Void in
-        //
-        //            if( error != nil )
-        //            {
-        //                print("Error reading weight from HealthKit Store: \(error.localizedDescription)")
-        //                return;
-        //            }
-        //
-        //            var weightLocalizedString = "Unknow"
-        //
-        //            weight = mostRecentWeight as? HKQuantitySample;
-        //            if let kilograms = weight?.quantity.doubleValueForUnit(HKUnit.gramUnitWithMetricPrefix(.Kilo)) {
-        //                let weightFormatter = NSMassFormatter()
-        //                weightFormatter.forPersonMassUse = true;
-        //                weightLocalizedString = weightFormatter.stringFromValue(kilograms, unit: NSMassFormatterUnit.Kilogram)
-        //            }
-        //
-        ////            let test["wight"] = weightLocalizedString
-        //            let weightInfo = [String: String]()
-        //
-        //            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-        //                self.info["wight"] = weightLocalizedString
-        //                self.postContentAddedInfo(weightInfo)
-        //                
-        //                
-        //            });
-        //            print(weightLocalizedString)
-        //        });
-
+    }
+    
+    func calculateBMIWithWeightInKilograms(weightInKilograms:Double, heightInMeters:Double) -> Double?
+    {
+        if heightInMeters == 0 {
+            return nil;
+        }
+        return (weightInKilograms/(heightInMeters*heightInMeters));
     }
 
 	func sendRequestToNikita() {
@@ -215,6 +308,16 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 		let data: NSData = jsonString.dataUsingEncoding(NSUTF8StringEncoding)!
 		let json = JSON(data: data)
 
+        
+        healtkitInfo["weight"] = self.weightValue.description + " Kg"
+        healtkitInfo["height"] = self.heightValue.description + " m"
+        healtkitInfo["bmi"] = self.calculateBMIWithWeightInKilograms(weightValue, heightInMeters: heightValue)?.description
+        healtkitInfo["steps"] = self.stepValue.description
+        healtkitInfo["cycleDistance"] = self.cycleValue.description + " Km"
+        healtkitInfo["distance"] = self.distanceValue.description + "Km"
+        
+        Collector.Instance().healtkitData = healtkitInfo
+        
 		if json["id"].string != nil {
 			// Response from nikita
 			print("check response")
@@ -234,8 +337,8 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 			results()
 		}
         
-        let healtkit = HealKitData()
-print(healtkit.getPostData())
+   
+        
 		print("konec")
 
 	}
