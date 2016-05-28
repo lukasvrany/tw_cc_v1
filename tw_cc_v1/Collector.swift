@@ -154,46 +154,47 @@ func behaviourByHealthkit()
 		behaviourRating()
 		behaviourFlags()
 
-	}
+    }
 
-	func behaviourScore() {
-		switch (response_info!["score"].int!) {
-		case 0..<350:
-			addBehaviour("", coef: 5)
-		case 350..<500:
-			addBehaviour("Podle Nikite je OK", coef: 5)
-		case 500..<1000:
-			addBehaviour("Nikita: Klidně mu můžes půjčit", coef: 5)
-		default:
-			addBehaviour("Nikita: Klidně mu můžes půjčit", coef: 5)
-		}
-	}
+    func behaviourScore() {
+        switch (response_info!["score"].int!) {
+        case 0..<200:
+            addBehaviour("Podle Nikite nic moc", coef: -5)
+        case 200..<500:
+            addBehaviour("Podle Nikite je OK", coef: 10)
+        case 500..<1000:
+            addBehaviour("Podle Nikity super", coef: 15)
+        default:
+            addBehaviour("Nikita neví", coef: -2)
+        }
+    }
 
-	func behaviourRating() {
-		guard response_info!["rating"].string != nil else {
-			addBehaviour("Neznámý rating", coef: -5)
-			return
-		}
-
-		switch (response_info!["rating"].string!) {
-		case "A":
-			addBehaviour("Podle Nikity má rating A", coef: 5)
-		case "B":
-			addBehaviour("Podle Nikity má rating B", coef: 5)
-		case "C":
-			addBehaviour("Podle Nikity má rating C", coef: 5)
-		case "D":
-			addBehaviour("Podle Nikity má rating D", coef: 5)
-		case "E":
-			addBehaviour("Podle Nikity má rating E", coef: 5)
-		case "N":
-			addBehaviour("Podle Nikity má rating N", coef: 5)
-		case "0":
-			addBehaviour("Podle Nikity má rating 0", coef: 5)
-		default:
-			addBehaviour("Neznamý rating", coef: -5)
-		}
-	}
+    func behaviourRating() {
+        guard response_info!["rating"].string != nil else {
+            addBehaviour("Neznámý rating", coef: -5)
+            return
+        }
+        
+        switch (response_info!["rating"].string!) {
+        case "A":
+            addBehaviour("Podle Nikity má rating A", coef: 20)
+        case "B":
+            addBehaviour("Podle Nikity má rating B", coef: 10)
+        case "C":
+            addBehaviour("Podle Nikity má rating C", coef: 1)
+        case "D":
+            addBehaviour("Podle Nikity má rating D", coef: -5)
+        case "E":
+            addBehaviour("Podle Nikity má rating E", coef: -10)
+        case "N":
+            addBehaviour("Podle Nikity má rating N", coef: -10)
+        case "0":
+            addBehaviour("Podle Nikity má rating 0", coef: -10)
+        default:
+            addBehaviour("Neznamý rating", coef: -5)
+        }
+    }
+    
 	func behaviorByOrientation() {
 		switch orientation {
 		case UIDeviceOrientation.Portrait:
@@ -210,56 +211,7 @@ func behaviourByHealthkit()
 		}
 	}
 
-	func behaviourByNikita() {
-		if !validResponseFromNikita! || response_info!["status"].string != "accepted" {
-			addBehaviour("Nedomluvili jsme se s Nikitou", coef: -5)
-			return
-		}
-
-		behaviourScore()
-		behaviourRating()
-		behaviourFlags()
-
-	}
-
-	func behaviourScore() {
-		switch (response_info!["score"].int!) {
-		case 0..<200:
-			addBehaviour("Podle Nikite nic moc", coef: -5)
-		case 200..<500:
-			addBehaviour("Podle Nikite je OK", coef: 10)
-		case 500..<1000:
-			addBehaviour("Podle Nikity super", coef: 15)
-		default:
-			addBehaviour("Nikita neví", coef: -2)
-		}
-	}
-
-	func behaviourRating() {
-		guard response_info!["rating"].string != nil else {
-			addBehaviour("Neznámý rating", coef: -5)
-			return
-		}
-
-		switch (response_info!["rating"].string!) {
-		case "A":
-			addBehaviour("Podle Nikity má rating A", coef: 20)
-		case "B":
-			addBehaviour("Podle Nikity má rating B", coef: 10)
-		case "C":
-			addBehaviour("Podle Nikity má rating C", coef: 1)
-		case "D":
-			addBehaviour("Podle Nikity má rating D", coef: -5)
-		case "E":
-			addBehaviour("Podle Nikity má rating E", coef: -10)
-		case "N":
-			addBehaviour("Podle Nikity má rating N", coef: -10)
-		case "0":
-			addBehaviour("Podle Nikity má rating 0", coef: -10)
-		default:
-			addBehaviour("Neznamý rating", coef: -5)
-		}
-	}
+	
 
 	func behaviourFlags() {
 		guard response_info!["flags"] != nil else {
