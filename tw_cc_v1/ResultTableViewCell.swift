@@ -12,13 +12,13 @@ import LTMorphingLabel
 
 class ResultTableViewCell: UITableViewCell, LTMorphingLabelDelegate {
 
-	weak var lblName: UILabel!
+	weak var lblName: LTMorphingLabel!
 	weak var lblSmile: UIImageView!
 
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-		let name = UILabel()
+		let name = LTMorphingLabel()
         name.numberOfLines = 0
         name.textAlignment = .Left
 		let smile = UIImageView()
