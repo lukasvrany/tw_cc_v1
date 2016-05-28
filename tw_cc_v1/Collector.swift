@@ -162,9 +162,11 @@ class Collector {
 	func behaviourScore() {
 		switch (response_info!["score"].int!) {
 		case 0..<200:
-			addBehaviour("Podle Nikite nic moc", coef: -5)
-		case 200..<500:
-			addBehaviour("Podle Nikite je OK", coef: 10)
+			addBehaviour("Podle Nikity nic moc", coef: -5)
+		case 200..<350:
+			addBehaviour("Podle Nikity je OK", coef: 5)
+		case 350..<500:
+			addBehaviour("Podle Nikity je to dobrý", coef: 10)
 		case 500..<1000:
 			addBehaviour("Podle Nikity super", coef: 15)
 		default:
