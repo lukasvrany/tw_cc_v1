@@ -85,21 +85,17 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 			make.leading.equalTo(10)
 			make.trailing.equalTo(-10)
 		}
-
+        
         let isHealkitAvailable = healthManager.healkitIsAvailable()
         if (isHealkitAvailable){
             healtkitInfo = healthManager.getInformation()
             healthkitAvailable = true
             updateHealthInfo()
         }
-
-		/*
-		 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ProgressController.results))
-		 view.addGestureRecognizer(tapGesture)
-		 */
-		sendRequestToNikita()
-
-		redirTimer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: #selector(results), userInfo: nil, repeats: true)
+		
+        sendRequestToNikita()
+        
+		redirTimer = NSTimer.scheduledTimerWithTimeInterval(15, target: self, selector: #selector(results), userInfo: nil, repeats: true)
 
 	}
 

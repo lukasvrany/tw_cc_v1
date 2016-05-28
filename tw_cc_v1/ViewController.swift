@@ -75,7 +75,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 			btnSend])
 
 		allTextFields["PSČ"]?.keyboardType = .DecimalPad
-		allTextFields["Tel"]?.keyboardType = .PhonePad
+		allTextFields["Tel"]?.keyboardType = .DecimalPad
 		allTextFields["Mail"]?.keyboardType = .EmailAddress
 		allTextFields["Pujcka"]?.keyboardType = .DecimalPad
 
