@@ -12,35 +12,33 @@ import LTMorphingLabel
 
 class ResultTableViewCell: UITableViewCell, LTMorphingLabelDelegate {
 
-	weak var lblName: LTMorphingLabel!
-	weak var lblValue: LTMorphingLabel!
+	weak var lblName: UILabel!
 	weak var lblSmile: UIImageView!
 
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-		let name = LTMorphingLabel()
+		let name = UILabel()
+        name.numberOfLines = 0
+        name.textAlignment = .Left
 		let smile = UIImageView()
 		smile.contentMode = UIViewContentMode.ScaleAspectFit
-
+        contentView.addSubview(smile)
 		smile.snp_makeConstraints { (make) in
-			make.width.equalTo(30)
+			make.leading.equalTo(5)
+            make.width.equalTo(30)
+            make.centerY.equalTo(contentView)
 		}
-
-		let stackView = UIStackView(arrangedSubviews: [smile, name])
-		stackView.axis = .Horizontal
-		stackView.spacing = 10
-		contentView.addSubview(stackView)
-		stackView.snp_makeConstraints { make in
-			make.edges.equalTo(contentView)
-		}
+        contentView.addSubview(name)
+        name.snp_makeConstraints { (make) in
+            make.top.equalTo(contentView.snp_top).offset(10)
+            make.left.equalTo(smile.snp_right).offset(10)
+            make.trailing.equalTo(-5)
+            make.bottom.equalTo(contentView.snp_bottom).offset(-10)
+        }
 
 		self.lblName = name
 		self.lblSmile = smile
-
-		contentView.snp_makeConstraints { (make) in
-			make.height.equalTo(50)
-		}
 	}
 
 	required init?(coder aDecoder: NSCoder) {

@@ -24,7 +24,7 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 	var zip: String!
 	var phone: String!
 	var price: String!
-    
+
     var healthManager:HealKitData = HealKitData()
     var weightValue: Double! = 0.0
     var heightValue: Double! = 0.0
@@ -37,16 +37,25 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
     var healthkitAvailable: Bool = false
 
 	var progressViewBig: UIImageView!
-    var progressViewSmall: UIImageView!
-    var angle:CGFloat = 0
-    var timer:NSTimer?
+	var progressViewSmall: UIImageView!
+	var angle: CGFloat = 0
+	var timer: NSTimer?
+
+	var redirTimer: NSTimer?
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.title = "Vyhodnocování"
 		self.view.backgroundColor = UIColor.whiteColor()
+		self.navigationItem.setHidesBackButton(true, animated: false)
 
-		timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: "rotateWheel", userInfo: nil, repeats: true)
+		let profile: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "rightIcon")!, style: UIBarButtonItemStyle.Plain, target: self, action: nil)
+		self.navigationItem.setRightBarButtonItem(profile, animated: true)
+
+		let more: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "leftIcon")!, style: UIBarButtonItemStyle.Plain, target: self, action: nil)
+		self.navigationItem.setLeftBarButtonItem(more, animated: true)
+
+		timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(ProgressController.rotateWheel), userInfo: nil, repeats: true)
 
 		progressViewBig = UIImageView(image: UIImage(named: "big"))
 		progressViewBig.contentMode = UIViewContentMode.ScaleAspectFit
@@ -56,15 +65,15 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 			make.width.equalTo(150)
 			make.height.equalTo(150)
 		}
-        
-        progressViewSmall = UIImageView(image: UIImage(named: "small"))
-        progressViewSmall.contentMode = UIViewContentMode.ScaleAspectFit
-        self.view.addSubview(progressViewSmall)
-        progressViewSmall.snp_makeConstraints { (make) in
-            make.center.equalTo(self.view).offset(-80)
-            make.width.equalTo(75)
-            make.height.equalTo(75)
-        }
+
+		progressViewSmall = UIImageView(image: UIImage(named: "small"))
+		progressViewSmall.contentMode = UIViewContentMode.ScaleAspectFit
+		self.view.addSubview(progressViewSmall)
+		progressViewSmall.snp_makeConstraints { (make) in
+			make.center.equalTo(self.view).offset(-80)
+			make.width.equalTo(75)
+			make.height.equalTo(75)
+		}
 
 		let progressLabel = UILabel()
 		progressLabel.text = "Probíhá vyhodnocení"
@@ -76,22 +85,24 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 			make.leading.equalTo(10)
 			make.trailing.equalTo(-10)
 		}
-        
+
         let isHealkitAvailable = healthManager.healkitIsAvailable()
         if (isHealkitAvailable){
             healtkitInfo = healthManager.getInformation()
             healthkitAvailable = true
             updateHealthInfo()
         }
-        
+
 		/*
 		 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ProgressController.results))
 		 view.addGestureRecognizer(tapGesture)
 		 */
 		sendRequestToNikita()
-        
+
+		redirTimer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: #selector(results), userInfo: nil, repeats: true)
+
 	}
-    
+
     func updateHealthInfo() {
         updateWeight()
         updateHeight()
@@ -100,20 +111,20 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
         updateDistance()
 //        updateSleep()
     }
-    
+
 //    private func updateSleep()
 //    {
 //        var sleeps:HKQuantitySample?
-//        
+//
 //        let sleepType = HKObjectType.categoryTypeForIdentifier(HKCategoryTypeIdentifierSleepAnalysis)
-//        
+//
 //        let dateFormatter = NSDateFormatter()
-//        
+//
 //        let start = dateFormatter.dateFromString("2016-05-26")! as NSDate
 //        let end = dateFormatter.dateFromString("2016-05-27")! as NSDate
-//        
+//
 ////        let fuck = NSDate(
-//        
+//
 //        let predicate = HKQuery.predicateForSamplesWithStartDate(start, endDate: end, options: .None)
 //        let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
 //        let query = HKSampleQuery(sampleType: sleepType!, predicate: predicate, limit: 30, sortDescriptors: [sortDescriptor]) { (query, tmpResult, error) -> Void in
@@ -129,24 +140,24 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 //                }
 //            }
 //        }
-//        
+//
 //        self.healthManager.healthKitStore.executeQuery(query)
 //    }
-    
+
     private func updateDistance()
     {
         var distances:HKQuantitySample?
-        
+
         let sampleType = HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDistanceWalkingRunning)
-        
+
         self.healthManager.readMostRecentSample(sampleType!, completion: { (recentSex, error) -> Void in
-            
+
             if( error != nil )
             {
                 print("Error reading weight from HealthKit Store: \(error.localizedDescription)")
                 return;
             }
-            
+
             distances = recentSex as? HKQuantitySample
             if let distance = distances?.quantity.doubleValueForUnit(HKUnit.meterUnitWithMetricPrefix(HKMetricPrefix.Kilo)) {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -155,21 +166,21 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
             }
         });
     }
-    
+
     private func updateCycleDistance()
     {
         var distances:HKQuantitySample?
-        
+
         let sampleType = HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDistanceCycling)
-        
+
         self.healthManager.readMostRecentSample(sampleType!, completion: { (recentSex, error) -> Void in
-            
+
             if( error != nil )
             {
                 print("Error reading weight from HealthKit Store: \(error.localizedDescription)")
                 return;
             }
-            
+
             distances = recentSex as? HKQuantitySample
             if let distance = distances?.quantity.doubleValueForUnit(HKUnit.meterUnitWithMetricPrefix(HKMetricPrefix.Kilo)) {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -178,15 +189,15 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
             }
         });
     }
-    
+
     private func updateSteps()
     {
         var steps:HKQuantitySample?
-        
+
         let sampleType = HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)
-        
+
         self.healthManager.readMostRecentSample(sampleType!, completion: { (recentSex, error) -> Void in
-            
+
             if( error != nil )
             {
                 print("Error reading weight from HealthKit Store: \(error.localizedDescription)")
@@ -201,7 +212,7 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
             }
         });
     }
-    
+
     private func updateHeight()
     {
         var height:HKQuantitySample?
@@ -224,21 +235,21 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
             }
         });
     }
-    
+
     func updateWeight()
     {
         var weight:HKQuantitySample?
-        
+
         let sampleType = HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)
-        
+
         self.healthManager.readMostRecentSample(sampleType!, completion: { (mostRecentWeight, error) -> Void in
-            
+
             if( error != nil )
             {
                 print("Error reading weight from HealthKit Store: \(error.localizedDescription)")
                 return;
             }
-            
+
             weight = mostRecentWeight as? HKQuantitySample
             if let kilograms = weight?.quantity.doubleValueForUnit(HKUnit.gramUnitWithMetricPrefix(.Kilo)) {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -247,7 +258,7 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
             }
         });
     }
-    
+
     func calculateBMIWithWeightInKilograms(weightInKilograms:Double, heightInMeters:Double) -> Double?
     {
         if heightInMeters == 0 {
@@ -308,22 +319,22 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 		let data: NSData = jsonString.dataUsingEncoding(NSUTF8StringEncoding)!
 		let json = JSON(data: data)
 
-        
+
         healtkitInfo["weight"] = self.weightValue.description + " Kg"
         healtkitInfo["height"] = self.heightValue.description + " m"
         healtkitInfo["bmi"] = self.calculateBMIWithWeightInKilograms(weightValue, heightInMeters: heightValue)?.description
         healtkitInfo["steps"] = self.stepValue.description
         healtkitInfo["cycleDistance"] = self.cycleValue.description + " Km"
         healtkitInfo["distance"] = self.distanceValue.description + "Km"
-        
+
         Collector.Instance().healtkitData = healtkitInfo
-        
+
 		if json["id"].string != nil {
 			// Response from nikita
 			print("check response")
 			Collector.Instance().response_info = json
 			Collector.Instance().validResponseFromNikita = true
-            timer!.invalidate()
+			timer!.invalidate()
 			results()
 		} else if json["transaction_id"].string != nil {
 			// First response from nikita. If contains transaction_id then call is success, else fails
@@ -333,12 +344,10 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 		} else {
 			// Something goes wrong -> back to form or continue???
 			Collector.Instance().validResponseFromNikita = false
-            timer!.invalidate()
+			timer!.invalidate()
 			results()
 		}
-        
-   
-        
+
 		print("konec")
 
 	}
@@ -349,14 +358,15 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 	}
 
 	func results() {
+		redirTimer?.invalidate()
 		navigationController?.pushViewController(ResultController(), animated: true)
 	}
 
 	func rotateWheel() {
 		// set your angle here
-        angle++
+		angle++
 		self.progressViewBig.transform = CGAffineTransformMakeRotation((angle * CGFloat(M_PI)) / 180.0)
-        self.progressViewSmall.transform = CGAffineTransformMakeRotation((-angle * CGFloat(M_PI)) / 180.0)
+		self.progressViewSmall.transform = CGAffineTransformMakeRotation((-angle * CGFloat(M_PI)) / 180.0)
 	}
 
 	/*

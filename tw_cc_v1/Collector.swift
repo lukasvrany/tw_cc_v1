@@ -13,7 +13,7 @@ import SwiftyJSON
 
 struct behaviour {
 	var destricption: String
-	var coeficient: Int
+	var coeficient: CGFloat
 
 	var image: UIImage {
 		get {
@@ -21,7 +21,7 @@ struct behaviour {
 		}
 	}
 
-	init(desc: String, coef: Int) {
+	init(desc: String, coef: CGFloat) {
 		self.destricption = desc
 		self.coeficient = coef
 	}
@@ -35,14 +35,17 @@ class Collector {
 	let device = DeviceInfo()
     var healtkitData = [String:String]()
 	let timer = TimersManager()
-   
-    
+
+
 	var gyroData = [CMRotationRate]()
 
 	var behaviours = [behaviour]()
 
 	var validResponseFromNikita: Bool?
 	var response_info: JSON?
+
+	var orientation: UIDeviceOrientation = UIDeviceOrientation.Unknown
+	var totalTime: Double?
 
 	private init() { }
 
@@ -60,13 +63,13 @@ class Collector {
 	}
 
 	func isSlow() -> Bool {
-		let total = timer.namelessTimers.reduce(0, combine: { $0 + $1.count }) / Double(timer.namelessTimers.count)
-		return total > 60
+		// let total = timer.namelessTimers.reduce(0, combine: { $0 + $1.count }) / Double(timer.namelessTimers.count)
+		return totalTime > 60
 	}
 
 	func isFast(limit: Double) -> Bool {
-		let total = timer.namelessTimers.reduce(0, combine: { $0 + $1.count }) / Double(timer.namelessTimers.count)
-		return total < limit
+		// let total = timer.namelessTimers.reduce(0, combine: { $0 + $1.count }) / Double(timer.namelessTimers.count)
+		return totalTime < limit
 	}
 
 	func hasAlzheimer() -> Bool {
@@ -77,7 +80,7 @@ class Collector {
 		behaviours.removeAll()
 	}
 
-	func calculateBehaviour() {        
+	func calculateBehaviour() -> CGFloat {
 		clearBehaviour()
 		behaviourBySpeed()
 		behaviourByBattery()
@@ -88,15 +91,18 @@ class Collector {
 		behaviourByPhoneModel()
 		behaviourByNikita()
         behaviourByHealthkit()
+        behaviorByOrientation()
+
+		return behaviours.reduce(0, combine: { $0 + $1.coeficient })
 	}
-    
-    func behaviourByHealthkit()
+
+func behaviourByHealthkit()
     {
         if healtkitData["HealtKit available"] != "Yes" {
             addBehaviour("Nezískali jsme Healthkit data", coef: -5)
             return
         }
-        
+
 
         if let bmi = healtkitData["bmi"] {
             switch (NSString(string: bmi).doubleValue) {
@@ -108,7 +114,7 @@ class Collector {
                 addBehaviour("Obézní... Pozor na brzké úmrtí", coef: -5)
             }
         }
-        
+
         if let steps = healtkitData["steps"] {
             if (NSString(string: steps).intValue < 8000){
                 addBehaviour("Moc toho nenachodí", coef: -5)
@@ -117,25 +123,25 @@ class Collector {
                 addBehaviour("Pravidelně se hýbe", coef: 5)
             }
         }
-        
+
         var distance:Double = 0
-        
+
         if let cycleDistance = healtkitData["cycleDistance"] {
             distance += NSString(string: cycleDistance).doubleValue
         }
-        
+
         if let distanceT = healtkitData["distance"] {
             distance += NSString(string: distanceT).doubleValue
         }
-        
+
         if (distance > 10) {
             addBehaviour("Sportovec", coef: 5)
         }
         else{
-            
+
             addBehaviour("Lenoch", coef: -5)
         }
-        
+
     }
 
 	func behaviourByNikita() {
@@ -188,6 +194,72 @@ class Collector {
 			addBehaviour("Neznamý rating", coef: -5)
 		}
 	}
+	func behaviorByOrientation() {
+		switch orientation {
+		case UIDeviceOrientation.Portrait:
+			addBehaviour("Mobil drží normálně", coef: 1)
+		case UIDeviceOrientation.FaceDown:
+			addBehaviour("S mobilem ležel?", coef: -2)
+		case UIDeviceOrientation.FaceUp:
+			addBehaviour("Mobil měl položenej", coef: 1)
+		case UIDeviceOrientation.LandscapeLeft, UIDeviceOrientation.LandscapeRight:
+			addBehaviour("Mobil měl na šířku. Divný", coef: -1)
+		case UIDeviceOrientation.PortraitUpsideDown:
+			addBehaviour("Mobil má obráceně. Je divnej", coef: -4)
+		default: break
+		}
+	}
+
+	func behaviourByNikita() {
+		if !validResponseFromNikita! || response_info!["status"].string != "accepted" {
+			addBehaviour("Nedomluvili jsme se s Nikitou", coef: -5)
+			return
+		}
+
+		behaviourScore()
+		behaviourRating()
+		behaviourFlags()
+
+	}
+
+	func behaviourScore() {
+		switch (response_info!["score"].int!) {
+		case 0..<200:
+			addBehaviour("Podle Nikite nic moc", coef: -5)
+		case 200..<500:
+			addBehaviour("Podle Nikite je OK", coef: 10)
+		case 500..<1000:
+			addBehaviour("Podle Nikity super", coef: 15)
+		default:
+			addBehaviour("Nikita neví", coef: -2)
+		}
+	}
+
+	func behaviourRating() {
+		guard response_info!["rating"].string != nil else {
+			addBehaviour("Neznámý rating", coef: -5)
+			return
+		}
+
+		switch (response_info!["rating"].string!) {
+		case "A":
+			addBehaviour("Podle Nikity má rating A", coef: 20)
+		case "B":
+			addBehaviour("Podle Nikity má rating B", coef: 10)
+		case "C":
+			addBehaviour("Podle Nikity má rating C", coef: 1)
+		case "D":
+			addBehaviour("Podle Nikity má rating D", coef: -5)
+		case "E":
+			addBehaviour("Podle Nikity má rating E", coef: -10)
+		case "N":
+			addBehaviour("Podle Nikity má rating N", coef: -10)
+		case "0":
+			addBehaviour("Podle Nikity má rating 0", coef: -10)
+		default:
+			addBehaviour("Neznamý rating", coef: -5)
+		}
+	}
 
 	func behaviourFlags() {
 		guard response_info!["flags"] != nil else {
@@ -199,7 +271,7 @@ class Collector {
 		if flags["justicy"].bool == true {
 			addBehaviour("Má záznam v registru dlužníků", coef: -20)
 		} else {
-			addBehaviour("Nemá záznamu v registru dlužníků", coef: 5)
+			addBehaviour("Nemá záznamu v registru dlužníků", coef: 8)
 		}
 
 		if flags["invalid_address"].bool == true {
@@ -231,8 +303,8 @@ class Collector {
 		}
 
 		if isSlow() {
-			addBehaviour("Píše pěkně pomalu", coef: -2)
-			addBehaviour("Asi neví svojí adresu", coef: -3)
+			addBehaviour("Píše pěkně pomalu", coef: -3)
+			addBehaviour("Asi neví svojí adresu", coef: -2)
 		}
 
 	}
@@ -257,9 +329,11 @@ class Collector {
 		case "iPhone 4", "iPhone 4s", "iPhone 5", "iPad 2":
 			addBehaviour("Je chudý", coef: -5)
 		case "iPhone 5c":
-			addBehaviour("Je veselý", coef: 2)
-		case "iPhone 5s": break
-		case "iPhone 6": break
+			addBehaviour("Je veselý", coef: 5)
+		case "iPhone 5s":
+			addBehaviour("Má starší mobil", coef: -2)
+		case "iPhone 6":
+			addBehaviour("Má novější mobil", coef: 2)
 		case "iPhone 6 Plus":
 			addBehaviour("Má velké ruce", coef: 1)
 		case "iPhone 6s":
@@ -295,7 +369,15 @@ class Collector {
 
 	func behaviourByBattery() {
 		if Double(device.getBatteryValue()) < 15 {
-			addBehaviour("Má vybitej mobil", coef: -3)
+			addBehaviour("Má vybitej mobil, je to prostě hovado, který má opravdu hodně moc vybitý telefon", coef: -3)
+		}
+	}
+
+	func behaviourByDeviceMotion() {
+		if let motionResults = gyroscope.getAverageMotionData() {
+			if motionResults.roll > 1.5 {
+				addBehaviour("Málem usnul", coef: -5)
+			}
 		}
 	}
 
@@ -315,11 +397,11 @@ class Collector {
 			addBehaviour("Má style", coef: 4)
 			addBehaviour("Rád utrácí za zbytečnosti", coef: -6)
 		} else {
-			addBehaviour("Neutrácí za zbytečnosti", coef: 2)
+			addBehaviour("Neutrácí za zbytečnosti", coef: 5)
 		}
 	}
 
-	private func addBehaviour(desc: String, coef: Int) {
+	private func addBehaviour(desc: String, coef: CGFloat) {
 		behaviours.append(behaviour(desc: desc, coef: coef))
 	}
 

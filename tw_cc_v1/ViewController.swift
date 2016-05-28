@@ -14,8 +14,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 	let pscope = PermissionScope()
 
-	let FORM_TIMER_NAME = "MainForm"
-
 	// Pole vsech UITextField ve formalu.
 	var allTextFields = [String: UITextField]()
 
@@ -24,26 +22,21 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	var motionInformations = [String: String]()
 	var copyAndPaseInformations = [String: Bool]()
 
-	var timers = TimersManager()
-
 	weak var sendButton: UIButton!
 
 	var gyroscope = Gyroscope()
 
 	var healtkit = HealKitData()
 
+	var mainTimer: Timer?
+
 	override func viewWillDisappear(animated: Bool) {
 		gyroscope.pauseGyroCollection()
-		gyroscope.pauseMotionCollection()
 	}
 
 	override func viewWillAppear(animated: Bool) {
 		if gyroscope.gyroGathering {
 			gyroscope.startGyroCollection()
-		}
-
-		if gyroscope.motionGathering {
-			gyroscope.startMotionCollection()
 		}
 	}
 
@@ -53,6 +46,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		self.navigationController?.navigationBarHidden = false
 		self.view.backgroundColor = UIColor.whiteColor()
 		self.title = "Prověř si mě"
+
+		self.navigationItem.setHidesBackButton(true, animated: false)
+		self.view.backgroundColor = UIColor.whiteColor()
+
+		let profile: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "rightIcon")!, style: UIBarButtonItemStyle.Plain, target: self, action: nil)
+		self.navigationItem.setRightBarButtonItem(profile, animated: true)
+
+		let more: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "leftIcon")!, style: UIBarButtonItemStyle.Plain, target: self, action: nil)
+		self.navigationItem.setLeftBarButtonItem(more, animated: true)
 
 		let btnSend = UIButton()
 		btnSend.setTitle("Proklepnout", forState: .Normal)
@@ -71,6 +73,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
 			createStackHorizontalLine("Mail"),
 			createStackHorizontalLine("Pujcka"),
 			btnSend])
+
+		allTextFields["PSČ"]?.keyboardType = .DecimalPad
+		allTextFields["Tel"]?.keyboardType = .PhonePad
+		allTextFields["Mail"]?.keyboardType = .EmailAddress
+		allTextFields["Pujcka"]?.keyboardType = .DecimalPad
 
 		mainStackView.axis = .Vertical
 		mainStackView.spacing = 20
@@ -113,12 +120,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.tap(_:)))
 		view.addGestureRecognizer(tapGesture)
+
 	}
 
 	override func viewDidAppear(animated: Bool) {
-		timers.resetAll()
-		let mainTimer = timers.getOrCreate(FORM_TIMER_NAME)
-		mainTimer.start()
+		mainTimer = Timer(name: "MainForm")
+		mainTimer!.start()
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -147,23 +154,40 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	}
 
 	func sendForm(sender: UIButton) {
-		timers.getOrCreate(FORM_TIMER_NAME).stop()
 
-		gyroscope.stopMotionCollection()
-		if let motionResults = gyroscope.getAverageMotionData() {
-			motionInformations["user position"] = (motionResults.roll > 1.5) ? "mostly lying" : "mostly standing"
+		mainTimer!.stop()
+		Collector.Instance().totalTime = mainTimer?.count
+
+		UIDevice.currentDevice().beginGeneratingDeviceOrientationNotifications()
+		Collector.Instance().orientation = UIDevice.currentDevice().orientation
+		UIDevice.currentDevice().endGeneratingDeviceOrientationNotifications()
+
+		if areInputsFilled() {
+			let progressController = ProgressController()
+			progressController.name = allTextFields["Jmeno"]!.text
+			progressController.address = allTextFields["Adresa"]!.text
+			progressController.city = allTextFields["Mesto"]!.text
+			progressController.zip = allTextFields["PSČ"]!.text
+			progressController.phone = allTextFields["Tel"]!.text
+			progressController.price = allTextFields["Pujcka"]!.text
+			progressController.mail = allTextFields["Mail"]!.text
+			self.navigationController?.pushViewController(progressController, animated: true)
 		}
         
 
-		let progressController = ProgressController()
-		progressController.name = allTextFields["Jmeno"]!.text
-		progressController.address = allTextFields["Adresa"]!.text
-		progressController.city = allTextFields["Mesto"]!.text
-		progressController.zip = allTextFields["PSČ"]!.text
-		progressController.phone = allTextFields["Tel"]!.text
-		progressController.price = allTextFields["Pujcka"]!.text
-		progressController.mail = allTextFields["Mail"]!.text
-		self.navigationController?.pushViewController(progressController, animated: true)
+	}
+
+	func areInputsFilled() -> Bool {
+		var result = true
+		for (key, textfield) in allTextFields {
+			if textfield.text!.isEmpty {
+				textfield.layer.borderColor = UIColor.redColor().CGColor
+				result = false
+			} else {
+				textfield.layer.borderColor = UIColor.grayColor().CGColor
+			}
+		}
+		return result
 	}
 
 	func textFieldDidEndEditing(textField: UITextField) {
@@ -175,12 +199,32 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		if let gyroscopeData = collector.gyroscope.getAverageGyroData() {
 			collector.gyroData.append(gyroscopeData)
 		}
+
+		if textField.isEqual(allTextFields["PSČ"]) {
+			self.view.frame.origin.y += 85
+		} else if textField.isEqual(allTextFields["Tel"]) {
+			self.view.frame.origin.y += 140
+		} else if textField.isEqual(allTextFields["Mail"]) {
+			self.view.frame.origin.y += 180
+		} else if textField.isEqual(allTextFields["Pujcka"]) {
+			self.view.frame.origin.y += 210
+		}
 	}
 
 	func textFieldDidBeginEditing(textField: UITextField) {
 		print(textField.placeholder!)
 		Collector.Instance().gyroscope.startGyroCollection()
-		Collector.Instance().timer.getOrCreate(textField.placeholder!)
+		Collector.Instance().timer.getOrCreate(textField.placeholder!).start()
+
+		if textField.isEqual(allTextFields["PSČ"]) {
+			self.view.frame.origin.y -= 85
+		} else if textField.isEqual(allTextFields["Tel"]) {
+			self.view.frame.origin.y -= 140
+		} else if textField.isEqual(allTextFields["Mail"]) {
+			self.view.frame.origin.y -= 180
+		} else if textField.isEqual(allTextFields["Pujcka"]) {
+			self.view.frame.origin.y -= 210
+		}
 	}
 
 	// for diasble editing of textField when clicked somewhere else
@@ -203,4 +247,5 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 		return true;
 	}
+
 }
