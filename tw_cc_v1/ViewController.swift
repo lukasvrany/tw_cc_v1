@@ -26,7 +26,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 	var gyroscope = Gyroscope()
 
-	var healtkit = HealKitData()
 
 	var mainTimer: Timer?
 
@@ -87,11 +86,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
 			make.trailing.equalTo(-10)
 			make.top.equalTo(snp_topLayoutGuideBottom).offset(20)
 			make.bottom.lessThanOrEqualTo(self.view.snp_bottom).offset(-10)
-		}
-
-		let isHealkitAvailable = healtkit.healkitIsAvailable()
-		if (isHealkitAvailable) {
-			healtkit.authorizePermission()
 		}
 
 		pscope.headerLabel.text = "Ješte jedna věc"
