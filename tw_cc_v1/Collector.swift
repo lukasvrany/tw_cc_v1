@@ -133,11 +133,11 @@ class Collector {
 		}
 
 		if (distance > 10) {
-			addBehaviour("Sportovec", coef: 5)
+			addBehaviour("je to sportovec", coef: 5)
 		}
 		else {
 
-			addBehaviour("Lenoch", coef: -5)
+			addBehaviour("Je to lenoch", coef: -5)
 		}
 
 	}

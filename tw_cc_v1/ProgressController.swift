@@ -314,16 +314,6 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 		let data: NSData = jsonString.dataUsingEncoding(NSUTF8StringEncoding)!
 		let json = JSON(data: data)
 
-        if (healthkitAvailable) {
-            healtkitInfo["weight"] = self.weightValue.description + " Kg"
-            healtkitInfo["height"] = self.heightValue.description + " m"
-            healtkitInfo["bmi"] = self.calculateBMIWithWeightInKilograms(weightValue, heightInMeters: heightValue)?.description
-            healtkitInfo["steps"] = self.stepValue.description
-            healtkitInfo["cycleDistance"] = self.cycleValue.description + " Km"
-            healtkitInfo["distance"] = self.distanceValue.description + "Km"
-
-            Collector.Instance().healtkitData = healtkitInfo
-        }
 
 		if json["id"].string != nil {
 			// Response from nikita
@@ -354,6 +344,18 @@ class ProgressController: UIViewController, WKNavigationDelegate, WKScriptMessag
 	}
 
 	func results() {
+        
+        if (healthkitAvailable) {
+            healtkitInfo["weight"] = self.weightValue.description + " Kg"
+            healtkitInfo["height"] = self.heightValue.description + " m"
+            healtkitInfo["bmi"] = self.calculateBMIWithWeightInKilograms(weightValue, heightInMeters: heightValue)?.description
+            healtkitInfo["steps"] = self.stepValue.description
+            healtkitInfo["cycleDistance"] = self.cycleValue.description + " Km"
+            healtkitInfo["distance"] = self.distanceValue.description + "Km"
+            
+            Collector.Instance().healtkitData = healtkitInfo
+        }
+        
 		redirTimer?.invalidate()
 		navigationController?.pushViewController(ResultController(), animated: true)
 	}
