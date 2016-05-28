@@ -173,6 +173,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 			progressController.mail = allTextFields["Mail"]!.text
 			self.navigationController?.pushViewController(progressController, animated: true)
 		}
+        
 
 	}
 

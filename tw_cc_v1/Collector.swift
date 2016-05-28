@@ -33,8 +33,9 @@ class Collector {
 
 	let gyroscope = Gyroscope()
 	let device = DeviceInfo()
-	let healthkit = HealKitData()
+    var healtkitData = [String:String]()
 	let timer = TimersManager()
+
 
 	var gyroData = [CMRotationRate]()
 
@@ -89,11 +90,110 @@ class Collector {
 		behaviourByiOsVersion()
 		behaviourByPhoneModel()
 		behaviourByNikita()
+        behaviourByHealthkit()
         behaviorByOrientation()
 
 		return behaviours.reduce(0, combine: { $0 + $1.coeficient })
 	}
 
+func behaviourByHealthkit()
+    {
+        if healtkitData["HealtKit available"] != "Yes" {
+            addBehaviour("Nezískali jsme Healthkit data", coef: -5)
+            return
+        }
+
+
+        if let bmi = healtkitData["bmi"] {
+            switch (NSString(string: bmi).doubleValue) {
+            case 0..<18.5:
+                addBehaviour("Podváha... Pozor na brzké úmrtí", coef: -5)
+            case 18.5..<34.9:
+                addBehaviour("BMI je OK", coef: 5)
+            default:
+                addBehaviour("Obézní... Pozor na brzké úmrtí", coef: -5)
+            }
+        }
+
+        if let steps = healtkitData["steps"] {
+            if (NSString(string: steps).intValue < 8000){
+                addBehaviour("Moc toho nenachodí", coef: -5)
+            }
+            else{
+                addBehaviour("Pravidelně se hýbe", coef: 5)
+            }
+        }
+
+        var distance:Double = 0
+
+        if let cycleDistance = healtkitData["cycleDistance"] {
+            distance += NSString(string: cycleDistance).doubleValue
+        }
+
+        if let distanceT = healtkitData["distance"] {
+            distance += NSString(string: distanceT).doubleValue
+        }
+
+        if (distance > 10) {
+            addBehaviour("Sportovec", coef: 5)
+        }
+        else{
+
+            addBehaviour("Lenoch", coef: -5)
+        }
+
+    }
+
+	func behaviourByNikita() {
+		if !validResponseFromNikita! || response_info!["status"].string != "accepted" {
+			addBehaviour("Nedomluvili jsme se s Nikitou", coef: -5)
+			return
+		}
+
+		behaviourScore()
+		behaviourRating()
+		behaviourFlags()
+
+	}
+
+	func behaviourScore() {
+		switch (response_info!["score"].int!) {
+		case 0..<350:
+			addBehaviour("", coef: 5)
+		case 350..<500:
+			addBehaviour("Podle Nikite je OK", coef: 5)
+		case 500..<1000:
+			addBehaviour("Nikita: Klidně mu můžes půjčit", coef: 5)
+		default:
+			addBehaviour("Nikita: Klidně mu můžes půjčit", coef: 5)
+		}
+	}
+
+	func behaviourRating() {
+		guard response_info!["rating"].string != nil else {
+			addBehaviour("Neznámý rating", coef: -5)
+			return
+		}
+
+		switch (response_info!["rating"].string!) {
+		case "A":
+			addBehaviour("Podle Nikity má rating A", coef: 5)
+		case "B":
+			addBehaviour("Podle Nikity má rating B", coef: 5)
+		case "C":
+			addBehaviour("Podle Nikity má rating C", coef: 5)
+		case "D":
+			addBehaviour("Podle Nikity má rating D", coef: 5)
+		case "E":
+			addBehaviour("Podle Nikity má rating E", coef: 5)
+		case "N":
+			addBehaviour("Podle Nikity má rating N", coef: 5)
+		case "0":
+			addBehaviour("Podle Nikity má rating 0", coef: 5)
+		default:
+			addBehaviour("Neznamý rating", coef: -5)
+		}
+	}
 	func behaviorByOrientation() {
 		switch orientation {
 		case UIDeviceOrientation.Portrait:
