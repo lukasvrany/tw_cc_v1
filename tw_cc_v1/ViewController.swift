@@ -26,7 +26,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 	var gyroscope = Gyroscope()
 
-
 	var mainTimer: Timer?
 
 	override func viewWillDisappear(animated: Bool) {
@@ -167,7 +166,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
 			progressController.mail = allTextFields["Mail"]!.text
 			self.navigationController?.pushViewController(progressController, animated: true)
 		}
-        
 
 	}
 
